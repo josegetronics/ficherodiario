@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+	<include
+		resource="org/springframework/boot/logging/logback/default.xml" />
+	<include
+		resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+	<appender name="consola"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- <pattern>%d{"HH:mm:ss,SSS"} %5c %c{1}:%L - %m%n</pattern> -->
+			<!-- %highlight -> Pinta de color el nivel del log si se ejecuta desde 
+				eclipse springboot -->
+			<pattern>%d [%thread] %-5level %-60logger{60} : %m%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="aplicacion"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>C:/Log/logAplicacion.log</file>
+		
+		<encoder>
+			<pattern>%d [%thread] %-5level %-60logger{60} : %m%n</pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>C:/Log/logAplicacion_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+
+	</appender>
+
+
+	<!-- Definimos el nivel del log -->
+	<root level="info">
+		<appender-ref ref="aplicacion" />
+		<appender-ref ref="consola" />
+	</root>
+
+
+
+	<!-- <logger name="com.getronics" level="debug" additivity="false"> <appender-ref 
+		ref="consola" /> </logger> -->
+
+
+</configuration>

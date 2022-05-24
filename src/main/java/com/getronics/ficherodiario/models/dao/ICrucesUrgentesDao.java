@@ -20,6 +20,10 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			+ "or S.TIPO_ASEGURAMIENTO is null group by S.TIPO_MOVIMIENTO  order by 1")
 	public 
 	*/
+	
+	
+	
+	
 }
 
 
