@@ -29,7 +29,7 @@ public class SnsCrucesController {
 		CrucesUrgentes unCruce = new CrucesUrgentes();
 		
 		logAplicacion.info("\n");
-		logAplicacion.info("Leyendo la informacion inicial");
+		logAplicacion.error("Leyendo la informacion inicial");
 		try {
 		 cruces = crucesService.contar();	
 

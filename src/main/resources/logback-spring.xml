@@ -16,11 +16,10 @@
 		</encoder>
 	</appender>
 
-
 	<appender name="aplicacion"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>C:/Log/logAplicacion.log</file>
-		
+
 		<encoder>
 			<pattern>%d [%thread] %-5level %-60logger{60} : %m%n</pattern>
 		</encoder>
@@ -35,6 +34,11 @@
 
 
 	<!-- Definimos el nivel del log -->
+	<root level="error">
+		<appender-ref ref="aplicacion" />
+		<appender-ref ref="consola" />
+	</root>
+
 	<root level="info">
 		<appender-ref ref="aplicacion" />
 		<appender-ref ref="consola" />
