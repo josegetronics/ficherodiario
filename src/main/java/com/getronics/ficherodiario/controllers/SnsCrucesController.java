@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 @SessionAttributes("crucesUrgentes")
 public class SnsCrucesController {
 
-	private Logger logAplicacion = LoggerFactory.getLogger("aplicacion");
+	private Logger logAplicacion = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private ICrucesUrgentesService crucesService;
@@ -27,6 +27,8 @@ public class SnsCrucesController {
 	public String inicio() {
 		int cruces = 0;
 		CrucesUrgentes unCruce = new CrucesUrgentes();
+		
+		logAplicacion.info("\n");
 		logAplicacion.info("Leyendo la informacion inicial");
 		try {
 		 cruces = crucesService.contar();	
@@ -34,8 +36,8 @@ public class SnsCrucesController {
 		} catch (Exception e) {
 			logAplicacion.error(e.getMessage(), e);
 		}
-
-		System.out.println(cruces);
+		String a = String.valueOf(cruces);
+		logAplicacion.info("El número de registros contados son: " + a);
 
 		return "inicio";
 
