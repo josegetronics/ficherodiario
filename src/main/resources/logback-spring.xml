@@ -29,8 +29,11 @@
 			<fileNamePattern>C:/Log/logAplicacion_%d{yyyy-MM-dd}.log
 			</fileNamePattern>
 		</rollingPolicy>
-
 	</appender>
+
+
+	<logger name="com.getronics" level="TRACE" />
+	<logger name="org.hibernate.SQL" level="DEBUG" />
 
 
 	<!-- Definimos el nivel del log -->
