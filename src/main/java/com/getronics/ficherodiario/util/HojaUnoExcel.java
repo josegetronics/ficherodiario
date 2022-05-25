@@ -93,21 +93,17 @@ public class HojaUnoExcel {
 		// SE INDICA EL NOMBRE DE LA PÁGINA DEL EXCEL
 
 		
-		Sheet sheet = workbook .createSheet("DATOS");
+		Sheet sheet = workbook.createSheet("DATOS");
 		
 		Row row = sheet.createRow(0);
 	    for(int i = 0; i < header.length; i++) {
-	       // each column 20 characters wide
 	       sheet.setColumnWidth(i, 20*256);
 	       Cell cell = row.createCell(i);
 	       cell.setCellValue(header[i]);
 	      // cell.setCellStyle(style);
 	    } 
 		
-	    int rowNum = 1;
-	    
-	    // Separamos el String que entra para crear las filas. 
-	    
+	    int rowNum = 1;	       
 	    
 	    for(String a: tipoIdentificador) {
 	    	String [] separar = a.split(",");
@@ -116,9 +112,18 @@ public class HojaUnoExcel {
 	        row.createCell(1).setCellValue(separar[1]);
 	    }
 	    
+//	    Row row2 = sheet.createRow(1);
+//	    int rowNum2 = 1;
+	    
+	    int indexMovimiento = 1;
 		for (String a : tipoMovimiento) {
 			String[] separar = a.split(",");
-			row = sheet.createRow(rowNum++);
+
+			if(indexMovimiento <= tipoIdentificador.size())
+				row = sheet.getRow(indexMovimiento++);
+			else
+				row = sheet.createRow(indexMovimiento++);
+			
 			if (separar[0]=="null") {
 				separar[0] = "";
 			} else {
