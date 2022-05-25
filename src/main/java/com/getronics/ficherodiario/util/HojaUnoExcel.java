@@ -17,7 +17,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
+
+@Component
 public class HojaUnoExcel {
 
 	static Date date = new Date();
@@ -914,8 +918,9 @@ public class HojaUnoExcel {
 		}
 		
 		
-		int codigoBadas = 1;
-
+		int codigoBadas = 1;		
+		
+		
 		for (String a : codigoBadasRepetido) {
 			String[] separar = a.split(",");
 
@@ -1168,8 +1173,7 @@ public class HojaUnoExcel {
 			}				
 		}
 		
-		
-		
+
 		
 		
 		

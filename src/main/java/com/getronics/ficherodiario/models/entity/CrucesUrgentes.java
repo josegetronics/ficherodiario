@@ -62,7 +62,7 @@ public class CrucesUrgentes implements Serializable {
 //	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date fecha_nacimiento;              
 	
-	private int sexo;             
+	private Integer sexo;             
 	
 	private String indicativo_domicilio;      
 	
@@ -78,13 +78,13 @@ public class CrucesUrgentes implements Serializable {
 	
 	private String fecha_efecto_situacion;      
 	
-	private int cod_tipo_beneficiario;	
+	private Integer cod_tipo_beneficiario;	
 	
 	private String ipf_titular;
 	
 	private String naf_titular;
 	
-	private int numero_secuencia;
+	private Integer numero_secuencia;
 	
 	private String fecha_nacimiento_raw;
 	
@@ -287,11 +287,11 @@ public class CrucesUrgentes implements Serializable {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
 
-	public int getSexo() {
+	public Integer getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(int sexo) {
+	public void setSexo(Integer sexo) {
 		this.sexo = sexo;
 	}
 
@@ -351,11 +351,11 @@ public class CrucesUrgentes implements Serializable {
 		this.fecha_efecto_situacion = fecha_efecto_situacion;
 	}
 
-	public int getCod_tipo_beneficiario() {
+	public Integer getCod_tipo_beneficiario() {
 		return cod_tipo_beneficiario;
 	}
 
-	public void setCod_tipo_beneficiario(int cod_tipo_beneficiario) {
+	public void setCod_tipo_beneficiario(Integer cod_tipo_beneficiario) {
 		this.cod_tipo_beneficiario = cod_tipo_beneficiario;
 	}
 
@@ -375,11 +375,11 @@ public class CrucesUrgentes implements Serializable {
 		this.naf_titular = naf_titular;
 	}
 
-	public int getNumero_secuencia() {
+	public Integer getNumero_secuencia() {
 		return numero_secuencia;
 	}
 
-	public void setNumero_secuencia(int numero_secuencia) {
+	public void setNumero_secuencia(Integer numero_secuencia) {
 		this.numero_secuencia = numero_secuencia;
 	}
 
