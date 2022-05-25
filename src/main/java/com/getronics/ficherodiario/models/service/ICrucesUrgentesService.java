@@ -47,4 +47,35 @@ public interface ICrucesUrgentesService {
 	  ###################### */ 
 	
 	List<String> regimenGeneral(); 
+	
+	List<String> bajaTitulares();
+	
+	List<String> totalEnvioInssAv();
+	
+	List<String> bajasVinculadosSns();
+	
+	List<String> mutualistasPrivados();
+	
+	/* ############################ 
+	  Hoja 4 - "Baja por Defunción"
+	  ############################# */ 
+	
+	List<String> bajaPorDefuncion();
+	
+	/* ####################### 
+	  Hoja 5 - "Aseguramiento" 
+	  ######################## */ 
+	
+	List<String> aseguramiento();
+	
+	List<String> indicadorFarmacia();
+	
+	/* ############################### 
+	  Hoja 6 - "Código Badas Repetido"  
+	  ################################ */ 
+	
+	List<String> codigoBadasRepetido();
+
+	
+	
 }

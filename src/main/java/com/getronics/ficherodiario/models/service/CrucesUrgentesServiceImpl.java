@@ -118,6 +118,58 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 		return crucesUrgentesDao.regimenGeneral();
 	}
 
+	@Override
+	public List<String> bajaTitulares() {
+		return crucesUrgentesDao.bajaTitulares();
+	}
+
+	@Override
+	public List<String> totalEnvioInssAv() {
+		return crucesUrgentesDao.totalEnvioInssAv();
+	}
+
+	@Override
+	public List<String> bajasVinculadosSns() {
+		return crucesUrgentesDao.bajasVinculadosSns();
+	}
+
+	@Override
+	public List<String> mutualistasPrivados() {
+		return crucesUrgentesDao.mutualistasPrivados();
+	}
+
+	/* ############################ 
+	  Hoja 4 - "Baja por Defunción"
+	  ############################# */ 
+	
+	@Override
+	public List<String> bajaPorDefuncion() {
+		return crucesUrgentesDao.bajaPorDefuncion();
+	}
+
+	/* ####################### 
+	  Hoja 5 - "Aseguramiento" 
+	  ######################## */ 
+	
+	@Override
+	public List<String> aseguramiento() {
+		return crucesUrgentesDao.aseguramiento();
+	}
+
+	@Override
+	public List<String> indicadorFarmacia() {
+		return crucesUrgentesDao.indicadorFarmacia();
+	}
+
+	/* ############################### 
+	  Hoja 6 - "Código Badas Repetido"  
+	  ################################ */ 
+	
+	@Override
+	public List<String> codigoBadasRepetido() {
+		return crucesUrgentesDao.codigoBadasRepetido();
+	}
+
 	
 
 
