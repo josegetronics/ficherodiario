@@ -42,4 +42,9 @@ public interface ICrucesUrgentesService {
 	
 	List<String> codTipoAseguradoMutualistas();
 	
+	/* ##################### 
+	  Hoja 3 - "Motivo Baja" 
+	  ###################### */ 
+	
+	List<String> regimenGeneral(); 
 }

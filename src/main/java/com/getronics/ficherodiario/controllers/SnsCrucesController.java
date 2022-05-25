@@ -54,6 +54,9 @@ public class SnsCrucesController {
 		List<String> informeAltCruzadoConSegSocialFinalMutualistas = null;
 		List<String> codTipoAseguradoMutualistas = null;
 		
+		/* VARIABLES MOTIVO BAJA */
+		List<String> regimenGeneral = null;
+		
 		try {
 			
 		 	/*###################  
@@ -241,7 +244,20 @@ public class SnsCrucesController {
 		 		logAplicacion.info(codTipAseMutualistas);		 		
 		 	}
 		 	logAplicacion.info("Existe un total de " + codTipoAseguradoMutualistas.size() + " registros.");	
+		 			 	
 		 	
+			/*############### 
+		 	  REGIMEN_GENERAL
+		 	 ################ */
+		 	
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> REGIMEN GENERAL");
+			regimenGeneral = crucesService.regimenGeneral(); 
+		 	
+		 	for(String regGen: regimenGeneral) {
+		 		logAplicacion.info(regGen);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + regimenGeneral.size() + " registros.");	
 		 	
 		 	
 		 	
@@ -254,7 +270,7 @@ public class SnsCrucesController {
 		 	excel.crearHojaExcel(tipoIdentificador, tipoMovimiento, protegidoTipAseguramientoAndTipMovimiento, registroIpfNulo,
 		 	informeAltaCruzado, codTipoAsegurado, titDobleCobertura, beneDobleCobertura, tipoIdentificadorMutualistas,tipoMovimientoMutualista,
 		 	protegidoTipAseguramientoAndTipMovimientoMutualistas, registrosIpfNuloMutualistas,
-			informeAltCruzadoConSegSocialFinalMutualistas,  codTipoAseguradoMutualistas);
+			informeAltCruzadoConSegSocialFinalMutualistas,  codTipoAseguradoMutualistas, regimenGeneral);
 		 	
 		 	
 	 	

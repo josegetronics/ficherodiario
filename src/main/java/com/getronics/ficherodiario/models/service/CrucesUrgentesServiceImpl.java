@@ -109,6 +109,15 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 		return crucesUrgentesDao.codTipoAseguradoMutualistas();
 	}
 
+	/* ##################### 
+	  Hoja 3 - "Motivo Baja" 
+	  ###################### */ 
+	
+	@Override
+	public List<String> regimenGeneral() {
+		return crucesUrgentesDao.regimenGeneral();
+	}
+
 	
 
 

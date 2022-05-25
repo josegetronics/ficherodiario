@@ -110,6 +110,30 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			" group by i.COD_TIPO_ASEGURADO ORDER BY 1", nativeQuery = true)
 	List<String> codTipoAseguradoMutualistas();
 	
+	/* ##################### 
+	  Hoja 3 - "Motivo Baja" 
+	  ###################### */ 
+	
+	/* 3.1 REGIMEN GENERAL */
+	@Query(value="select   s.COD_TIPO_ASEGURADO, S.MOTIVO_BAJA , count(*) from     Z_INSS_MOV_SEP_25 s WHERE S.TIPO_MOVIMIENTO = 'B' " + 
+			"and s.TIPO_ASEGURAMIENTO not in ('0611','0612','0613') group by s.COD_TIPO_ASEGURADO, S.MOTIVO_BAJA order by 1, 2", nativeQuery = true)
+	List<String> regimenGeneral(); 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
 

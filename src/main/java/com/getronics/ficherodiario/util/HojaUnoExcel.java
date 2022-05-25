@@ -31,7 +31,7 @@ public class HojaUnoExcel {
 	public void crearHojaExcel(List<String> tipoIdentificador,List<String> tipoMovimiento, List<String> protegidoTipAseguramientoAndTipMovimiento,
 			List<String> registroIpfNulo,List<String> informeAltaCruzado,List<String> codTipoAsegurado,List<String> titDobleCobertura,List<String> beneDobleCobertura,
 			List<String> tipoIdentificadorMutualistas, List<String> tipoMovimientoMutualista, List<String> protegidoTipAseguramientoAndTipMovimientoMutualistas,
-			List<String> registrosIpfNuloMutualistas,List<String> informeAltCruzadoConSegSocialFinalMutualistas, List<String> codTipoAseguradoMutualistas) {
+			List<String> registrosIpfNuloMutualistas,List<String> informeAltCruzadoConSegSocialFinalMutualistas, List<String> codTipoAseguradoMutualistas, List<String> regimenGeneral) {
 		
 		/*"COD_TIPO_ASEGURADO","TIPO_MOVIMIENTO","IPF","DNI_NIE","PASAPORTE","NAF","NAF_SEC1","NAF_SEC2","NAF_SEC3","NAF_SEC4",
 				"NAF_SEC5","NAF_SEC6","NAF_SEC7","NAF_SEC8","NAF_SEC9","INDICATIVO_NOMBRE","APELLIDOS_NOMBRE","APELLIDO1","APELLIDO2",
@@ -364,14 +364,7 @@ public class HojaUnoExcel {
 				row.createCell(24).setCellValue(separar[1]);
 			}
 		}
-		
-		
-		
-		/*   ,
-		protegidoTipAseguramientoAndTipMovimientoMutualistas, registrosIpfNuloMutualistas,
-		informeAltCruzadoConSegSocialFinalMutualistas,  codTipoAseguradoMutualistas */
-	
-		
+				
 		int indexTipMoviMut = 1;
 	    
 		for (String a : tipoMovimientoMutualista) {
@@ -407,23 +400,186 @@ public class HojaUnoExcel {
 			} else {
 				row.createCell(28).setCellValue(separar[3]);
 			}
-		}		
+		}				
+	
+		int indexProtegidoTipAseg = 1;
+	    
+		for (String a : protegidoTipAseguramientoAndTipMovimientoMutualistas) {
+			String[] separar = a.split(",");
+
+			// Si es menor o igual se hace obtiene las filas ya creadas
+			if(indexProtegidoTipAseg <= tipoIdentificador.size() || indexProtegidoTipAseg<= tipoMovimiento.size() || indexProtegidoTipAseg <= protegidoTipAseguramientoAndTipMovimiento.size() 
+					|| indexProtegidoTipAseg <= registroIpfNulo.size() || indexProtegidoTipAseg <=informeAltaCruzado.size() || indexProtegidoTipAseg <= codTipoAsegurado.size() 
+					|| indexProtegidoTipAseg <= titDobleCobertura.size() || indexProtegidoTipAseg <= beneDobleCobertura.size() || indexProtegidoTipAseg <= tipoIdentificadorMutualistas.size()
+					|| indexProtegidoTipAseg <=	tipoMovimientoMutualista.size()	)
+				
+				row = sheet.getRow(indexProtegidoTipAseg++);			
+			else
+			// En caso de que no exista la fila se crea. 
+				row = sheet.createRow(indexProtegidoTipAseg++);
+			
+			if (separar[0].compareTo("null") == 0) {
+				separar[0] = "";
+			} else {
+				row.createCell(29).setCellValue(separar[0]);
+			}
+			if (separar[1].compareTo("null") == 0) {
+				separar[1] = "";
+			} else {
+				row.createCell(30).setCellValue(separar[1]);
+			}
+			if (separar[2].compareTo("null") == 0) {
+				separar[2] = "";
+			} else {
+				row.createCell(31).setCellValue(separar[2]);
+			}
+			if (separar[3].compareTo("null") == 0) {
+				separar[3] = "";
+			} else {
+				row.createCell(32).setCellValue(separar[3]);
+			}
+		}			
+		
+
+		
+		int indexRegIpfNu = 1;
+	    
+		for (String a : registrosIpfNuloMutualistas) {
+			String[] separar = a.split(",");
+
+			// Si es menor o igual se hace obtiene las filas ya creadas
+			if(indexRegIpfNu <= tipoIdentificador.size() || indexRegIpfNu<= tipoMovimiento.size() || indexRegIpfNu <= protegidoTipAseguramientoAndTipMovimiento.size() 
+					|| indexRegIpfNu <= registroIpfNulo.size() || indexRegIpfNu <=informeAltaCruzado.size() || indexRegIpfNu <= codTipoAsegurado.size() 
+					|| indexRegIpfNu <= titDobleCobertura.size() || indexRegIpfNu <= beneDobleCobertura.size() || indexRegIpfNu <= tipoIdentificadorMutualistas.size()
+					|| indexRegIpfNu <=	tipoMovimientoMutualista.size()	 || indexRegIpfNu <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size())
+				
+				row = sheet.getRow(indexRegIpfNu++);			
+			else
+			// En caso de que no exista la fila se crea. 
+				row = sheet.createRow(indexRegIpfNu++);
+			
+			if (separar[0].compareTo("null") == 0) {
+				separar[0] = "";
+			} else {
+				row.createCell(33).setCellValue(separar[0]);
+			}
+			if (separar[1].compareTo("null") == 0) {
+				separar[1] = "";
+			} else {
+				row.createCell(34).setCellValue(separar[1]);
+			}
+			if (separar[2].compareTo("null") == 0) {
+				separar[2] = "";
+			} else {
+				row.createCell(35).setCellValue(separar[2]);
+			}
+			if (separar[3].compareTo("null") == 0) {
+				separar[3] = "";
+			} else {
+				row.createCell(36).setCellValue(separar[3]);
+			}
+		}	
+
+		int indexInfFin = 1;
+	    
+		for (String a : informeAltCruzadoConSegSocialFinalMutualistas) {
+			String[] separar = a.split(",");
+
+			// Si es menor o igual se hace obtiene las filas ya creadas
+			if(indexInfFin <= tipoIdentificador.size() || indexInfFin<= tipoMovimiento.size() || indexInfFin <= protegidoTipAseguramientoAndTipMovimiento.size() 
+					|| indexInfFin <= registroIpfNulo.size() || indexInfFin <=informeAltaCruzado.size() || indexInfFin <= codTipoAsegurado.size() 
+					|| indexInfFin <= titDobleCobertura.size() || indexInfFin <= beneDobleCobertura.size() || indexInfFin <= tipoIdentificadorMutualistas.size()
+					|| indexInfFin <= tipoMovimientoMutualista.size() || indexInfFin <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()	
+					|| indexInfFin <= registrosIpfNuloMutualistas.size())
+				
+				row = sheet.getRow(indexInfFin++);			
+			else
+			// En caso de que no exista la fila se crea. 
+				row = sheet.createRow(indexInfFin++);
+			
+			if (separar[0].compareTo("null") == 0) {
+				separar[0] = "";
+			} else {
+				row.createCell(37).setCellValue(separar[0]);
+			}
+			if (separar[1].compareTo("null") == 0) {
+				separar[1] = "";
+			} else {
+				row.createCell(38).setCellValue(separar[1]);
+			}
+			if (separar[2].compareTo("null") == 0) {
+				separar[2] = "";
+			} else {
+				row.createCell(39).setCellValue(separar[2]);
+			}
+		}			
+		
+		int indexCod = 1;
+	    
+		for (String a : codTipoAseguradoMutualistas) {
+			String[] separar = a.split(",");
+
+			// Si es menor o igual se hace obtiene las filas ya creadas
+			if(indexCod <= tipoIdentificador.size() || indexCod<= tipoMovimiento.size() || indexCod <= protegidoTipAseguramientoAndTipMovimiento.size() 
+					|| indexCod <= registroIpfNulo.size() || indexCod <=informeAltaCruzado.size() || indexCod <= codTipoAsegurado.size() 
+					|| indexCod <= titDobleCobertura.size() || indexCod <= beneDobleCobertura.size() || indexCod <= tipoIdentificadorMutualistas.size()
+					|| indexCod <= tipoMovimientoMutualista.size() || indexCod <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()	
+					|| indexCod <= registrosIpfNuloMutualistas.size() || indexCod <= informeAltCruzadoConSegSocialFinalMutualistas.size())
+				
+				row = sheet.getRow(indexCod++);			
+			else
+			// En caso de que no exista la fila se crea. 
+				row = sheet.createRow(indexCod++);
+			
+			if (separar[0].compareTo("null") == 0) {
+				separar[0] = "";
+			} else {
+				row.createCell(40).setCellValue(separar[0]);
+			}
+			if (separar[1].compareTo("null") == 0) {
+				separar[1] = "";
+			} else {
+				row.createCell(41).setCellValue(separar[1]);			
+			}		
+		}
 		
 		
+		// Regimen General 
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		int indexRegGen = 1;
+	    
+		for (String a : regimenGeneral) {
+			String[] separar = a.split(",");
+
+			// Si es menor o igual se hace obtiene las filas ya creadas
+			if(indexRegGen <= tipoIdentificador.size() || indexRegGen<= tipoMovimiento.size() || indexRegGen <= protegidoTipAseguramientoAndTipMovimiento.size() 
+					|| indexRegGen <= registroIpfNulo.size() || indexRegGen <=informeAltaCruzado.size() || indexRegGen <= codTipoAsegurado.size() 
+					|| indexRegGen <= titDobleCobertura.size() || indexRegGen <= beneDobleCobertura.size() || indexRegGen <= tipoIdentificadorMutualistas.size()
+					|| indexRegGen <= tipoMovimientoMutualista.size() || indexRegGen <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()	
+					|| indexRegGen <= registrosIpfNuloMutualistas.size() || indexRegGen <= informeAltCruzadoConSegSocialFinalMutualistas.size()	
+					|| indexRegGen <= codTipoAseguradoMutualistas.size())
+				
+				row = sheet.getRow(indexRegGen++);			
+			else
+			// En caso de que no exista la fila se crea. 
+				row = sheet.createRow(indexRegGen++);
+			
+			if (separar[0].compareTo("null") == 0) {
+				separar[0] = "";
+			} else {
+				row.createCell(42).setCellValue(separar[0]);
+			}
+			if (separar[1].compareTo("null") == 0) {
+				separar[1] = "";
+			} else {
+				row.createCell(43).setCellValue(separar[1]);			
+			}	
+			if (separar[2].compareTo("null") == 0) {
+				separar[2] = "";
+			} else {
+				row.createCell(44).setCellValue(separar[2]);			
+			}
+		}
 		
 		
 		
@@ -471,4 +627,4 @@ public class HojaUnoExcel {
 
 	}
 
-}
+	}
