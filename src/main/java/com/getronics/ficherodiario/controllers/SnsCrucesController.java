@@ -45,6 +45,15 @@ public class SnsCrucesController {
 		List<String> titDobleCobertura = null;
 		List<String> beneDobleCobertura = null;
 		
+		/* VARIABLES MUTUALISTAS*/
+		
+		List<String> tipoIdentificadorMutualistas = null;	
+		List<String> tipoMovimientoMutualista = null;
+		List<String> protegidoTipAseguramientoAndTipMovimientoMutualistas = null;
+		List<String> registrosIpfNuloMutualistas = null;
+		List<String> informeAltCruzadoConSegSocialFinalMutualistas = null;
+		List<String> codTipoAseguradoMutualistas = null;
+		
 		try {
 			
 		 	/*###################  
@@ -151,37 +160,8 @@ public class SnsCrucesController {
 		 		logAplicacion.info(beneDoble);		 		
 		 	}
 		 	logAplicacion.info("Existe un total de " + beneDobleCobertura.size() + " registros.");
-		 	
-		 	// Se pasa la informacíon a la clase que crea los ficheros excel.
-		 	HojaUnoExcel excel = new HojaUnoExcel();
-		 	excel.crearHojaExcel(tipoIdentificador, tipoMovimiento, protegidoTipAseguramientoAndTipMovimiento, registroIpfNulo,
-		 	informeAltaCruzado, codTipoAsegurado, titDobleCobertura, beneDobleCobertura);
-		 	
-		 	
-		 	
-		 	String mensajeFlash = "Se ha terminado la ejecucíon correctamente";
-		 	status.setComplete();
-		 	flash.addFlashAttribute("success", mensajeFlash);	 	
-		 	
-		} catch (Exception e) {
-			logAplicacion.error(e.getMessage(), e);
-		}
-		
-		return "inicio";
-	}
-	
-	@GetMapping("/ejecutarHojaDos")
-	public String hoja2(RedirectAttributes flash, SessionStatus status, Model model) {
-		
-		List<String> tipoIdentificadorMutualistas = null;	
-		List<String> tipoMovimientoMutualista = null;
-		List<String> protegidoTipAseguramientoAndTipMovimientoMutualistas = null;
-		List<String> registrosIpfNuloMutualistas = null;
-		List<String> informeAltCruzadoConSegSocialFinalMutualistas = null;
-		List<String> codTipoAseguradoMutualistas = null;
+		 			 			 	
 
-		try{
-		
 			/*###############################  
 		 	  TIPO IDENTIFICACIÓN MUTUALISTAS
 		 	 ############################### */
@@ -260,7 +240,37 @@ public class SnsCrucesController {
 		 	for(String codTipAseMutualistas: codTipoAseguradoMutualistas) {
 		 		logAplicacion.info(codTipAseMutualistas);		 		
 		 	}
-		 	logAplicacion.info("Existe un total de " + codTipoAseguradoMutualistas.size() + " registros.");			 		 
+		 	logAplicacion.info("Existe un total de " + codTipoAseguradoMutualistas.size() + " registros.");	
+		 	
+		 	
+		 	
+		 	
+		 	
+		 	
+		 	
+		 	
+		 	// Se pasa la informacíon a la clase que crea los ficheros excel.
+		 	HojaUnoExcel excel = new HojaUnoExcel();
+		 	excel.crearHojaExcel(tipoIdentificador, tipoMovimiento, protegidoTipAseguramientoAndTipMovimiento, registroIpfNulo,
+		 	informeAltaCruzado, codTipoAsegurado, titDobleCobertura, beneDobleCobertura, tipoIdentificadorMutualistas,tipoMovimientoMutualista,
+		 	protegidoTipAseguramientoAndTipMovimientoMutualistas, registrosIpfNuloMutualistas,
+			informeAltCruzadoConSegSocialFinalMutualistas,  codTipoAseguradoMutualistas);
+		 	
+		 	
+	 	
+		 	
+		} catch (Exception e) {
+			logAplicacion.error(e.getMessage(), e);
+		}
+		
+		return "inicio";
+	}
+	
+	@GetMapping("/ejecutarHojaDos")
+	public String hoja2(RedirectAttributes flash, SessionStatus status, Model model) {		
+
+		try{
+			logAplicacion.info("LÓGICA DE NEGOCIO NO IMPLEMENTADA.");	 		 
 		 	
 		}catch (Exception e) {
 			logAplicacion.error(e.getMessage(), e);
