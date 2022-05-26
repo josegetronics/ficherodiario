@@ -115,26 +115,31 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 	  ###################### */ 
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> regimenGeneral() {
 		return crucesUrgentesDao.regimenGeneral();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> bajaTitulares() {
 		return crucesUrgentesDao.bajaTitulares();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> totalEnvioInssAv() {
 		return crucesUrgentesDao.totalEnvioInssAv();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> bajasVinculadosSns() {
 		return crucesUrgentesDao.bajasVinculadosSns();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> mutualistasPrivados() {
 		return crucesUrgentesDao.mutualistasPrivados();
 	}
@@ -144,6 +149,7 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 	  ############################# */ 
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> bajaPorDefuncion() {
 		return crucesUrgentesDao.bajaPorDefuncion();
 	}
@@ -153,11 +159,13 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 	  ######################## */ 
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> aseguramiento() {
 		return crucesUrgentesDao.aseguramiento();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> indicadorFarmacia() {
 		return crucesUrgentesDao.indicadorFarmacia();
 	}
@@ -167,9 +175,145 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 	  ################################ */ 
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<String> codigoBadasRepetido() {
 		return crucesUrgentesDao.codigoBadasRepetido();
 	}
+
+	/* ############################### 
+	  Hoja 7 - "Altas sin NAF"  
+	  ################################ */ 
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> altasNaf() {
+		return crucesUrgentesDao.altasNaf();
+	}
+	
+	/* ####################### 
+	   Hoja 8 - "Cambios IPF"  
+	  ######################## */
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> ipfAnteriorNoExisteInssTit() {
+		return crucesUrgentesDao.ipfAnteriorNoExisteInssTit();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> ipfNuevoExisteInssTit() {
+		return crucesUrgentesDao.ipfNuevoExisteInssTit();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> ipfAnteriorNoExisteInssMut() {
+		return crucesUrgentesDao.ipfAnteriorNoExisteInssMut();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> ipfNuevoExiteInssMut() {
+		return crucesUrgentesDao.ipfNuevoExiteInssMut();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> titularesDobleCobertura() {
+		return crucesUrgentesDao.titularesDobleCobertura();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> beneficiarioDobleCoberturaMutualistas() {
+		return crucesUrgentesDao.beneficiarioDobleCoberturaMutualistas();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> titularesIndicadorConvenioRural() {
+		return crucesUrgentesDao.titularesIndicadorConvenioRural();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> beneficiadioIndicadorConvenioRural() {
+		return crucesUrgentesDao.beneficiadioIndicadorConvenioRural();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> privadoRegularPublico() {
+		return crucesUrgentesDao.privadoRegularPublico();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> privadoIrregularPublico() {
+		return crucesUrgentesDao.privadoIrregularPublico();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> privadoNoExiste() {
+		return crucesUrgentesDao.privadoNoExiste();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> altaModificacionTitularesDobleCobertura() {
+		return crucesUrgentesDao.altaModificacionTitularesDobleCobertura();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> irregularPrivadoRegularPublico() {
+		return crucesUrgentesDao.irregularPrivadoRegularPublico();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> irregularPrivadoIrregularPublico() {
+		return crucesUrgentesDao.irregularPrivadoIrregularPublico();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> irregularPrivadoNoExiste() {
+		return crucesUrgentesDao.irregularPrivadoNoExiste();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> altaModificaTitualresDobleCoberturaDos() {
+		return crucesUrgentesDao.altaModificaTitualresDobleCoberturaDos();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> listadoRegistroNoExiste() {
+		return crucesUrgentesDao.listadoRegistroNoExiste();
+	}
+
+	@Override
+	public List<String> listadoRegistroNoExisteDos() {
+		return crucesUrgentesDao.listadoRegistroNoExisteDos();
+	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> bajaPorDefuncionPrivadoPublico() {
+		return crucesUrgentesDao.bajaPorDefuncionPrivadoPublico();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> bajaPorDefuncionPrivadoNoExiste() {
+		return crucesUrgentesDao.bajaPorDefuncionPrivadoNoExiste();
+	}
+
 
 	
 

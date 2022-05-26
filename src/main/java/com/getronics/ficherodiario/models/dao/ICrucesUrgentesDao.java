@@ -186,13 +186,200 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 	List<String> codigoBadasRepetido();
 	
 	
+	/* ####################### 
+	  Hoja 7 - "Altas sin NAF"  
+	  ######################## */ 
+	
+	@Query(value="select a.NAF AS NF, s.*" + 
+			" from   Z_INSS_MOV_SEP_25 s, segsocialfinal a" + 
+			" where  s.NAF is NULL" + 
+			" AND    S.TIPO_MOVIMIENTO = 'A'" + 
+			" and    s.COD_TIPO_ASEGURADO = 'T'" + 
+			" and    s.DNI_NIE = a.DNI_NIE(+)" + 
+			" order by 2,3",nativeQuery = true)
+	List<String> altasNaf();
+
+	/* ####################### 
+	   Hoja 8 - "Cambios IPF"  
+	  ######################## */
+
+	/* 8.1 REGIMEN GENERAL */
+	
+	/* 8.1.1 IPF Anterior no existe en INSS_TIT */
+	@Query(value="select s.* from Z_INSS_MOV_SEP_25 S	where s.COD_TIPO_ASEGURADO = 'T' and s.TIPO_MOVIMIENTO  = 'C'\r\n" + 
+			"	and S.CIP_MUTUALISTA is null and not exists  ( select 'X' from   snsalud.inss_tit i where  i.IPF = s.IPF_ANTERIOR)",
+			nativeQuery = true)	
+	List<String> ipfAnteriorNoExisteInssTit();
+	
+	
+	/* 8.1.2 IPF Nuevo existe en INSS_TIT */
+	@Query(value="select s.*	from Z_INSS_MOV_SEP_25 S where s.COD_TIPO_ASEGURADO = 'T' and s.TIPO_MOVIMIENTO = 'C'" + 
+			" and S.CIP_MUTUALISTA is null and exists (select 'X' from   snsalud.inss_tit i where  i.IPF = s.IPF)",
+			nativeQuery = true)
+	List<String> ipfNuevoExisteInssTit();
+	
+	
+	/* 8.1 MUTUALISTAS */
+	
+	/* 8.2.1 IPF Anterior no existe en INSS_MUT_TIT*/
+	@Query(value="select s.*	from Z_INSS_MOV_SEP_25 S	where s.COD_TIPO_ASEGURADO = 'T'	and s.TIPO_MOVIMIENTO    = 'C'" + 
+			" and S.CIP_MUTUALISTA is not null and  not exists  (select 'X' from  snsalud.INSS_MUT_TIT i where  i.IPF = s.IPF_ANTERIOR)",
+			nativeQuery = true)
+	List<String> ipfAnteriorNoExisteInssMut();
+	
+	
+	/* 8.2.2 IPF Nuevo existe en INSS_MUT_TIT */
+	@Query(value="select s.*	from Z_INSS_MOV_SEP_25 S where s.COD_TIPO_ASEGURADO = 'T' and s.TIPO_MOVIMIENTO = 'C'" + 
+			"	and S.CIP_MUTUALISTA is not null and exists (select 'X' from   snsalud.INSS_MUT_TIT i where  i.IPF = s.IPF)",
+			nativeQuery = true)
+	List<String> ipfNuevoExiteInssMut();
+	
+	
+	/* ####################### 
+	   Hoja 9 - "MUTUALISTAS"  
+	  ######################## */
+	
+	
+	/* 9.1 - DOBLE_COBERTURA */
+
+	/* 9.1.1 Titulares DOBLE_COBERTURA EMPEZA EN LV */
+	
+	@Query(value="select  /*+ PARALLEL (8) */ INDICADOR_DOBLE_COBERTURA, count (*) AS TOTAL" + 
+			" from Z_INSS_MOV_SEP_25 m WHERE m.COD_TIPO_ASEGURADO = 'T' and m.TIPO_ASEGURAMIENTO in ('0611','0612','0613')" + 
+			" GROUP BY INDICADOR_DOBLE_COBERTURA", nativeQuery = true)
+	List<String> titularesDobleCobertura();
 	
 	
 	
+	/* 9.1.2 Beneficiarios DOBLE_COBERTURA */
+	@Query(value="select  /*+ PARALLEL (8) */ INDICADOR_DOBLE_COBERTURA, count (*) AS TOTAL" + 
+			" from Z_INSS_MOV_SEP_25 m WHERE m.COD_TIPO_ASEGURADO = 'B' and m.TIPO_ASEGURAMIENTO in ('0611','0612','0613')" + 
+			" GROUP BY INDICADOR_DOBLE_COBERTURA", nativeQuery = true)
+	List<String> beneficiarioDobleCoberturaMutualistas();
+		
+	
+	/* 9.2 - INDICADOR_CONVENIO_RURAL */
+
+	/* 9.2.1 Titulares INDICADOR_CONVENIO_RURAL */
+	@Query(value="select  /*+ PARALLEL (8) */ INDICADOR_CONVENIO_RURAL, count (*) AS TOTAL from Z_INSS_MOV_SEP_25 m WHERE m.COD_TIPO_ASEGURADO = 'T'" + 
+			"	and m.TIPO_ASEGURAMIENTO in ('0611','0612','0613') 	GROUP BY INDICADOR_CONVENIO_RURAL", nativeQuery = true)
+	List<String> titularesIndicadorConvenioRural();
+	
+		
+	/* 9.2.2 Beneficiarios INDICADOR_CONVENIO_RURAL */
+	@Query(value="select  /*+ PARALLEL (8) */ INDICADOR_CONVENIO_RURAL, count (*) AS TOTAL from Z_INSS_MOV_SEP_25 m" + 
+			"	WHERE m.COD_TIPO_ASEGURADO = 'B' and m.TIPO_ASEGURAMIENTO in ('0611','0612','0613')	GROUP BY INDICADOR_CONVENIO_RURAL",
+			nativeQuery = true)
+	List<String> beneficiadioIndicadorConvenioRural();
+
+	
+	/* 9.3.1.1 REGULAR_PRIVADO -> REGULAR_PUBLICO */
+	@Query(value="Select COUNT(*) as REGUPRIV_REGUPUB from Z_INSS_MOV_SEP_25 M, Z_INSS_MOV_SEP_25 B WHERE M.IPF = B.IPF" + 
+			" and M.TIPO_ASEGURAMIENTO in ('0611','0612','0613') and M.INDICADOR_DOBLE_COBERTURA='1' and M.COD_TIPO_ASEGURADO = 'T'" + 
+			" and M.TIPO_MOVIMIENTO in ('M','A') and B.TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and B.INDICADOR_DOBLE_COBERTURA='1'" + 
+			" and B.TIPO_MOVIMIENTO in ('M','A')", nativeQuery = true)
+	List<String> privadoRegularPublico();
+	
+	
+	/* 9.3.1.2 REGULAR_PRIVADO -> IRREGULAR_PUBLICO */
+	@Query(value="Select COUNT(*) as REGUPRIV_IRREGUPUB from Z_INSS_MOV_SEP_25 M, Z_INSS_MOV_SEP_25 B	WHERE M.IPF = B.IPF" + 
+			" and M.TIPO_ASEGURAMIENTO in ('0611','0612','0613')	and M.INDICADOR_DOBLE_COBERTURA='1'	and M.COD_TIPO_ASEGURADO = 'T'" + 
+			" and M.TIPO_MOVIMIENTO in ('M','A') and B.TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and B.INDICADOR_DOBLE_COBERTURA='2'" + 
+			" and B.TIPO_MOVIMIENTO in ('M','A')", nativeQuery = true)
+	List<String> privadoIrregularPublico();
+	
+	
+	/* 9.3.1.3 REGULAR_PRIVADO -> NO_EXISTE */
+	@Query(value="Select COUNT(*) as REGUPRIV_NOEXISTE from ( Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO in ('0611','0612','0613')" + 
+			" and INDICADOR_DOBLE_COBERTURA='1'and COD_TIPO_ASEGURADO = 'T'and TIPO_MOVIMIENTO in ('M','A')) M" + 
+			" left join(Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and TIPO_MOVIMIENTO in ('M','A')) B" + 
+			" on  M.IPF  = B.IPF where B.ipf is null", nativeQuery = true)
+	List<String> privadoNoExiste();
+	
+	/* 9.3.1.4 Alta y Modificación de Titulares con DOBLE_COBERTURA '1' */
+	@Query(value="select  count (*) AS TOTAL_ESPERADO_REG from Z_INSS_MOV_SEP_25 m WHERE m.COD_TIPO_ASEGURADO = 'T'" + 
+			" and m.TIPO_ASEGURAMIENTO in ('0611','0612','0613') 	and m.TIPO_MOVIMIENTO in ('M','A') and m.INDICADOR_DOBLE_COBERTURA='1'" + 
+			" GROUP BY INDICADOR_DOBLE_COBERTURA", nativeQuery = true)
+	List<String> altaModificacionTitularesDobleCobertura();
+	
+	/* 9.3.2.1 IRREGULAR_PRIVADO -> REGULAR_PUBLICO */
+	@Query(value="Select COUNT(*) as IRREGUPRIV_REGUPUB 	from Z_INSS_MOV_SEP_25 M, Z_INSS_MOV_SEP_25 B WHERE M.IPF = B.IPF" + 
+			" and M.TIPO_ASEGURAMIENTO in ('0611','0612','0613') and M.INDICADOR_DOBLE_COBERTURA='2' and M.COD_TIPO_ASEGURADO = 'T'" + 
+			" and M.TIPO_MOVIMIENTO in ('M','A') and B.TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and B.INDICADOR_DOBLE_COBERTURA='1'" + 
+			" and B.TIPO_MOVIMIENTO in ('M','A')", nativeQuery = true)
+	List<String> irregularPrivadoRegularPublico();
+	
+	
+	/* 9.3.2.2  IRREGULAR_PRIVADO -> IRREGULAR_PUBLICO */
+	@Query(value="Select COUNT(*) as IRREGUPRIV_IRREGUPUB from Z_INSS_MOV_SEP_25 M, Z_INSS_MOV_SEP_25 B WHERE M.IPF = B.IPF" + 
+			" and M.TIPO_ASEGURAMIENTO in ('0611','0612','0613') and M.INDICADOR_DOBLE_COBERTURA='2' and M.COD_TIPO_ASEGURADO = 'T'" + 
+			" and M.TIPO_MOVIMIENTO in ('M','A') and B.TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and B.INDICADOR_DOBLE_COBERTURA='2'" + 
+			" and B.TIPO_MOVIMIENTO in ('M','A')", nativeQuery = true)
+	List<String> irregularPrivadoIrregularPublico();
 	
 	
 	
+	/* 9.3.2.3 IRREGULAR_PRIVADO -> NO_EXISTE */
+	@Query(value="Select COUNT(*) as IRREGUPRIV_NOEXISTE from (Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO in ('0611','0612','0613')" + 
+			"  and INDICADOR_DOBLE_COBERTURA='2'and COD_TIPO_ASEGURADO = 'T'and TIPO_MOVIMIENTO in ('M','A')) M" + 
+			" left join ( Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and TIPO_MOVIMIENTO in ('M','A')) B" + 
+			" on  M.IPF  = B.IPF where B.ipf is null", nativeQuery = true)
+	List<String> irregularPrivadoNoExiste();
 	
+	
+	/* 9.3.2.4 Alta y Modificación de Titulares con DOBLE_COBERTURA '2' */
+	@Query(value="select  count (*) AS TOTAL_ESPERADO_IRREG from Z_INSS_MOV_SEP_25 m WHERE m.COD_TIPO_ASEGURADO = 'T'" + 
+			" and m.TIPO_ASEGURAMIENTO in ('0611','0612','0613') and m.TIPO_MOVIMIENTO in ('M','A') and m.INDICADOR_DOBLE_COBERTURA='2'" + 
+			" GROUP BY INDICADOR_DOBLE_COBERTURA", nativeQuery = true)
+	List<String> altaModificaTitualresDobleCoberturaDos();
+	
+	
+	
+	/* 9.3.3 Listado de registros del tipo "No existe" DE ML A OD */
+	@Query(value="Select M.* from ( Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO in ('0611','0612','0613')" + 
+			" and INDICADOR_DOBLE_COBERTURA in ('1','2') and COD_TIPO_ASEGURADO = 'T' and TIPO_MOVIMIENTO in ('M','A')) M" + 
+			" left join ( Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613')" + 
+			" and TIPO_MOVIMIENTO in ('M','A')) B on  M.IPF  = B.IPF where B.ipf is null",nativeQuery = true)
+	List<String> listadoRegistroNoExiste();
+	
+	
+	@Query(value="Select B.* from \r\n" + 
+			"    (\r\n" + 
+			"    Select * from Z_INSS_MOV_SEP_25\r\n" + 
+			"    where TIPO_ASEGURAMIENTO in ('0611','0612','0613')\r\n" + 
+			"    and INDICADOR_DOBLE_COBERTURA in ('1','2')\r\n" + 
+			"    and COD_TIPO_ASEGURADO = 'T'\r\n" + 
+			"    and TIPO_MOVIMIENTO in ('M','A')\r\n" + 
+			"    ) M\r\n" + 
+			"left join\r\n" + 
+			"    (\r\n" + 
+			"    Select * from Z_INSS_MOV_SEP_25\r\n" + 
+			"   where TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613')\r\n" + 
+			"    and TIPO_MOVIMIENTO in ('M','A')\r\n" + 
+			"    ) B\r\n" + 
+			"on  M.IPF  = B.IPF\r\n" + 
+			"where B.ipf is null",
+			nativeQuery = true)
+	List<String> listadoRegistroNoExisteDos();
+	
+	
+	/* 9.4 Baja por defunción con doble cobertura */
+
+	/* 9.4.1 PRIVADO -> PUBLICO */
+	@Query(value="Select COUNT(*) as BAJAPRIV_BAJAPUB	from Z_INSS_MOV_SEP_25 M, Z_INSS_MOV_SEP_25 B WHERE M.IPF = B.IPF" + 
+			" and M.TIPO_ASEGURAMIENTO in ('0611','0612','0613') and M.INDICADOR_DOBLE_COBERTURA in ('1','2') and M.COD_TIPO_ASEGURADO = 'T'" + 
+			" and M.TIPO_MOVIMIENTO='B' and B.TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613') and B.INDICADOR_DOBLE_COBERTURA in ('1','2')" + 
+			" and B.TIPO_MOVIMIENTO='B'", nativeQuery = true)
+	List<String> bajaPorDefuncionPrivadoPublico();
+	
+	
+	
+	/* 9.4.2 PRIVADO -> NO EXISTE */
+	@Query(value="Select COUNT(*) as BAJAPRIV_BAJANOEXISTE from Z_INSS_MOV_SEP_25 M, Z_INSS_MOV_SEP_25 B" + 
+			" WHERE M.IPF = B.IPF and M.TIPO_ASEGURAMIENTO in ('0611','0612','0613')	and M.INDICADOR_DOBLE_COBERTURA in ('1','2')" + 
+			" and M.COD_TIPO_ASEGURADO = 'T'	and M.TIPO_MOVIMIENTO='B'	and B.TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613')" + 
+			" and B.INDICADOR_DOBLE_COBERTURA in ('1','2') and B.TIPO_MOVIMIENTO <>'B'", nativeQuery = true)
+	List<String> bajaPorDefuncionPrivadoNoExiste();
 	
 	
 	

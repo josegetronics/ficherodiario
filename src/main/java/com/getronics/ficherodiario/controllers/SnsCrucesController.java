@@ -61,7 +61,7 @@ public class SnsCrucesController {
 		List<String> bajasVinculadosSns = null;		
 		List<String> mutualistasPrivados = null;
 		
-		/* VARIABLE BAJA POR DENFUNCIÓN*/
+		/* VARIABLE BAJA POR DENFUNCIÓN */
 		List<String> bajaPorDefuncion = null;
 		
 		/* VARIABLES ASEGURAMIENTO */
@@ -69,8 +69,39 @@ public class SnsCrucesController {
 		List<String> aseguramiento = null;
 		List<String> indicadorFarmacia= null;
 		
-		/* VARIABLE CODIGO BADAS REPETIDO*/
+		/* VARIABLE CODIGO BADAS REPETIDO */
 		List<String> codigoBadasRepetido = null;
+		
+		/* VARIABLE ALTA SIN NAF */
+		List<String> altaSinNaf = null;
+		
+		/* VARIABLES CAMBIOS IPF */
+		List<String> cambiosIpf = null;
+		
+		/* VARIABLES CAMBIOS IPF */
+		List<String> ipfAnteriorNoExisteInssTit = null;
+		List<String> ipfNuevoExisteInssTit = null;
+		List<String> ipfAnteriorNoExisteInssMut = null;
+		List<String> ipfNuevoExiteInssMut  = null;
+		
+		
+		/* VARIABLE DOBLE COBERTURA*/		
+		List<String> titularesDobleCobertura = null;		
+		List<String> beneficiarioDobleCoberturaMutualistas = null;
+		List<String> titularesIndicadorConvenioRural = null;		
+		List<String> beneficiadioIndicadorConvenioRural = null;
+		List<String> privadoRegularPublico= null;
+		List<String> privadoIrregularPublico = null;			
+		List<String> privadoNoExiste = null;		
+		List<String> altaModificacionTitularesDobleCobertura = null;		
+		List<String> irregularPrivadoRegularPublico = null;
+		List<String> irregularPrivadoIrregularPublico = null;		
+		List<String> irregularPrivadoNoExiste = null;
+		List<String> altaModificaTitualresDobleCoberturaDos = null;
+		List<String> listadoRegistroNoExiste = null;
+		List<String> listadoRegistroNoExisteDos = null;
+		List<String> bajaPorDefuncionPrivadoPublico = null;
+		List<String> bajaPorDefuncionPrivadoNoExiste = null;
 		
 		
 		try {
@@ -383,6 +414,288 @@ public class SnsCrucesController {
 		 	logAplicacion.info("Existe un total de " + codigoBadasRepetido.size() + " registros.");
 	
 		 	
+			/*############# 
+		 	  ALTAS SIN NAF
+		 	 ############## */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> VARIABLES SIN NAF");
+			altaSinNaf = crucesService.altasNaf();
+		 	
+		 	for(String altaSNaf: altaSinNaf) {
+		 		logAplicacion.info(altaSNaf);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + altaSinNaf.size() + " registros.");
+		 	
+		 	
+			/*################################## 
+		 	  IPF Anterior no existe en INSS_TIT
+		 	 ################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> IPF Anterior no existe en INSS_TIT");
+			cambiosIpf = crucesService.ipfAnteriorNoExisteInssTit();
+		 	
+		 	for(String caIpf: cambiosIpf) {
+		 		logAplicacion.info(caIpf);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + cambiosIpf.size() + " registros.");
+		 	
+		 	
+			/*############################ 
+		 	  IPF Nuevo existe en INSS_TIT
+		 	 ############################# */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query ->  IPF Nuevo existe en INSS_TIT");
+			ipfNuevoExisteInssTit = crucesService.ipfNuevoExisteInssTit();
+		 	
+		 	for(String ipfN: ipfNuevoExisteInssTit) {
+		 		logAplicacion.info(ipfN);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + ipfNuevoExisteInssTit.size() + " registros.");
+		 	
+		 	
+			/*###################################### 
+		 	  IPF Anterior no existe en INSS_MUT_TIT
+		 	 ####################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> IPF Anterior no existe en INSS_MUT_TIT");
+			ipfAnteriorNoExisteInssMut = crucesService.ipfAnteriorNoExisteInssMut();
+		 	
+		 	for(String ipfAnt: ipfAnteriorNoExisteInssMut) {
+		 		logAplicacion.info(ipfAnt);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + ipfAnteriorNoExisteInssMut.size() + " registros.");
+		 	
+			/*################################ 
+		 	  IPF Nuevo existe en INSS_MUT_TIT
+		 	 ################################# */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> IPF Nuevo existe en INSS_MUT_TIT");
+			ipfNuevoExiteInssMut = crucesService.ipfNuevoExiteInssMut();
+		 	
+		 	for(String ipfNue: ipfNuevoExiteInssMut) {
+		 		logAplicacion.info(ipfNue);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + ipfNuevoExiteInssMut.size() + " registros.");
+		 	
+		 	
+			/*###################################### 
+		 	  Titulares DOBLE_COBERTURA EMPEZA EN LV
+		 	 ####################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Titulares DOBLE_COBERTURA EMPEZA EN LV");
+			titularesDobleCobertura = crucesService.titularesDobleCobertura();
+		 	
+		 	for(String lV: titularesDobleCobertura) {
+		 		logAplicacion.info(lV);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + titularesDobleCobertura.size() + " registros.");
+		 			 			 
+		 	
+			/*############################# 
+		 	  Beneficiarios DOBLE_COBERTURA
+		 	 ############################## */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Beneficiarios DOBLE_COBERTURA");
+			beneficiarioDobleCoberturaMutualistas = crucesService.beneficiarioDobleCoberturaMutualistas();
+		 	
+		 	for(String bdm: beneficiarioDobleCoberturaMutualistas) {
+		 		logAplicacion.info(bdm);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + beneficiarioDobleCoberturaMutualistas.size() + " registros.");
+
+		 	
+			/*################################## 
+		 	  Titulares INDICADOR_CONVENIO_RURAL
+		 	 ################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Titulares INDICADOR_CONVENIO_RURAL");
+			titularesIndicadorConvenioRural = crucesService.titularesIndicadorConvenioRural();
+		 	
+		 	for(String tIndRural: titularesIndicadorConvenioRural) {
+		 		logAplicacion.info(tIndRural);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + titularesIndicadorConvenioRural.size() + " registros.");
+
+
+		 	
+			/*###################################### 
+		 	  Beneficiarios INDICADOR_CONVENIO_RURAL
+		 	 ####################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Beneficiarios INDICADOR_CONVENIO_RURAL");
+			beneficiadioIndicadorConvenioRural = crucesService.beneficiadioIndicadorConvenioRural();
+		 	
+		 	for(String bICR: beneficiadioIndicadorConvenioRural) {
+		 		logAplicacion.info(bICR);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + beneficiadioIndicadorConvenioRural.size() + " registros.");
+		 	
+		 			 	
+			/*################################## 
+		 	  REGULAR_PRIVADO -> REGULAR_PUBLICO
+		 	 ################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> REGULAR_PRIVADO -> REGULAR_PUBLICO");
+			privadoRegularPublico = crucesService.privadoRegularPublico();
+		 	
+		 	for(String pRp: privadoRegularPublico) {
+		 		logAplicacion.info(pRp);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + privadoRegularPublico.size() + " registros.");
+		 	
+		 			 	
+			/*#################################### 
+		 	  REGULAR_PRIVADO -> IRREGULAR_PUBLICO
+		 	 ##################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> REGULAR_PRIVADO -> IRREGULAR_PUBLICO");
+			privadoIrregularPublico = crucesService.privadoIrregularPublico();
+		 	
+		 	for(String pIp: privadoIrregularPublico) {
+		 		logAplicacion.info(pIp);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + privadoIrregularPublico.size() + " registros.");	
+		 	
+		 	
+			/*############################ 
+		 	  REGULAR_PRIVADO -> NO_EXISTE
+		 	 #############################*/
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> REGULAR_PRIVADO -> NO_EXISTE");
+			privadoNoExiste = crucesService.privadoNoExiste();
+		 	
+		 	for(String pNe: privadoNoExiste) {
+		 		logAplicacion.info(pNe);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + privadoNoExiste.size() + " registros.");	
+		 	
+		 	
+			/*######################################################## 
+		 	  Alta y Modificación de Titulares con DOBLE_COBERTURA '1'
+		 	 ######################################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Alta y Modificación de Titulares con DOBLE_COBERTURA '1'");
+			altaModificacionTitularesDobleCobertura = crucesService.altaModificacionTitularesDobleCobertura();
+		 	
+		 	for(String altaModTitu: altaModificacionTitularesDobleCobertura) {
+		 		logAplicacion.info(altaModTitu);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + altaModificacionTitularesDobleCobertura.size() + " registros.");	
+		 	
+		 	
+			/*#################################### 
+		 	  IRREGULAR_PRIVADO -> REGULAR_PUBLICO
+		 	 ##################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> IRREGULAR_PRIVADO -> REGULAR_PUBLICO");
+			irregularPrivadoRegularPublico = crucesService.irregularPrivadoRegularPublico();
+		 	
+		 	for(String irreguPriva: irregularPrivadoRegularPublico) {
+		 		logAplicacion.info(irreguPriva);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + irregularPrivadoRegularPublico.size() + " registros.");	
+		 			 	
+		 	
+			/*###################################### 
+		 	  IRREGULAR_PRIVADO -> IRREGULAR_PUBLICO
+		 	 ####################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> IRREGULAR_PRIVADO -> IRREGULAR_PUBLICO");
+			irregularPrivadoIrregularPublico = crucesService.irregularPrivadoIrregularPublico();
+		 	
+		 	for(String irreguPrivaIrre: irregularPrivadoIrregularPublico) {
+		 		logAplicacion.info(irreguPrivaIrre);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + irregularPrivadoIrregularPublico.size() + " registros.");	
+		 			 
+		 	
+			/*############################## 
+		 	  IRREGULAR_PRIVADO -> NO_EXISTE
+		 	 ############################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> IRREGULAR_PRIVADO -> NO_EXISTE");
+			irregularPrivadoNoExiste = crucesService.irregularPrivadoNoExiste();
+		 	
+		 	for(String irreguPrivaNo: irregularPrivadoNoExiste) {
+		 		logAplicacion.info(irreguPrivaNo);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + irregularPrivadoNoExiste.size() + " registros.");
+		 			 	
+		 	
+			/*######################################################## 
+		 	  Alta y Modificación de Titulares con DOBLE_COBERTURA '2'
+		 	 ######################################################### */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Alta y Modificación de Titulares con DOBLE_COBERTURA '2'");
+			altaModificaTitualresDobleCoberturaDos = crucesService.altaModificaTitualresDobleCoberturaDos();
+		 	
+		 	for(String altModiTitu: altaModificaTitualresDobleCoberturaDos) {
+		 		logAplicacion.info(altModiTitu);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + altaModificaTitualresDobleCoberturaDos.size() + " registros.");
+		 	
+		 	
+			/*######################################### 
+		 	  Listado de registros del tipo "No existe"
+		 	 ########################################## */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Listado de registros del tipo 'No existe'");
+			listadoRegistroNoExiste = crucesService.listadoRegistroNoExiste();
+			listadoRegistroNoExisteDos = crucesService.listadoRegistroNoExisteDos();
+		 	
+		 	for(String listRegNoEx: listadoRegistroNoExiste) {
+		 		logAplicacion.info(listRegNoEx);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + listadoRegistroNoExiste.size() + " registros.");
+		 			 	
+		 	
+
+			/*######################################################### 
+		 	  Baja por defunción con doble cobertura PRIVADO -> PUBLICO
+		 	 ########################################################## */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Baja por defunción con doble cobertura PRIVADO -> PUBLICO");
+			bajaPorDefuncionPrivadoPublico = crucesService.bajaPorDefuncionPrivadoPublico();
+		 	
+		 	for(String bajaDefPri: bajaPorDefuncionPrivadoPublico) {
+		 		logAplicacion.info(bajaDefPri);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + bajaPorDefuncionPrivadoPublico.size() + " registros.");
+		 	
+		 	
+			/*########################################################### 
+		 	  Baja por defunción con doble cobertura PRIVADO -> NO EXISTE
+		 	 ############################################################ */
+			
+		 	logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> Baja por defunción con doble cobertura PRIVADO -> NO EXISTE");
+			bajaPorDefuncionPrivadoNoExiste = crucesService.bajaPorDefuncionPrivadoNoExiste();
+		 	
+		 	for(String bajaDefPri: bajaPorDefuncionPrivadoNoExiste) {
+		 		logAplicacion.info(bajaDefPri);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + bajaPorDefuncionPrivadoNoExiste.size() + " registros.");
+		 	
+		 	
 		 	
 		 	// Se pasa la informacíon a la clase que crea los ficheros excel.
 		 	HojaUnoExcel excel = new HojaUnoExcel();
@@ -390,10 +703,12 @@ public class SnsCrucesController {
 		 	informeAltaCruzado, codTipoAsegurado, titDobleCobertura, beneDobleCobertura, tipoIdentificadorMutualistas,tipoMovimientoMutualista,
 		 	protegidoTipAseguramientoAndTipMovimientoMutualistas, registrosIpfNuloMutualistas,informeAltCruzadoConSegSocialFinalMutualistas,  
 		 	codTipoAseguradoMutualistas, regimenGeneral, bajaTitulares, totalEnvioInssAv, bajasVinculadosSns, mutualistasPrivados, bajaPorDefuncion, 
-		 	aseguramiento, indicadorFarmacia, codigoBadasRepetido);
+		 	aseguramiento, indicadorFarmacia, codigoBadasRepetido,altaSinNaf,cambiosIpf,ipfNuevoExisteInssTit,ipfAnteriorNoExisteInssMut,ipfNuevoExiteInssMut,
+		 	titularesDobleCobertura, beneficiarioDobleCoberturaMutualistas, titularesIndicadorConvenioRural,beneficiadioIndicadorConvenioRural, privadoRegularPublico, 
+		 	privadoIrregularPublico,privadoNoExiste, altaModificacionTitularesDobleCobertura, irregularPrivadoRegularPublico, irregularPrivadoIrregularPublico,
+		 	irregularPrivadoNoExiste,altaModificaTitualresDobleCoberturaDos,listadoRegistroNoExiste,listadoRegistroNoExisteDos,bajaPorDefuncionPrivadoPublico, 
+		 	bajaPorDefuncionPrivadoNoExiste);
 		 	
-		 	
-	 	
 		 	
 		} catch (Exception e) {
 			logAplicacion.error(e.getMessage(), e);
