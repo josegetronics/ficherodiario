@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
 import com.getronics.ficherodiario.models.service.ICrucesUrgentesService;
+import com.getronics.ficherodiario.util.HojaDatosUno;
 import com.getronics.ficherodiario.util.HojaUnoExcel;
 
 import java.util.ArrayList;
@@ -402,11 +403,23 @@ public class SnsCrucesController {
 		return "inicio";
 	}
 	
-	@GetMapping("/ejecutarHojaDos")
+	@GetMapping("/ejecutarHojaDatosUno")
 	public String hoja2(RedirectAttributes flash, SessionStatus status, Model model) {		
 
 		try{
-			logAplicacion.info("LÓGICA DE NEGOCIO NO IMPLEMENTADA.");	 		 
+			List<String> datosUno = null;	
+			
+			logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> DATOS 1");
+			datosUno = crucesService.datosUno();	 
+			
+			for(String dato: datosUno) {
+		 		logAplicacion.info(dato);		 		
+		 	}
+		 	logAplicacion.info("Existe un total de " + datosUno.size() + " registros.");
+			
+			HojaDatosUno excel = new HojaDatosUno();
+			excel.crearHojaExcel(datosUno);
 		 	
 		}catch (Exception e) {
 			logAplicacion.error(e.getMessage(), e);

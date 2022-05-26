@@ -185,7 +185,28 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			" having count(*) > 1 )order by s2.CODIGO_BADAS", nativeQuery = true)
 	List<String> codigoBadasRepetido();
 	
+	/* ############################### 
+	  			"DATOS 1"  
+	  ################################ */ 
 	
+	@Query(value="SELECT * FROM (\n"
+			+ "SELECT *\n"
+			+ "FROM (select *\n"
+			+ "from Z_INSS_MOV_SEP_25 s2\n"
+			+ "where S2.DNI_NIE in (select S.DNI_NIE\n"
+			+ "from Z_INSS_MOV_SEP_25 s\n"
+			+ "WHERE S.TIPO_MOVIMIENTO = 'B'\n"
+			+ "and S.COD_TIPO_ASEGURADO = 'T'\n"
+			+ "and S.MOTIVO_BAJA = 03))\n"
+			+ "order by DNI_NIE)\n"
+			+ "UNION ALL\n"
+			+ "select *\n"
+			+ "from Z_INSS_MOV_SEP_25 s\n"
+			+ "WHERE S.TIPO_MOVIMIENTO = 'B'\n"
+			+ "and S.COD_TIPO_ASEGURADO = 'T'\n"
+			+ "and S.MOTIVO_BAJA = 03\n"
+			+ "and S.DNI_NIE is NULL", nativeQuery = true)
+	List<String> datosUno();
 	
 	
 	

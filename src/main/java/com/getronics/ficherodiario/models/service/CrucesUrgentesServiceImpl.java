@@ -171,6 +171,16 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 		return crucesUrgentesDao.codigoBadasRepetido();
 	}
 
+	/* ############################### 
+	  			"DATOS 1"  
+	  ################################ */ 
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> datosUno() {
+		return crucesUrgentesDao.datosUno();
+	}
+
 	
 
 

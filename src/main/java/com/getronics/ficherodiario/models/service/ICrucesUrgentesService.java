@@ -75,6 +75,13 @@ public interface ICrucesUrgentesService {
 	  ################################ */ 
 	
 	List<String> codigoBadasRepetido();
+	
+	
+	/* ############################### 
+	  			"DATOS 1"  
+	  ################################ */ 
+	
+	List<String> datosUno();
 
 	
 	
