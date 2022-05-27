@@ -153,24 +153,35 @@ public class HojaUnoExcel {
 
 		int rowNum = 1;
 		int celda;
-		
-		for (String a : tipoIdentificador) {
-			String[] separar = a.split(",");			
-			row = sheet.createRow(rowNum++);
-			int i = 0;
-			row.createCell(0).setCellValue(separar[i]);
-			i++;
-			row.createCell(1).setCellValue(separar[i]);
-			
-		}
+		int ultimaCelda = 0;
 
+		for (String a : tipoIdentificador) {
+			String[] separar = a.split(",");
+			row = sheet.createRow(rowNum++);
+
+			int i;
+
+			for (i = 0; i < separar.length; i++) {
+				boolean isNumeric = separar[i].chars().allMatch( Character::isDigit );
+				if(isNumeric == true){
+					Integer n = Integer.parseInt(separar[i]);
+					row.createCell(i).setCellValue(n);
+				}else {				
+				row.createCell(i).setCellValue(separar[i]);
+				}
+			}
+			ultimaCelda = i;
+		}
+		
 		// Se crea un indice para comparar con las filas.
 		int indexMovimiento = 1;
-
+		int j = 0;
+		
 		for (String a : tipoMovimiento) {
 			String[] separar = a.split(",");
-			int i = 0;
-			
+
+			int i;
+
 			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexMovimiento <= tipoIdentificador.size())
 				row = sheet.getRow(indexMovimiento++);
@@ -178,30 +189,27 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexMovimiento++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(2).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(3).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(4).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(5).setCellValue(separar[i]);
+			for (j = ultimaCelda; j <= separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							Integer n = Integer.parseInt(separar[i]);
+							row.createCell(j).setCellValue(n);
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
 			}
 		}
+		ultimaCelda = j-1;		
+		celda = ultimaCelda;
 
 		int indexProtegidoTip = 1;
 
@@ -217,31 +225,30 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexProtegidoTip++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(6).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(7).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(8).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(9).setCellValue(separar[i]);
-			}
-		}
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
 
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							Integer n = Integer.parseInt(separar[i]);
+							row.createCell(j).setCellValue(n);
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
+		}
+		ultimaCelda = celda;
+
+		
 		int indexRegiIpfNulo = 1;
 
 		for (String a : registroIpfNulo) {
@@ -258,31 +265,48 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexRegiIpfNulo++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(10).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(11).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(12).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(13).setCellValue(separar[i]);
-			}
-		}
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
 
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							Integer n = Integer.parseInt(separar[i]);
+							row.createCell(j).setCellValue(n);
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
+		}
+		ultimaCelda = celda;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		int indexInforAltCruzado = 1;
 
 		for (String a : informeAltaCruzado) {
