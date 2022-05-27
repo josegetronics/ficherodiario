@@ -2,6 +2,7 @@ package com.getronics.ficherodiario.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -154,7 +155,7 @@ public class HojaUnoExcel {
 		int rowNum = 1;
 		int celda;
 		int ultimaCelda = 0;
-
+		
 		for (String a : tipoIdentificador) {
 			String[] separar = a.split(",");
 			row = sheet.createRow(rowNum++);
@@ -162,17 +163,23 @@ public class HojaUnoExcel {
 			int i;
 
 			for (i = 0; i < separar.length; i++) {
-				boolean isNumeric = separar[i].chars().allMatch( Character::isDigit );
-				if(isNumeric == true){
-					Integer n = Integer.parseInt(separar[i]);
-					row.createCell(i).setCellValue(n);
-				}else {				
-				row.createCell(i).setCellValue(separar[i]);
+				boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+				if (isNumeric == true) {
+					if (separar[i].length() <= 10) {
+						Integer n = Integer.parseInt(separar[i]);
+						row.createCell(i).setCellValue(n);
+					} else {
+						DecimalFormat df = new DecimalFormat("0");
+						Long n;
+						row.createCell(i).setCellValue(df.format(n = Long.parseLong(separar[i])));
+					}
+				} else {
+					row.createCell(i).setCellValue(separar[i]);
 				}
 			}
 			ultimaCelda = i;
 		}
-		
+
 		// Se crea un indice para comparar con las filas.
 		int indexMovimiento = 1;
 		int j = 0;
@@ -198,8 +205,14 @@ public class HojaUnoExcel {
 						separar[i] = "";
 					} else {
 						if (isNumeric == true) {
-							Integer n = Integer.parseInt(separar[i]);
-							row.createCell(j).setCellValue(n);
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
 						} else {
 							row.createCell(j).setCellValue(separar[i]);
 						}
@@ -234,8 +247,14 @@ public class HojaUnoExcel {
 						separar[i] = "";
 					} else {
 						if (isNumeric == true) {
-							Integer n = Integer.parseInt(separar[i]);
-							row.createCell(j).setCellValue(n);
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
 						} else {
 							row.createCell(j).setCellValue(separar[i]);
 						}
@@ -274,8 +293,14 @@ public class HojaUnoExcel {
 						separar[i] = "";
 					} else {
 						if (isNumeric == true) {
-							Integer n = Integer.parseInt(separar[i]);
-							row.createCell(j).setCellValue(n);
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
 						} else {
 							row.createCell(j).setCellValue(separar[i]);
 						}
@@ -287,24 +312,6 @@ public class HojaUnoExcel {
 			celda = ultimaCelda+separar.length;
 		}
 		ultimaCelda = celda;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		int indexInforAltCruzado = 1;
@@ -324,24 +331,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexInforAltCruzado++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(14).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(15).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(16).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexCodTipAseg = 1;
 
@@ -360,18 +377,35 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexCodTipAseg++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(17).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(18).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;			
+			
 
 		int indexTitDoCob = 1;
 
@@ -391,18 +425,28 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexTitDoCob++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(19).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							Integer n = Integer.parseInt(separar[i]);
+							row.createCell(j).setCellValue(n);
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(20).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexBeneDobCob = 1;
 
@@ -422,18 +466,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBeneDobCob++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(21).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(22).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		/* QUERYS MUTUALISTAS. */
 
@@ -456,18 +516,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexTiIdMut++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(23).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(24).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexTipMoviMut = 1;
 
@@ -489,30 +565,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexTipMoviMut++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(25).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(26).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(27).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(28).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexProtegidoTipAseg = 1;
 
@@ -537,30 +617,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexProtegidoTipAseg++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(29).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(30).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(31).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(32).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexRegIpfNu = 1;
 
@@ -568,7 +652,7 @@ public class HojaUnoExcel {
 			String[] separar = a.split(",");
 
 			int i = 0;
-			
+
 			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexRegIpfNu <= tipoIdentificador.size() || indexRegIpfNu <= tipoMovimiento.size()
 					|| indexRegIpfNu <= protegidoTipAseguramientoAndTipMovimiento.size()
@@ -584,44 +668,47 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexRegIpfNu++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(33).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(34).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(35).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(36).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexInfFin = 1;
+		
+		// ES VACÍO Y NO ESTÁ CONTANDO LA POSICIÓN.
+		
+		if (informeAltCruzadoConSegSocialFinalMutualistas.isEmpty()) {
 
-		for (String a : informeAltCruzadoConSegSocialFinalMutualistas) {
-			String[] separar = a.split(",");
-
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexInfFin <= tipoIdentificador.size() || indexInfFin <= tipoMovimiento.size()
 					|| indexInfFin <= protegidoTipAseguramientoAndTipMovimiento.size()
 					|| indexInfFin <= registroIpfNulo.size() || indexInfFin <= informeAltaCruzado.size()
 					|| indexInfFin <= codTipoAsegurado.size() || indexInfFin <= titDobleCobertura.size()
-					|| indexInfFin <= beneDobleCobertura.size() || indexInfFin <= tipoIdentificadorMutualistas.size()
+					|| indexInfFin <= beneDobleCobertura.size()
+					|| indexInfFin <= tipoIdentificadorMutualistas.size()
 					|| indexInfFin <= tipoMovimientoMutualista.size()
 					|| indexInfFin <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
 					|| indexInfFin <= registrosIpfNuloMutualistas.size())
@@ -630,25 +717,64 @@ public class HojaUnoExcel {
 			else
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexInfFin++);
+			
+			row.createCell(37).setCellValue("");
+			row.createCell(38).setCellValue("");
+			row.createCell(39).setCellValue("");
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(37).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(38).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(39).setCellValue(separar[i]);
+			celda = ultimaCelda + 3;
+		} else {
+
+			for (String a : informeAltCruzadoConSegSocialFinalMutualistas) {
+				String[] separar = a.split(",");
+
+				int i = 0;
+
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (indexInfFin <= tipoIdentificador.size() || indexInfFin <= tipoMovimiento.size()
+						|| indexInfFin <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| indexInfFin <= registroIpfNulo.size() || indexInfFin <= informeAltaCruzado.size()
+						|| indexInfFin <= codTipoAsegurado.size() || indexInfFin <= titDobleCobertura.size()
+						|| indexInfFin <= beneDobleCobertura.size()
+						|| indexInfFin <= tipoIdentificadorMutualistas.size()
+						|| indexInfFin <= tipoMovimientoMutualista.size()
+						|| indexInfFin <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| indexInfFin <= registrosIpfNuloMutualistas.size())
+
+					row = sheet.getRow(indexInfFin++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(indexInfFin++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
+						} else {
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
+						}
+						j++;
+					}
+					j = 0;
+				}
+				celda = ultimaCelda + separar.length;
 			}
 		}
+		ultimaCelda = celda;
 
 		int indexCod = 1;
 
@@ -673,18 +799,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexCod++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(40).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(41).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		// Regimen General
 
@@ -712,24 +854,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexRegGen++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(42).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(43).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(44).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexbajaTitulares = 1;
 
@@ -757,18 +909,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexbajaTitulares++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(45).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(46).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 
 		int indexTotEnvInssAv = 1;
 
@@ -796,12 +964,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexTotEnvInssAv++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(47).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 		
 		int indexBajasVinculadosSns = 1;
 
@@ -830,18 +1020,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBajasVinculadosSns++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(48).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(49).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 		
 		int indexMutualistasPrivados = 1;
 
@@ -870,24 +1076,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexMutualistasPrivados++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(50).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(51).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(52).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 				
 		int indexBajaPorDefuncion = 1;
 
@@ -917,18 +1133,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBajaPorDefuncion++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(53).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(54).setCellValue(separar[i]);
-			}			
-		}		
+			celda = ultimaCelda+separar.length;
+		}
+		ultimaCelda = celda;		
 		
 		int indexAseguramiento = 1;
 
@@ -958,24 +1190,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexAseguramiento++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(55).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(56).setCellValue(separar[i]);
-			}		
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(57).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 		
 		
 		int indexIndicadorFarmacia = 1;
@@ -1007,30 +1249,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexIndicadorFarmacia++);
 
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(58).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(59).setCellValue(separar[i]);
-			}		
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(60).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(61).setCellValue(separar[i]);
-			}
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 		
 		
 		int codigoBadas = 1;		
@@ -1061,278 +1307,37 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(codigoBadas++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(62).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(63).setCellValue(separar[i]);
-			}		
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(64).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(65).setCellValue(separar[i]);			
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(66).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(67).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(68).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(69).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(70).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(71).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(72).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(73).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(74).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(75).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(76).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(77).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(78).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(79).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(80).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(81).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(82).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(83).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(84).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(85).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(86).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(87).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(88).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(89).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(90).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(91).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(92).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(93).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(94).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(95).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(96).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(97).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(98).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(99).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(100).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(101).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(102).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(103).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(104).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(105).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(106).setCellValue(separar[i]);
-			}				
-		}
-		
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
 
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
+		}
+		ultimaCelda = celda;
+		
+		// AQUI		
+		
 		int altaSNaf = 1;		
 		
 		for (String a : altasSinNaf) {
@@ -1363,282 +1368,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(altaSNaf++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(107).setCellValue(separar[i]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(108).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(109).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(110).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(111).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(112).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(113).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(114).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(115).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(116).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(117).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(118).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(119).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(120).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(121).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(122).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(123).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(124).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(125).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(126).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(127).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(128).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(129).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(130).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(131).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(132).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(133).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(134).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(135).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(136).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(137).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(138).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(139).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(140).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(141).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(142).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(143).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(144).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(145).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(146).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(147).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(148).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(149).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(150).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(151).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(152).setCellValue(separar[i]);
-			}	
-		}	
+			celda = ultimaCelda+separar.length;
+		}
+		ultimaCelda = celda;	
 		
 		int cambioIpf = 1;		
 		
@@ -1670,276 +1427,34 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(cambioIpf++);
 			
-			if (separar[0].compareTo("null") == 0) {
-				separar[0] = "";
-			} else {
-				row.createCell(153).setCellValue(separar[0]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(154).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(155).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(156).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(157).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(158).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(159).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(160).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(161).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(162).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(163).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(164).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(165).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(166).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(167).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(168).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(169).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(170).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(171).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(172).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(173).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(174).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(175).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(176).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(177).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(178).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(179).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(180).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(181).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(182).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(183).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(184).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(185).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(186).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(187).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(188).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(189).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(190).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(191).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(192).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(193).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(194).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(195).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(196).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(197).setCellValue(separar[i]);
-			}	
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 						
 		int indexIpfNu = 1;		
 		
@@ -1972,984 +1487,435 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexIpfNu++);
 			
-			if (separar[0].compareTo("null") == 0) {
-				separar[0] = "";
-			} else {
-				row.createCell(198).setCellValue(separar[0]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(199).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(200).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(201).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(202).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(203).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(204).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(205).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(206).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(207).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(208).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(209).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(210).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(211).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(212).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(213).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(214).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(215).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(216).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(217).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(218).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(219).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(220).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(221).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(222).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(223).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(224).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(225).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(226).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(227).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(228).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(229).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(230).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(231).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(232).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(233).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(234).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(235).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(236).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(237).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(238).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(239).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(240).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(241).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(242).setCellValue(separar[i]);
-			}				
+			celda = ultimaCelda+separar.length;
 		}
+		ultimaCelda = celda;
 		
 		int indexipfAnteInssMut = 1;		
-		
-		for (String a : ipfAnteriorNoExisteInssMut) {
-			String[] separar = a.split(",");
 
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (indexipfAnteInssMut <= tipoIdentificador.size() || indexipfAnteInssMut <= tipoMovimiento.size()
-					|| indexipfAnteInssMut <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| indexipfAnteInssMut <= registroIpfNulo.size() || indexipfAnteInssMut <= informeAltaCruzado.size()
-					|| indexipfAnteInssMut <= codTipoAsegurado.size() || indexipfAnteInssMut <= titDobleCobertura.size()
-					|| indexipfAnteInssMut <= beneDobleCobertura.size()
-					|| indexipfAnteInssMut <= tipoIdentificadorMutualistas.size()
-					|| indexipfAnteInssMut <= tipoMovimientoMutualista.size()
-					|| indexipfAnteInssMut <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| indexipfAnteInssMut <= registrosIpfNuloMutualistas.size()
-					|| indexipfAnteInssMut <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| indexipfAnteInssMut <= codTipoAseguradoMutualistas.size()
-					|| indexipfAnteInssMut <= regimenGeneral.size() || indexipfAnteInssMut <= bajaTitulares.size()
-					|| indexipfAnteInssMut <= totalEnvioInssAv.size() || indexipfAnteInssMut <= bajasVinculadosSns.size()
-					|| indexipfAnteInssMut <= mutualistasPrivados.size() || indexipfAnteInssMut <= bajaPorDefuncion.size()
-					|| indexipfAnteInssMut <= aseguramiento.size() || indexipfAnteInssMut <= indicadorFarmacia.size()
-					|| indexipfAnteInssMut <= codigoBadasRepetido.size() || indexipfAnteInssMut <= altasSinNaf.size()
-					|| indexipfAnteInssMut <= cambiosIpf.size() || indexipfAnteInssMut <= ipfNuevoExisteInssTit.size() )
-				
-				row = sheet.getRow(indexipfAnteInssMut++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(indexipfAnteInssMut++);
-			
-			if (separar[0].compareTo("null") == 0) {
-				separar[0] = "";
-			} else {
-				row.createCell(243).setCellValue(separar[0]);
+		if (ipfAnteriorNoExisteInssMut.isEmpty()) {
+			row.createCell(243).setCellValue("");
+			row.createCell(244).setCellValue("");	
+			row.createCell(245).setCellValue("");
+			row.createCell(246).setCellValue("");
+			row.createCell(247).setCellValue("");
+			row.createCell(248).setCellValue("");
+			row.createCell(249).setCellValue("");
+			row.createCell(250).setCellValue("");
+			row.createCell(251).setCellValue("");
+			row.createCell(252).setCellValue("");
+			row.createCell(253).setCellValue("");
+			row.createCell(254).setCellValue("");
+			row.createCell(255).setCellValue("");
+			row.createCell(256).setCellValue("");
+			row.createCell(257).setCellValue("");
+			row.createCell(258).setCellValue("");
+			row.createCell(259).setCellValue("");
+			row.createCell(260).setCellValue("");
+			row.createCell(261).setCellValue("");
+			row.createCell(262).setCellValue("");
+			row.createCell(263).setCellValue("");
+			row.createCell(264).setCellValue("");
+			row.createCell(265).setCellValue("");
+			row.createCell(266).setCellValue("");
+			row.createCell(267).setCellValue("");
+			row.createCell(268).setCellValue("");
+			row.createCell(269).setCellValue("");
+			row.createCell(270).setCellValue("");
+			row.createCell(271).setCellValue("");
+			row.createCell(272).setCellValue("");
+			row.createCell(273).setCellValue("");
+			row.createCell(274).setCellValue("");
+			row.createCell(275).setCellValue("");
+			row.createCell(276).setCellValue("");
+			row.createCell(277).setCellValue("");
+			row.createCell(278).setCellValue("");
+			row.createCell(279).setCellValue("");
+			row.createCell(280).setCellValue("");
+			row.createCell(281).setCellValue("");
+			row.createCell(282).setCellValue("");
+			row.createCell(283).setCellValue("");
+			row.createCell(284).setCellValue("");
+			row.createCell(285).setCellValue("");
+			row.createCell(286).setCellValue("");
+			row.createCell(287).setCellValue("");		
+			celda = 287;
+		} else {
+			for (String a : ipfAnteriorNoExisteInssMut) {
+
+				String[] separar = a.split(",");
+
+				int i = 0;
+
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (indexipfAnteInssMut <= tipoIdentificador.size() || indexipfAnteInssMut <= tipoMovimiento.size()
+						|| indexipfAnteInssMut <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| indexipfAnteInssMut <= registroIpfNulo.size()
+						|| indexipfAnteInssMut <= informeAltaCruzado.size()
+						|| indexipfAnteInssMut <= codTipoAsegurado.size()
+						|| indexipfAnteInssMut <= titDobleCobertura.size()
+						|| indexipfAnteInssMut <= beneDobleCobertura.size()
+						|| indexipfAnteInssMut <= tipoIdentificadorMutualistas.size()
+						|| indexipfAnteInssMut <= tipoMovimientoMutualista.size()
+						|| indexipfAnteInssMut <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| indexipfAnteInssMut <= registrosIpfNuloMutualistas.size()
+						|| indexipfAnteInssMut <= informeAltCruzadoConSegSocialFinalMutualistas.size()
+						|| indexipfAnteInssMut <= codTipoAseguradoMutualistas.size()
+						|| indexipfAnteInssMut <= regimenGeneral.size() || indexipfAnteInssMut <= bajaTitulares.size()
+						|| indexipfAnteInssMut <= totalEnvioInssAv.size()
+						|| indexipfAnteInssMut <= bajasVinculadosSns.size()
+						|| indexipfAnteInssMut <= mutualistasPrivados.size()
+						|| indexipfAnteInssMut <= bajaPorDefuncion.size() || indexipfAnteInssMut <= aseguramiento.size()
+						|| indexipfAnteInssMut <= indicadorFarmacia.size()
+						|| indexipfAnteInssMut <= codigoBadasRepetido.size()
+						|| indexipfAnteInssMut <= altasSinNaf.size() || indexipfAnteInssMut <= cambiosIpf.size()
+						|| indexipfAnteInssMut <= ipfNuevoExisteInssTit.size())
+
+					row = sheet.getRow(indexipfAnteInssMut++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(indexipfAnteInssMut++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
+						} else {
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
+						}
+						j++;
+					}
+					j = 0;
+				}
+				celda = ultimaCelda + separar.length;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(244).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(245).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(246).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(247).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(248).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(249).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(250).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(251).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(252).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(253).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(254).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(255).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(256).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(257).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(258).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(259).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(260).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(261).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(262).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(263).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(264).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(265).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(266).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(267).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(268).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(269).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(270).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(271).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(272).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(273).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(274).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(275).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(276).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(277).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(278).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(279).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(280).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(281).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(282).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(283).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(284).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(285).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(286).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(287).setCellValue(separar[i]);
-			}	
 		}
+		ultimaCelda = celda;
 				
+		int indexIpfNuevoExiteInssMut = 1;
 
-		int indexIpfNuevoExiteInssMut = 1;		
-		
+		if (ipfNuevoExiteInssMut.isEmpty()) {
+			row.createCell(288).setCellValue("");
+			row.createCell(289).setCellValue("");
+			row.createCell(290).setCellValue("");
+			row.createCell(291).setCellValue("");
+			row.createCell(292).setCellValue("");
+			row.createCell(293).setCellValue("");
+			row.createCell(294).setCellValue("");
+			row.createCell(295).setCellValue("");
+			row.createCell(296).setCellValue("");
+			row.createCell(297).setCellValue("");
+			row.createCell(298).setCellValue("");
+			row.createCell(299).setCellValue("");
+			row.createCell(300).setCellValue("");
+			row.createCell(301).setCellValue("");
+			row.createCell(302).setCellValue("");
+			row.createCell(303).setCellValue("");
+			row.createCell(304).setCellValue("");
+			row.createCell(305).setCellValue("");
+			row.createCell(306).setCellValue("");
+			row.createCell(307).setCellValue("");
+			row.createCell(308).setCellValue("");
+			row.createCell(309).setCellValue("");
+			row.createCell(310).setCellValue("");
+			row.createCell(311).setCellValue("");
+			row.createCell(312).setCellValue("");
+			row.createCell(313).setCellValue("");
+			row.createCell(314).setCellValue("");
+			row.createCell(315).setCellValue("");
+			row.createCell(316).setCellValue("");
+			row.createCell(317).setCellValue("");
+			row.createCell(318).setCellValue("");
+			row.createCell(319).setCellValue("");
+			row.createCell(320).setCellValue("");
+			row.createCell(321).setCellValue("");
+			row.createCell(322).setCellValue("");
+			row.createCell(323).setCellValue("");
+			row.createCell(324).setCellValue("");
+			row.createCell(325).setCellValue("");
+			row.createCell(326).setCellValue("");
+			row.createCell(327).setCellValue("");
+			row.createCell(328).setCellValue("");
+			row.createCell(329).setCellValue("");
+			row.createCell(330).setCellValue("");
+			row.createCell(331).setCellValue("");
+			row.createCell(332).setCellValue("");				
+			// Query 8.2.2 celda KC a LU
+			celda = 333;
+		} else {
 		for (String a : ipfNuevoExiteInssMut) {
-			String[] separar = a.split(",");
+		
+				String[] separar = a.split(",");
 
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (indexIpfNuevoExiteInssMut <= tipoIdentificador.size() || indexIpfNuevoExiteInssMut <= tipoMovimiento.size()
-					|| indexIpfNuevoExiteInssMut <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| indexIpfNuevoExiteInssMut <= registroIpfNulo.size() || indexIpfNuevoExiteInssMut <= informeAltaCruzado.size()
-					|| indexIpfNuevoExiteInssMut <= codTipoAsegurado.size() || indexIpfNuevoExiteInssMut <= titDobleCobertura.size()
-					|| indexIpfNuevoExiteInssMut <= beneDobleCobertura.size()
-					|| indexIpfNuevoExiteInssMut <= tipoIdentificadorMutualistas.size()
-					|| indexIpfNuevoExiteInssMut <= tipoMovimientoMutualista.size()
-					|| indexIpfNuevoExiteInssMut <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| indexIpfNuevoExiteInssMut <= registrosIpfNuloMutualistas.size()
-					|| indexIpfNuevoExiteInssMut <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| indexIpfNuevoExiteInssMut <= codTipoAseguradoMutualistas.size()
-					|| indexIpfNuevoExiteInssMut <= regimenGeneral.size() || indexIpfNuevoExiteInssMut <= bajaTitulares.size()
-					|| indexIpfNuevoExiteInssMut <= totalEnvioInssAv.size() || indexIpfNuevoExiteInssMut <= bajasVinculadosSns.size()
-					|| indexIpfNuevoExiteInssMut <= mutualistasPrivados.size() || indexIpfNuevoExiteInssMut <= bajaPorDefuncion.size()
-					|| indexIpfNuevoExiteInssMut <= aseguramiento.size() || indexIpfNuevoExiteInssMut <= indicadorFarmacia.size()
-					|| indexIpfNuevoExiteInssMut <= codigoBadasRepetido.size() || indexIpfNuevoExiteInssMut <= altasSinNaf.size()
-					|| indexIpfNuevoExiteInssMut <= cambiosIpf.size() || indexIpfNuevoExiteInssMut <= ipfNuevoExisteInssTit.size() 
-					|| indexIpfNuevoExiteInssMut <= ipfAnteriorNoExisteInssMut.size())
-				
-				row = sheet.getRow(indexIpfNuevoExiteInssMut++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(indexIpfNuevoExiteInssMut++);
-			
-			if (separar[0].compareTo("null") == 0) {
-				separar[0] = "";
-			} else {
-				row.createCell(288).setCellValue(separar[0]);
+				int i = 0;
+
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (indexIpfNuevoExiteInssMut <= tipoIdentificador.size()
+						|| indexIpfNuevoExiteInssMut <= tipoMovimiento.size()
+						|| indexIpfNuevoExiteInssMut <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| indexIpfNuevoExiteInssMut <= registroIpfNulo.size()
+						|| indexIpfNuevoExiteInssMut <= informeAltaCruzado.size()
+						|| indexIpfNuevoExiteInssMut <= codTipoAsegurado.size()
+						|| indexIpfNuevoExiteInssMut <= titDobleCobertura.size()
+						|| indexIpfNuevoExiteInssMut <= beneDobleCobertura.size()
+						|| indexIpfNuevoExiteInssMut <= tipoIdentificadorMutualistas.size()
+						|| indexIpfNuevoExiteInssMut <= tipoMovimientoMutualista.size()
+						|| indexIpfNuevoExiteInssMut <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| indexIpfNuevoExiteInssMut <= registrosIpfNuloMutualistas.size()
+						|| indexIpfNuevoExiteInssMut <= informeAltCruzadoConSegSocialFinalMutualistas.size()
+						|| indexIpfNuevoExiteInssMut <= codTipoAseguradoMutualistas.size()
+						|| indexIpfNuevoExiteInssMut <= regimenGeneral.size()
+						|| indexIpfNuevoExiteInssMut <= bajaTitulares.size()
+						|| indexIpfNuevoExiteInssMut <= totalEnvioInssAv.size()
+						|| indexIpfNuevoExiteInssMut <= bajasVinculadosSns.size()
+						|| indexIpfNuevoExiteInssMut <= mutualistasPrivados.size()
+						|| indexIpfNuevoExiteInssMut <= bajaPorDefuncion.size()
+						|| indexIpfNuevoExiteInssMut <= aseguramiento.size()
+						|| indexIpfNuevoExiteInssMut <= indicadorFarmacia.size()
+						|| indexIpfNuevoExiteInssMut <= codigoBadasRepetido.size()
+						|| indexIpfNuevoExiteInssMut <= altasSinNaf.size()
+						|| indexIpfNuevoExiteInssMut <= cambiosIpf.size()
+						|| indexIpfNuevoExiteInssMut <= ipfNuevoExisteInssTit.size()
+						|| indexIpfNuevoExiteInssMut <= ipfAnteriorNoExisteInssMut.size())
+
+					row = sheet.getRow(indexIpfNuevoExiteInssMut++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(indexIpfNuevoExiteInssMut++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
+						} else {
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
+						}
+						j++;
+					}
+					j = 0;
+				}
+				celda = ultimaCelda + separar.length;
 			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(289).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(290).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(291).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(292).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(293).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(294).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(295).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(296).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(297).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(298).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(299).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(300).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(301).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(302).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(303).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(304).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(305).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(306).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(307).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(308).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(309).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(310).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(311).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(312).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(313).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(314).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(315).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(316).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(317).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(318).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(319).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(320).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(321).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(322).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(323).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(324).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(325).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(326).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(327).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(328).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(329).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(330).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(331).setCellValue(separar[i]);
-			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(332).setCellValue(separar[i]);
-			}	
-		}		
+		}
+		ultimaCelda = celda;	
 		
 		int indexTitDobleCobertura = 1;		
 		
-		for (String a : titularesDobleCobertura) {
-			String[] separar = a.split(",");
+		
+		if (titularesDobleCobertura.isEmpty()) {
 
-			int i = 0;
+			row.createCell(334).setCellValue("");
 			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (indexTitDobleCobertura <= tipoIdentificador.size() || indexTitDobleCobertura <= tipoMovimiento.size()
-					|| indexTitDobleCobertura <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| indexTitDobleCobertura <= registroIpfNulo.size() || indexTitDobleCobertura <= informeAltaCruzado.size()
-					|| indexTitDobleCobertura <= codTipoAsegurado.size() || indexTitDobleCobertura <= titDobleCobertura.size()
-					|| indexTitDobleCobertura <= beneDobleCobertura.size()
-					|| indexTitDobleCobertura <= tipoIdentificadorMutualistas.size()
-					|| indexTitDobleCobertura <= tipoMovimientoMutualista.size()
-					|| indexTitDobleCobertura <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| indexTitDobleCobertura <= registrosIpfNuloMutualistas.size()
-					|| indexTitDobleCobertura <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| indexTitDobleCobertura <= codTipoAseguradoMutualistas.size()
-					|| indexTitDobleCobertura <= regimenGeneral.size() || indexTitDobleCobertura <= bajaTitulares.size()
-					|| indexTitDobleCobertura <= totalEnvioInssAv.size() || indexTitDobleCobertura <= bajasVinculadosSns.size()
-					|| indexTitDobleCobertura <= mutualistasPrivados.size() || indexTitDobleCobertura <= bajaPorDefuncion.size()
-					|| indexTitDobleCobertura <= aseguramiento.size() || indexTitDobleCobertura <= indicadorFarmacia.size()
-					|| indexTitDobleCobertura <= codigoBadasRepetido.size() || indexTitDobleCobertura <= altasSinNaf.size()
-					|| indexTitDobleCobertura <= cambiosIpf.size() || indexTitDobleCobertura <= ipfNuevoExisteInssTit.size() 
-					|| indexTitDobleCobertura <= ipfAnteriorNoExisteInssMut.size() || indexTitDobleCobertura <= ipfNuevoExiteInssMut.size())
-				
-				row = sheet.getRow(indexTitDobleCobertura++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(indexTitDobleCobertura++);
-			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(333).setCellValue(separar[i]);
+			celda = 334;
+		} else {
+			for (String a : titularesDobleCobertura) {
+
+				String[] separar = a.split(",");
+
+				int i = 0;
+
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (indexTitDobleCobertura <= tipoIdentificador.size()
+						|| indexTitDobleCobertura <= tipoMovimiento.size()
+						|| indexTitDobleCobertura <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| indexTitDobleCobertura <= registroIpfNulo.size()
+						|| indexTitDobleCobertura <= informeAltaCruzado.size()
+						|| indexTitDobleCobertura <= codTipoAsegurado.size()
+						|| indexTitDobleCobertura <= titDobleCobertura.size()
+						|| indexTitDobleCobertura <= beneDobleCobertura.size()
+						|| indexTitDobleCobertura <= tipoIdentificadorMutualistas.size()
+						|| indexTitDobleCobertura <= tipoMovimientoMutualista.size()
+						|| indexTitDobleCobertura <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| indexTitDobleCobertura <= registrosIpfNuloMutualistas.size()
+						|| indexTitDobleCobertura <= informeAltCruzadoConSegSocialFinalMutualistas.size()
+						|| indexTitDobleCobertura <= codTipoAseguradoMutualistas.size()
+						|| indexTitDobleCobertura <= regimenGeneral.size()
+						|| indexTitDobleCobertura <= bajaTitulares.size()
+						|| indexTitDobleCobertura <= totalEnvioInssAv.size()
+						|| indexTitDobleCobertura <= bajasVinculadosSns.size()
+						|| indexTitDobleCobertura <= mutualistasPrivados.size()
+						|| indexTitDobleCobertura <= bajaPorDefuncion.size()
+						|| indexTitDobleCobertura <= aseguramiento.size()
+						|| indexTitDobleCobertura <= indicadorFarmacia.size()
+						|| indexTitDobleCobertura <= codigoBadasRepetido.size()
+						|| indexTitDobleCobertura <= altasSinNaf.size() || indexTitDobleCobertura <= cambiosIpf.size()
+						|| indexTitDobleCobertura <= ipfNuevoExisteInssTit.size()
+						|| indexTitDobleCobertura <= ipfAnteriorNoExisteInssMut.size()
+						|| indexTitDobleCobertura <= ipfNuevoExiteInssMut.size())
+
+					row = sheet.getRow(indexTitDobleCobertura++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(indexTitDobleCobertura++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
+						} else {
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
+						}
+						j++;
+					}
+					j = 0;
+				}
+				celda = ultimaCelda + separar.length;
 			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(334).setCellValue(separar[i]);
-			}				
 		}
+		ultimaCelda = celda;
 		
 
 		
 	int indexBeneDob = 1;		
 		
+	
+	if (beneficiarioDobleCoberturaMutualistas.isEmpty()) {
+		row.createCell(335).setCellValue("");
+		row.createCell(336).setCellValue("");
+		celda = 336;
+	} else {
 		for (String a : beneficiarioDobleCoberturaMutualistas) {
+
 			String[] separar = a.split(",");
 
 			int i = 0;
-			
+
 			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexBeneDob <= tipoIdentificador.size() || indexBeneDob <= tipoMovimiento.size()
 					|| indexBeneDob <= protegidoTipAseguramientoAndTipMovimiento.size()
 					|| indexBeneDob <= registroIpfNulo.size() || indexBeneDob <= informeAltaCruzado.size()
 					|| indexBeneDob <= codTipoAsegurado.size() || indexBeneDob <= titDobleCobertura.size()
-					|| indexBeneDob <= beneDobleCobertura.size()
-					|| indexBeneDob <= tipoIdentificadorMutualistas.size()
+					|| indexBeneDob <= beneDobleCobertura.size() || indexBeneDob <= tipoIdentificadorMutualistas.size()
 					|| indexBeneDob <= tipoMovimientoMutualista.size()
 					|| indexBeneDob <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
 					|| indexBeneDob <= registrosIpfNuloMutualistas.size()
 					|| indexBeneDob <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| indexBeneDob <= codTipoAseguradoMutualistas.size()
-					|| indexBeneDob <= regimenGeneral.size() || indexBeneDob <= bajaTitulares.size()
-					|| indexBeneDob <= totalEnvioInssAv.size() || indexBeneDob <= bajasVinculadosSns.size()
-					|| indexBeneDob <= mutualistasPrivados.size() || indexBeneDob <= bajaPorDefuncion.size()
-					|| indexBeneDob <= aseguramiento.size() || indexBeneDob <= indicadorFarmacia.size()
-					|| indexBeneDob <= codigoBadasRepetido.size() || indexBeneDob <= altasSinNaf.size()
-					|| indexBeneDob <= cambiosIpf.size() || indexBeneDob <= ipfNuevoExisteInssTit.size() 
-					|| indexBeneDob <= ipfAnteriorNoExisteInssMut.size() || indexBeneDob <= ipfNuevoExiteInssMut.size()
-					|| indexBeneDob <= titularesDobleCobertura.size())
-				
+					|| indexBeneDob <= codTipoAseguradoMutualistas.size() || indexBeneDob <= regimenGeneral.size()
+					|| indexBeneDob <= bajaTitulares.size() || indexBeneDob <= totalEnvioInssAv.size()
+					|| indexBeneDob <= bajasVinculadosSns.size() || indexBeneDob <= mutualistasPrivados.size()
+					|| indexBeneDob <= bajaPorDefuncion.size() || indexBeneDob <= aseguramiento.size()
+					|| indexBeneDob <= indicadorFarmacia.size() || indexBeneDob <= codigoBadasRepetido.size()
+					|| indexBeneDob <= altasSinNaf.size() || indexBeneDob <= cambiosIpf.size()
+					|| indexBeneDob <= ipfNuevoExisteInssTit.size() || indexBeneDob <= ipfAnteriorNoExisteInssMut.size()
+					|| indexBeneDob <= ipfNuevoExiteInssMut.size() || indexBeneDob <= titularesDobleCobertura.size())
+
 				row = sheet.getRow(indexBeneDob++);
 			else
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBeneDob++);
-			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(335).setCellValue(separar[i]);
+
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(336).setCellValue(separar[i]);
-			}				
+			celda = ultimaCelda + separar.length;
 		}
+	}
+	ultimaCelda = celda;
 		
-		
-	int indexTituIndCoRu = 1;		
-		
+
+	
+	int indexTituIndCoRu = 1;
+	if (titularesIndicadorConvenioRural.isEmpty()) {
+		row.createCell(337).setCellValue("");
+		row.createCell(338).setCellValue("");
+
+		celda = 338;
+	} else {
 		for (String a : titularesIndicadorConvenioRural) {
+
 			String[] separar = a.split(",");
 
-			int i =0;
-			
+			int i = 0;
+
 			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexTituIndCoRu <= tipoIdentificador.size() || indexTituIndCoRu <= tipoMovimiento.size()
 					|| indexTituIndCoRu <= protegidoTipAseguramientoAndTipMovimiento.size()
@@ -2967,36 +1933,62 @@ public class HojaUnoExcel {
 					|| indexTituIndCoRu <= mutualistasPrivados.size() || indexTituIndCoRu <= bajaPorDefuncion.size()
 					|| indexTituIndCoRu <= aseguramiento.size() || indexTituIndCoRu <= indicadorFarmacia.size()
 					|| indexTituIndCoRu <= codigoBadasRepetido.size() || indexTituIndCoRu <= altasSinNaf.size()
-					|| indexTituIndCoRu <= cambiosIpf.size() || indexTituIndCoRu <= ipfNuevoExisteInssTit.size() 
-					|| indexTituIndCoRu <= ipfAnteriorNoExisteInssMut.size() || indexTituIndCoRu <= ipfNuevoExiteInssMut.size()
-					|| indexTituIndCoRu <= titularesDobleCobertura.size() || indexTituIndCoRu <= beneficiarioDobleCoberturaMutualistas.size())
-				
+					|| indexTituIndCoRu <= cambiosIpf.size() || indexTituIndCoRu <= ipfNuevoExisteInssTit.size()
+					|| indexTituIndCoRu <= ipfAnteriorNoExisteInssMut.size()
+					|| indexTituIndCoRu <= ipfNuevoExiteInssMut.size()
+					|| indexTituIndCoRu <= titularesDobleCobertura.size()
+					|| indexTituIndCoRu <= beneficiarioDobleCoberturaMutualistas.size())
+
 				row = sheet.getRow(indexTituIndCoRu++);
 			else
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexTituIndCoRu++);
-			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(337).setCellValue(separar[i]);
+
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(338).setCellValue(separar[i]);
-			}				
+			celda = ultimaCelda + separar.length;
 		}
-		
+	}
+		ultimaCelda = celda;
 		
 	int indexBenIndCoRural = 1;		
 		
+	if (beneficiadioIndicadorConvenioRural.isEmpty()) {	
+		row.createCell(339).setCellValue("");
+		row.createCell(340).setCellValue("");
+		
+		celda = 340;
+	} else {
+
 		for (String a : beneficiadioIndicadorConvenioRural) {
+
 			String[] separar = a.split(",");
 
 			int i = 0;
-			
+
 			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexBenIndCoRural <= tipoIdentificador.size() || indexBenIndCoRural <= tipoMovimiento.size()
 					|| indexBenIndCoRural <= protegidoTipAseguramientoAndTipMovimiento.size()
@@ -3014,32 +2006,57 @@ public class HojaUnoExcel {
 					|| indexBenIndCoRural <= mutualistasPrivados.size() || indexBenIndCoRural <= bajaPorDefuncion.size()
 					|| indexBenIndCoRural <= aseguramiento.size() || indexBenIndCoRural <= indicadorFarmacia.size()
 					|| indexBenIndCoRural <= codigoBadasRepetido.size() || indexBenIndCoRural <= altasSinNaf.size()
-					|| indexBenIndCoRural <= cambiosIpf.size() || indexBenIndCoRural <= ipfNuevoExisteInssTit.size() 
-					|| indexBenIndCoRural <= ipfAnteriorNoExisteInssMut.size() || indexBenIndCoRural <= ipfNuevoExiteInssMut.size()
-					|| indexBenIndCoRural <= titularesDobleCobertura.size() || indexBenIndCoRural <= beneficiarioDobleCoberturaMutualistas.size()
+					|| indexBenIndCoRural <= cambiosIpf.size() || indexBenIndCoRural <= ipfNuevoExisteInssTit.size()
+					|| indexBenIndCoRural <= ipfAnteriorNoExisteInssMut.size()
+					|| indexBenIndCoRural <= ipfNuevoExiteInssMut.size()
+					|| indexBenIndCoRural <= titularesDobleCobertura.size()
+					|| indexBenIndCoRural <= beneficiarioDobleCoberturaMutualistas.size()
 					|| indexBenIndCoRural <= titularesIndicadorConvenioRural.size())
-				
+
 				row = sheet.getRow(indexBenIndCoRural++);
 			else
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBenIndCoRural++);
-			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(339).setCellValue(separar[i]);
+
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i ++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(340).setCellValue(separar[i]);
-			}				
+			celda = ultimaCelda + separar.length;
 		}
+	}
+		ultimaCelda = celda;
 		
 	int indexPrivadoRegularPublico = 1;		
-		
+
+	if (privadoRegularPublico.isEmpty()) {
+		row.createCell(341).setCellValue("");
+		celda = 341;
+	}else {
 		for (String a : privadoRegularPublico) {
+			
+
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3071,17 +2088,46 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexPrivadoRegularPublico++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(341).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 		
 				
 	int indexPrivadoIrregularPublico = 1;		
 		
+	if (privadoIrregularPublico.isEmpty()) {
+		row.createCell(342).setCellValue("");
+		celda = 342;
+	}else {
 		for (String a : privadoIrregularPublico) {
+			
+
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3114,17 +2160,46 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexPrivadoIrregularPublico++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(342).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 		
 		
 	int indexPrivadoNoExiste = 1;		
 		
+	if(privadoNoExiste.isEmpty()) {
+		row.createCell(343).setCellValue("");
+		celda = 343;
+	}else {
 		for (String a : privadoNoExiste) {
+			
+
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3157,17 +2232,46 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexPrivadoNoExiste++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(343).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 				
 		
 	int indexAltaModifTitDoCo = 1;		
 		
+	if (altaModificacionTitularesDobleCobertura.isEmpty()) {
+		row.createCell(344).setCellValue("");
+		celda = 344;
+	}else {
 		for (String a : altaModificacionTitularesDobleCobertura) {
+			
+
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3201,17 +2305,44 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexAltaModifTitDoCo++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(344).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
-		
+	}
+		ultimaCelda = celda;
 		
 	int  indexIrrPrivRePublico= 1;		
 		
+	if (irregularPrivadoRegularPublico.isEmpty()) {
+		row.createCell(345).setCellValue("");
+		celda = 345;
+	}else {
 		for (String a : irregularPrivadoRegularPublico) {
+			
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3245,18 +2376,47 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexIrrPrivRePublico++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(345).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 		
 
 		
 	int  indexIrrPrivIrPublico= 1;		
-		
+
+	if(irregularPrivadoIrregularPublico.isEmpty()) {
+		row.createCell(346).setCellValue("");
+		celda = 346;
+	}else {
 		for (String a : irregularPrivadoIrregularPublico) {
+			
+
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3291,17 +2451,46 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexIrrPrivIrPublico++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(346).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 		
 		
 	int  indexIrrPriIrrPublico= 1;		
-		
+
+	if(irregularPrivadoIrregularPublico.isEmpty()) {
+		row.createCell(347).setCellValue("");
+		celda = 347;
+	}else {
 		for (String a : irregularPrivadoIrregularPublico) {
+			
+
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3336,18 +2525,47 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexIrrPriIrrPublico++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(347).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
-		
+	}
+		ultimaCelda = celda;
 
 		
 	int  indexIrregularPrivadoNoExiste= 1;		
-		
+
+	if(irregularPrivadoNoExiste.isEmpty()) {
+		row.createCell(348).setCellValue("");
+		celda = 348;
+	}else {
 		for (String a : irregularPrivadoNoExiste) {
+			
+
+			
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3383,17 +2601,47 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexIrregularPrivadoNoExiste++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(348).setCellValue(separar[i]);
-			}				
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 				
 		
 	int  indexAltModTitsDobCoberturaDos= 1;		
-		
+
+	if(altaModificaTitualresDobleCoberturaDos.isEmpty()) {
+		row.createCell(349).setCellValue("");
+		celda = 349;
+	}else {
 		for (String a : altaModificaTitualresDobleCoberturaDos) {
+			
+
+			
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3429,17 +2677,92 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexAltModTitsDobCoberturaDos++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(349).setCellValue(separar[i]);
-			}				
-		}	
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
+		}
+	}
+		ultimaCelda = celda;
 		
 		
 	int  indexListadoRegistroNoExiste= 1;		
 		
 		for (String a : listadoRegistroNoExiste) {
+			
+			if(listadoRegistroNoExiste.isEmpty()) {
+				
+				row.createCell(349).setCellValue("");
+				row.createCell(350).setCellValue("");
+				row.createCell(351).setCellValue("");
+				row.createCell(352).setCellValue("");
+				row.createCell(353).setCellValue("");
+				row.createCell(354).setCellValue("");
+				row.createCell(355).setCellValue("");
+				row.createCell(356).setCellValue("");
+				row.createCell(357).setCellValue("");
+				row.createCell(358).setCellValue("");
+				row.createCell(359).setCellValue("");
+				row.createCell(360).setCellValue("");
+				row.createCell(361).setCellValue("");
+				row.createCell(362).setCellValue("");
+				row.createCell(363).setCellValue("");
+				row.createCell(364).setCellValue("");
+				row.createCell(365).setCellValue("");
+				row.createCell(366).setCellValue("");
+				row.createCell(367).setCellValue("");
+				row.createCell(368).setCellValue("");
+				row.createCell(369).setCellValue("");
+				row.createCell(370).setCellValue("");
+				row.createCell(371).setCellValue("");
+				row.createCell(372).setCellValue("");
+				row.createCell(373).setCellValue("");
+				row.createCell(374).setCellValue("");
+				row.createCell(375).setCellValue("");
+				row.createCell(376).setCellValue("");
+				row.createCell(377).setCellValue("");
+				row.createCell(378).setCellValue("");
+				row.createCell(379).setCellValue("");
+				row.createCell(380).setCellValue("");
+				row.createCell(381).setCellValue("");
+				row.createCell(382).setCellValue("");
+				row.createCell(383).setCellValue("");
+				row.createCell(384).setCellValue("");
+				row.createCell(385).setCellValue("");
+				row.createCell(386).setCellValue("");
+				row.createCell(387).setCellValue("");
+				row.createCell(388).setCellValue("");
+				row.createCell(389).setCellValue("");
+				row.createCell(390).setCellValue("");
+				row.createCell(391).setCellValue("");
+				row.createCell(392).setCellValue("");
+				row.createCell(393).setCellValue("");
+
+				celda = 393;
+			}else {
+				
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -3476,290 +2799,101 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexListadoRegistroNoExiste++);
 			
-			if (separar[0].compareTo("null") == 0) {
-				separar[0] = "";
-			} else {
-				row.createCell(349).setCellValue(separar[0]);
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(350).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(351).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(352).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(353).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(354).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(355).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(356).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(357).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(358).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(359).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(360).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(361).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(362).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(363).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(364).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(365).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(366).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(367).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(368).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(369).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(370).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(371).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(372).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(373).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(374).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(375).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(376).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(377).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(378).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(379).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(380).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(381).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(382).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(383).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(384).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(385).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(386).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(387).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(388).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(389).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(390).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(391).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(392).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(393).setCellValue(separar[i]);
-			}	
+			celda = ultimaCelda+separar.length;
 		}
-		
+		}
+		ultimaCelda = celda;		
 		
 	int  indexlistadoRegistroNoExisteDos= 1;		
 		
+	if (listadoRegistroNoExisteDos.isEmpty()) {
+		row.createCell(394).setCellValue("");
+		row.createCell(395).setCellValue("");
+		row.createCell(396).setCellValue("");
+		row.createCell(397).setCellValue("");
+		row.createCell(398).setCellValue("");
+		row.createCell(399).setCellValue("");
+		row.createCell(400).setCellValue("");
+		row.createCell(401).setCellValue("");
+		row.createCell(402).setCellValue("");
+		row.createCell(403).setCellValue("");
+		row.createCell(404).setCellValue("");
+		row.createCell(405).setCellValue("");
+		row.createCell(406).setCellValue("");
+		row.createCell(407).setCellValue("");
+		row.createCell(408).setCellValue("");
+		row.createCell(409).setCellValue("");
+		row.createCell(410).setCellValue("");
+		row.createCell(411).setCellValue("");
+		row.createCell(412).setCellValue("");
+		row.createCell(413).setCellValue("");
+		row.createCell(414).setCellValue("");
+		row.createCell(415).setCellValue("");
+		row.createCell(416).setCellValue("");
+		row.createCell(417).setCellValue("");
+		row.createCell(418).setCellValue("");
+		row.createCell(419).setCellValue("");
+		row.createCell(420).setCellValue("");
+		row.createCell(421).setCellValue("");
+		row.createCell(422).setCellValue("");
+		row.createCell(423).setCellValue("");
+		row.createCell(424).setCellValue("");
+		row.createCell(425).setCellValue("");
+		row.createCell(426).setCellValue("");
+		row.createCell(427).setCellValue("");
+		row.createCell(428).setCellValue("");
+		row.createCell(429).setCellValue("");
+		row.createCell(430).setCellValue("");
+		row.createCell(431).setCellValue("");
+		row.createCell(432).setCellValue("");
+		row.createCell(433).setCellValue("");
+		row.createCell(434).setCellValue("");
+		row.createCell(435).setCellValue("");
+		row.createCell(436).setCellValue("");
+		row.createCell(437).setCellValue("");
+		row.createCell(438).setCellValue("");
+
+		celda = 438;
+	} else {
 		for (String a : listadoRegistroNoExisteDos) {
+
 			String[] separar = a.split(",");
 
 			int i = 0;
-			
+
 			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (indexlistadoRegistroNoExisteDos <= tipoIdentificador.size() || indexlistadoRegistroNoExisteDos <= tipoMovimiento.size()
+			if (indexlistadoRegistroNoExisteDos <= tipoIdentificador.size()
+					|| indexlistadoRegistroNoExisteDos <= tipoMovimiento.size()
 					|| indexlistadoRegistroNoExisteDos <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| indexlistadoRegistroNoExisteDos <= registroIpfNulo.size() || indexlistadoRegistroNoExisteDos <= informeAltaCruzado.size()
-					|| indexlistadoRegistroNoExisteDos <= codTipoAsegurado.size() || indexlistadoRegistroNoExisteDos <= titDobleCobertura.size()
+					|| indexlistadoRegistroNoExisteDos <= registroIpfNulo.size()
+					|| indexlistadoRegistroNoExisteDos <= informeAltaCruzado.size()
+					|| indexlistadoRegistroNoExisteDos <= codTipoAsegurado.size()
+					|| indexlistadoRegistroNoExisteDos <= titDobleCobertura.size()
 					|| indexlistadoRegistroNoExisteDos <= beneDobleCobertura.size()
 					|| indexlistadoRegistroNoExisteDos <= tipoIdentificadorMutualistas.size()
 					|| indexlistadoRegistroNoExisteDos <= tipoMovimientoMutualista.size()
@@ -3767,303 +2901,83 @@ public class HojaUnoExcel {
 					|| indexlistadoRegistroNoExisteDos <= registrosIpfNuloMutualistas.size()
 					|| indexlistadoRegistroNoExisteDos <= informeAltCruzadoConSegSocialFinalMutualistas.size()
 					|| indexlistadoRegistroNoExisteDos <= codTipoAseguradoMutualistas.size()
-					|| indexlistadoRegistroNoExisteDos <= regimenGeneral.size() || indexlistadoRegistroNoExisteDos <= bajaTitulares.size()
-					|| indexlistadoRegistroNoExisteDos <= totalEnvioInssAv.size() || indexlistadoRegistroNoExisteDos <= bajasVinculadosSns.size()
-					|| indexlistadoRegistroNoExisteDos <= mutualistasPrivados.size() || indexlistadoRegistroNoExisteDos <= bajaPorDefuncion.size()
-					|| indexlistadoRegistroNoExisteDos <= aseguramiento.size() || indexlistadoRegistroNoExisteDos <= indicadorFarmacia.size()
-					|| indexlistadoRegistroNoExisteDos <= codigoBadasRepetido.size() || indexlistadoRegistroNoExisteDos <= altasSinNaf.size()
-					|| indexlistadoRegistroNoExisteDos <= cambiosIpf.size() || indexlistadoRegistroNoExisteDos <= ipfNuevoExisteInssTit.size() 
-					|| indexlistadoRegistroNoExisteDos <= ipfAnteriorNoExisteInssMut.size() || indexlistadoRegistroNoExisteDos <= ipfNuevoExiteInssMut.size()
-					|| indexlistadoRegistroNoExisteDos <= titularesDobleCobertura.size() || indexlistadoRegistroNoExisteDos <= beneficiarioDobleCoberturaMutualistas.size()
-					|| indexlistadoRegistroNoExisteDos <= titularesIndicadorConvenioRural.size() || indexlistadoRegistroNoExisteDos <= beneficiadioIndicadorConvenioRural.size()
-					|| indexlistadoRegistroNoExisteDos <= privadoRegularPublico.size() || indexlistadoRegistroNoExisteDos <= privadoIrregularPublico.size()
-					|| indexlistadoRegistroNoExisteDos <= privadoNoExiste.size() || indexlistadoRegistroNoExisteDos <= altaModificacionTitularesDobleCobertura.size()
-					|| indexlistadoRegistroNoExisteDos <= irregularPrivadoRegularPublico.size() || indexlistadoRegistroNoExisteDos <= irregularPrivadoIrregularPublico.size()
-					|| indexlistadoRegistroNoExisteDos <= irregularPrivadoIrregularPublico.size() || indexlistadoRegistroNoExisteDos <= irregularPrivadoNoExiste.size()
-					|| indexlistadoRegistroNoExisteDos <= altaModificaTitualresDobleCoberturaDos.size() || indexlistadoRegistroNoExisteDos <= listadoRegistroNoExiste.size())
-				
+					|| indexlistadoRegistroNoExisteDos <= regimenGeneral.size()
+					|| indexlistadoRegistroNoExisteDos <= bajaTitulares.size()
+					|| indexlistadoRegistroNoExisteDos <= totalEnvioInssAv.size()
+					|| indexlistadoRegistroNoExisteDos <= bajasVinculadosSns.size()
+					|| indexlistadoRegistroNoExisteDos <= mutualistasPrivados.size()
+					|| indexlistadoRegistroNoExisteDos <= bajaPorDefuncion.size()
+					|| indexlistadoRegistroNoExisteDos <= aseguramiento.size()
+					|| indexlistadoRegistroNoExisteDos <= indicadorFarmacia.size()
+					|| indexlistadoRegistroNoExisteDos <= codigoBadasRepetido.size()
+					|| indexlistadoRegistroNoExisteDos <= altasSinNaf.size()
+					|| indexlistadoRegistroNoExisteDos <= cambiosIpf.size()
+					|| indexlistadoRegistroNoExisteDos <= ipfNuevoExisteInssTit.size()
+					|| indexlistadoRegistroNoExisteDos <= ipfAnteriorNoExisteInssMut.size()
+					|| indexlistadoRegistroNoExisteDos <= ipfNuevoExiteInssMut.size()
+					|| indexlistadoRegistroNoExisteDos <= titularesDobleCobertura.size()
+					|| indexlistadoRegistroNoExisteDos <= beneficiarioDobleCoberturaMutualistas.size()
+					|| indexlistadoRegistroNoExisteDos <= titularesIndicadorConvenioRural.size()
+					|| indexlistadoRegistroNoExisteDos <= beneficiadioIndicadorConvenioRural.size()
+					|| indexlistadoRegistroNoExisteDos <= privadoRegularPublico.size()
+					|| indexlistadoRegistroNoExisteDos <= privadoIrregularPublico.size()
+					|| indexlistadoRegistroNoExisteDos <= privadoNoExiste.size()
+					|| indexlistadoRegistroNoExisteDos <= altaModificacionTitularesDobleCobertura.size()
+					|| indexlistadoRegistroNoExisteDos <= irregularPrivadoRegularPublico.size()
+					|| indexlistadoRegistroNoExisteDos <= irregularPrivadoIrregularPublico.size()
+					|| indexlistadoRegistroNoExisteDos <= irregularPrivadoIrregularPublico.size()
+					|| indexlistadoRegistroNoExisteDos <= irregularPrivadoNoExiste.size()
+					|| indexlistadoRegistroNoExisteDos <= altaModificaTitualresDobleCoberturaDos.size()
+					|| indexlistadoRegistroNoExisteDos <= listadoRegistroNoExiste.size())
+
 				row = sheet.getRow(indexlistadoRegistroNoExisteDos++);
 			else
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexlistadoRegistroNoExisteDos++);
-			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(394).setCellValue(separar[i]);
+
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
 			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(395).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(396).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(397).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(398).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(399).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(400).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(401).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(402).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(403).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(404).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(405).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(406).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(407).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(408).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(409).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(410).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(411).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(412).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(413).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(414).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(415).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(416).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(417).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(418).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(419).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(420).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(421).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(422).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(423).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(424).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(425).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(426).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(427).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(428).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(429).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(430).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(431).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(432).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(433).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[40].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(434).setCellValue(separar[40]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(435).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(436).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(437).setCellValue(separar[i]);
-			}
-			i++;
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(438).setCellValue(separar[i]);
-			}			
+			celda = ultimaCelda + separar.length;
 		}
-				
+	}
+		ultimaCelda = celda;				
 		
 	int  indexBajaPorDefuncionPrivadoPublico= 1;		
 		
+	if(bajaPorDefuncionPrivadoPublico.isEmpty()) {
+		row.createCell(439).setCellValue("");
+		celda = 439;
+	}else {
 		for (String a : bajaPorDefuncionPrivadoPublico) {
+			
+
 			String[] separar = a.split(",");
 
+			int i = 0;
+			
 			// Si es menor o igual se hace obtiene las filas ya creadas
 			if (indexBajaPorDefuncionPrivadoPublico <= tipoIdentificador.size() || indexBajaPorDefuncionPrivadoPublico <= tipoMovimiento.size()
 					|| indexBajaPorDefuncionPrivadoPublico <= protegidoTipAseguramientoAndTipMovimiento.size()
@@ -4097,15 +3011,43 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBajaPorDefuncionPrivadoPublico++);
 			
-			if (separar[0].compareTo("null") == 0) {
-				separar[0] = "";
-			} else {
-				row.createCell(439).setCellValue(separar[0]);
-			}		
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 		
 	int  indexBajaPorDefuncionPrivadoNoExiste= 1;		
 		
+	if(bajaPorDefuncionPrivadoNoExiste.isEmpty()) {
+		row.createCell(440).setCellValue("");
+		celda = 440;
+	}else {
+	
 		for (String a : bajaPorDefuncionPrivadoNoExiste) {
 			String[] separar = a.split(",");
 
@@ -4143,12 +3085,35 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexBajaPorDefuncionPrivadoNoExiste++);
 			
-			if (separar[i].compareTo("null") == 0) {
-				separar[i] = "";
-			} else {
-				row.createCell(440).setCellValue(separar[i]);
-			}		
+			for (j = ultimaCelda; j > separar.length; j++) {
+				for (i = 0; i < separar.length; i++) {
+
+					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+					if (separar[i].compareTo("null") == 0) {
+						separar[i] = "";
+					} else {
+						if (isNumeric == true) {
+							if (separar[i].length() <= 10) {
+								Integer n = Integer.parseInt(separar[i]);
+								row.createCell(j).setCellValue(n);
+							} else {
+								DecimalFormat df = new DecimalFormat("0");
+								Long n;
+								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+							}
+						} else {
+							row.createCell(j).setCellValue(separar[i]);
+						}
+					}
+					j++;
+				}
+				j = 0;
+			}
+			celda = ultimaCelda+separar.length;
 		}
+	}
+		ultimaCelda = celda;
 						
 		
 		FileOutputStream outputStream = null;

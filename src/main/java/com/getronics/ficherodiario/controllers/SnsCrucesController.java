@@ -185,9 +185,9 @@ public class SnsCrucesController {
 		 	}
 		 	logAplicacion.info("Existe un total de " + codTipoAsegurado.size() + " registros.");	
 		 	
-		 	/*###################  
+		 	/*#########################  
 		 	  TITULARES DOBLE COBERTURA
-		 	 ################### */
+		 	 ########################## */
 		 
 			logAplicacion.info("\n");
 			logAplicacion.info("Ejecutando query -> TITULARES DOBLE COBERTURA");
@@ -198,9 +198,9 @@ public class SnsCrucesController {
 		 	}
 		 	logAplicacion.info("Existe un total de " + titDobleCobertura.size() + " registros.");
 		 	
-		 	/*###################  
+		 	/*#############################  
 		 	  BENEFICIARIOS DOBLE COBERTURA
-		 	 ################### */
+		 	 ############################## */
 		 	
 			logAplicacion.info("\n");
 			logAplicacion.info("Ejecutando query -> BENEFICIARIOS DOBLE COBERTURA");
@@ -243,7 +243,7 @@ public class SnsCrucesController {
 		 	 ###################################################### */
 			
 			logAplicacion.info("\n");
-			logAplicacion.info("Ejecutando query -> TIPO MOVIMIENTO MUTUALISTAS");
+			logAplicacion.info("Ejecutando query -> PROTEGIDOS TIP.ASEGURAMIENTO Y MOVIMIENTO MUTUALISTAS");
 			protegidoTipAseguramientoAndTipMovimientoMutualistas = crucesService.protegidoTipAseguramientoAndTipMovimientoMutualistas();
 		 	
 		 	for(String proTipoMutualistas: protegidoTipAseguramientoAndTipMovimientoMutualistas) {
@@ -271,7 +271,7 @@ public class SnsCrucesController {
 		 	 ################################# */
 			
 			logAplicacion.info("\n");
-			logAplicacion.info("Ejecutando query -> REGISTROS IPF NULO MUTUALISTAS");
+			logAplicacion.info("Ejecutando query -> INFORME ALTA CRUZADO MUTUALISTAS");
 			informeAltCruzadoConSegSocialFinalMutualistas = crucesService.informeAltCruzadoConSegSocialFinalMutualistas();
 		 	
 		 	for(String infAltSegMutualistas: informeAltCruzadoConSegSocialFinalMutualistas) {
@@ -284,7 +284,7 @@ public class SnsCrucesController {
 		 	 ############################## */
 			
 			logAplicacion.info("\n");
-			logAplicacion.info("Ejecutando query -> REGISTROS IPF NULO MUTUALISTAS");
+			logAplicacion.info("Ejecutando query -> COD_TIPOASEGURADO MUTUALISTAS");
 			codTipoAseguradoMutualistas = crucesService.codTipoAseguradoMutualistas();
 		 	
 		 	for(String codTipAseMutualistas: codTipoAseguradoMutualistas) {
@@ -419,7 +419,7 @@ public class SnsCrucesController {
 		 	 ############## */
 			
 		 	logAplicacion.info("\n");
-			logAplicacion.info("Ejecutando query -> VARIABLES SIN NAF");
+			logAplicacion.info("Ejecutando query -> ALTAS SIN NAF");
 			altaSinNaf = crucesService.altasNaf();
 		 	
 		 	for(String altaSNaf: altaSinNaf) {
