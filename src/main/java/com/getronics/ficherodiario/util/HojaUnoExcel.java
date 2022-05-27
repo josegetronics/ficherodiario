@@ -33,6 +33,7 @@ public class HojaUnoExcel {
 
 	private Logger logHojaUno = LoggerFactory.getLogger(this.getClass());
 
+	@SuppressWarnings("unused")
 	public void crearHojaExcel(List<String> tipoIdentificador, List<String> tipoMovimiento,
 			List<String> protegidoTipAseguramientoAndTipMovimiento, List<String> registroIpfNulo,
 			List<String> informeAltaCruzado, List<String> codTipoAsegurado, List<String> titDobleCobertura,
@@ -2863,7 +2864,7 @@ public class HojaUnoExcel {
 		row.createCell(437).setCellValue("");
 		row.createCell(438).setCellValue("");
 
-		celda = 438;
+		celda = 439;
 	} else {
 		for (String a : listadoRegistroNoExisteDos) {
 
@@ -2953,8 +2954,8 @@ public class HojaUnoExcel {
 	int  indexBajaPorDefuncionPrivadoPublico= 1;		
 		
 	if(bajaPorDefuncionPrivadoPublico.isEmpty()) {
-		row.createCell(439).setCellValue("");
-		celda = 439;
+		row.createCell(440).setCellValue("");
+		celda = 440;
 	}else {
 		for (String a : bajaPorDefuncionPrivadoPublico) {
 			
@@ -3007,7 +3008,7 @@ public class HojaUnoExcel {
 						if (isNumeric == true) {
 							if (separar[i].length() <= 10) {
 								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
+								row.createCell(394).setCellValue(n);
 							} else {
 								DecimalFormat df = new DecimalFormat("0");
 								Long n;
@@ -3029,8 +3030,8 @@ public class HojaUnoExcel {
 	int  indexBajaPorDefuncionPrivadoNoExiste= 1;		
 		
 	if(bajaPorDefuncionPrivadoNoExiste.isEmpty()) {
-		row.createCell(440).setCellValue("");
-		celda = 440;
+		row.createCell(441).setCellValue("");
+		celda = 441;
 	}else {
 	
 		for (String a : bajaPorDefuncionPrivadoNoExiste) {
@@ -3081,7 +3082,7 @@ public class HojaUnoExcel {
 						if (isNumeric == true) {
 							if (separar[i].length() <= 10) {
 								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
+								row.createCell(395).setCellValue(n);
 							} else {
 								DecimalFormat df = new DecimalFormat("0");
 								Long n;

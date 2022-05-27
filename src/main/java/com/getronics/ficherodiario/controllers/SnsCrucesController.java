@@ -33,6 +33,13 @@ public class SnsCrucesController {
 		return "inicio";
 	}
 	
+	@GetMapping("/ejecucionFicheros")
+	public String ejecucionFicheros() {
+		
+		return "ejecucionFicheros";
+	}
+	
+	
 	@GetMapping("/ejecutarHojaUno")
 	public String Hoja1(RedirectAttributes flash, SessionStatus status) {
 		
@@ -709,6 +716,7 @@ public class SnsCrucesController {
 		 	irregularPrivadoNoExiste,altaModificaTitualresDobleCoberturaDos,listadoRegistroNoExiste,listadoRegistroNoExisteDos,bajaPorDefuncionPrivadoPublico, 
 		 	bajaPorDefuncionPrivadoNoExiste);
 		 	
+		 	flash.addFlashAttribute("success", "Se ha ejecutado el fichero diario correctamente");
 		 	
 		} catch (Exception e) {
 			logAplicacion.error(e.getMessage(), e);
@@ -723,6 +731,8 @@ public class SnsCrucesController {
 		try{
 			logAplicacion.info("LÓGICA DE NEGOCIO NO IMPLEMENTADA.");	 		 
 		 	
+			flash.addFlashAttribute("success", "Se ha ejecutado el fichero diario correctamente");
+			
 		}catch (Exception e) {
 			logAplicacion.error(e.getMessage(), e);
 		}

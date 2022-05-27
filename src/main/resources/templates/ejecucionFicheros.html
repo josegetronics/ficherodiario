@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- Aï¿½adimos el nameSpace de seguridad de Thymeleaf -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head">
+
+</head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<!-- Py-4 : Nos da un margen de ancchura en el "listado de clientes". -->
+	<div class="container py-4">
+
+		<!-- bg-light: Le da un fondo de color a la tabla grisaceo -->
+		<div class="card bg-light" title="Titulo">
+			<div class="card-header">Informes de ficheros diarios</div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+
+					<a class="btn btn-primary btn-sm " th:href="@{/ejecutarHojaUno}">
+						Ejecuci&oacute;n del ficherolargo </a> <a
+						class="btn btn-primary btn-sm " th:href="@{/ejecutarHojaDos}">
+						Datos 1 </a> <a class="btn btn-primary btn-sm"> Datos 3 </a> <a
+						class="btn btn-primary btn-sm"> Datos 4 </a>
+				</h4>
+
+
+
+				<!-- Mensaje cuando se ha ejecutado correctamente  -->
+				<div class="alert alert-success" th:if="${success != null}"
+					th:text="${success}"></div>
+
+
+
+				<!--  Anadimos el fragmento del paginador. -->
+				<!--	<nav th:replace="paginator-nav :: paginator"></nav> -->
+			</div>
+		</div>
+
+
+
+		<!-- Volver a la página inicial -->
+		<a class="btn btn-primary btn-sm " th:href="@{/inicio}"
+			style="margin-top: 10px;"> &laquo </a>
+
+
+	</div>
+
+
+
+	<!-- <footer th:replace="layout/layout :: footer"></footer> -->
+</body>
+
+</html>

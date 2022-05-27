@@ -18,9 +18,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-lg navbar-green bg-dark">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Spring Boot</a>
+				<a class="navbar-brand" href="#">Getronics</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false"
@@ -29,34 +29,43 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
-						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="#">Home</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/listar}">Clientes</a>
+						<li class="nav-item"><a class="nav-link" th:href="@{/ejecucionFicheros}">Ejecuci&oacute;n ficheros diarios</a>
 						</li>
 					</ul>
 				</div>
 				
+			<!-- Mensajes que se muestran (Guardar, Borrar, etct ...) -->
+		<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+		<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+		<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
+		<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>
+				
+				
+				
 				<!-- 1.- Implementación del Login / Logout. 
 	   				 2.- Si está autenticado no mostrara el login -> sec:authorize="!isAuthenticatd()"-->
+	   	<!-- 
 				<ul class="navbar-nav navbar-right">
 					<li sec:authorize="!isAuthenticated()">
 					<a class="btn btn-outline-primary" th:href="@{/login}">Sign In</a></li>
-
+		-->
 					<!-- 2.- Cuando el usuario tenga sesíon mostramos el nombre y el boton del logout. -->
+		<!-- 					
 					<li sec:authorize="isAuthenticated()" class="dropdown show"><a
 						class="btn btn-outline-primary dropdown-toggle" href="#"
 						role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
 						aria-expanded="false"> <span sec:authentication="name"></span></a>
-
+		 -->
 						<!-- 3.- Implementamos el formulario del logout -->
+		<!-- 						
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 							<form id="logoutForm" th:action="@{/logout}" method="post">
-
+		 -->
 				<!-- 4.- Podemos omitir el agregar el _csrf para agregar el toquen ya que SpringSecurti lo agrega siempre.
 					 5.- para que funciones el logout debemos de añadir la librería pooper. Debemos descargarla desde boostrap
 					 https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js
 					 La pegamos en un file popper.min.js y la dejamos en la carpeta /static/js/popper.min.js -->
-
+	<!-- 
 								<button class="dropdown-item"
 									onclick="document.getElementById('logoutForm').submit();"
 									type="submit">Sing Out</button>
@@ -68,22 +77,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					</li>
 				</ul>
 
-
+	-->
 
 			</div>
 		</nav>
-
-		<!-- Mensajes que se muestran (Guardar, Borrar, etct ...) -->
-		<div class="alert alert-success" th:if="${success != null}"
-			th:text="${success}"></div>
-		<div class="alert alert-danger" th:if="${error != null}"
-			th:text="${error}"></div>
-		<div class="alert alert-warning" th:if="${warning != null}"
-			th:text="${warning}"></div>
-		<div class="alert alert-info" th:if="${info != null}"
-			th:text="${info}"></div>
-
-
 	</header>
 
 	<div class="container"></div>
@@ -93,13 +90,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<hr />
 		<br />
 		<p>
-			Powered by <a href="https://projects.spring.io/spring-boot">Spring
-				Boot</a> y <a href="http://www.thymeleaf.org">Thymeleaf</a>.
+			Getronics <a href="https://www.getronics.com/es/"></a>
 		</p>
-		<p>Proyecto desarrollado en IDE Eclipse + Spring Plugins(STS
-			Spring Tools) Jose Plasencia 21/08/2021</p>
+		<p>Proyecto desarrollado en IDE Eclipse + Spring Plugins(STS Spring Tools) Jose Plasencia</p>
 		<p>
-			<img th:src="@{/images/Spring.png}" alt="Spring logo" />
+	<img th:src="@{/images/getronics.bmp}" alt="Getronics logo" /> 
 		</p>
 
 		<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
