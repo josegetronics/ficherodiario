@@ -1,6 +1,11 @@
 package com.getronics.ficherodiario.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +15,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
 import com.getronics.ficherodiario.models.service.ICrucesUrgentesService;
+import com.getronics.ficherodiario.util.HojaTresExcel;
 import com.getronics.ficherodiario.util.HojaUnoExcel;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +35,10 @@ public class SnsCrucesController {
 
 	@Autowired
 	private ICrucesUrgentesService crucesService;
+	
+	@Autowired
+	private MessageSource messageSource;
+	
 
 	@GetMapping({ "/inicio", "/" })
 	public String inicio() {
@@ -740,6 +753,34 @@ public class SnsCrucesController {
 		return "inicio";
 		
 	}
+	
+	
+	@GetMapping("/ejecutarHojaTres")
+	public String hojaTres(RedirectAttributes flash, SessionStatus status, Model model, Locale locale) {		
+		
+		List<String> ejecucionDatosTres;
+		logAplicacion.info("\n");
+		logAplicacion.info("Ejecutando query para el excel Datos Tres-> Baja Titulares Motivo Baja 06 datos");
+		// Realizamos la busqueda de los datos y se lo pasamos a la vista.
+		try {
+			ejecucionDatosTres = crucesService.titularesMotiboBaja();
+			
+			for(String a: ejecucionDatosTres) {
+				logAplicacion.info(a);
+			}
+			
+			model.addAttribute("crucesUrgentes", ejecucionDatosTres);
+			
+			logAplicacion.info("Existe un total de " + ejecucionDatosTres.size() + " registros.");
+		}catch (Exception e) {
+			logAplicacion.info(e.getMessage(), e);
+		}
+
+
+		return "ejecucionFicheros";
+		
+	}
+	
 	
 
 }

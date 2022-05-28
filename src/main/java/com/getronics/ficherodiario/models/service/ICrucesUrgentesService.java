@@ -1,5 +1,6 @@
 package com.getronics.ficherodiario.models.service;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
@@ -163,8 +164,12 @@ public interface ICrucesUrgentesService {
 	
 	List<String> bajaPorDefuncionPrivadoNoExiste();
 	
+	/* ################ 
+	  Excel datos3.xlsx  
+	  ################# */ 
+		
+	/* Baja Titulares Motivo Baja 06 datos3.1 */
 	
-	
-	
+	List<String> titularesMotiboBaja();
 	
 }

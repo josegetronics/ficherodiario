@@ -1,9 +1,11 @@
 package com.getronics.ficherodiario.models.dao;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
 
@@ -382,9 +384,18 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 	List<String> bajaPorDefuncionPrivadoNoExiste();
 	
 	
+	/* ################ 
+	  Excel datos3.xlsx  
+	  ################# */ 
+		
+	/* Baja Titulares Motivo Baja 06 datos3.1 */
 	
-	
-	
+	@Query(value="select s.*" + 
+			" from Z_INSS_MOV_SEP_25 s, snsalud.datos_personales dp, snsalud.usuarios u,snsalud.datos_cobertura dc" + 
+			" WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA  = 06" + 
+			" and DP.DNI_NIE = S.DNI_NIE and U.COD_USUARIO_SNS = DP.COD_USUARIO_SNS" + 
+			" and DC.COD_USUARIO_SNS = U.COD_USUARIO_SNS", nativeQuery = true)
+	List<String> titularesMotiboBaja();
 	
 	
 	

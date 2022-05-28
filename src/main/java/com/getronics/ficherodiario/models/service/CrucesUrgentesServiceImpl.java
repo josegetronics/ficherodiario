@@ -2,6 +2,7 @@ package com.getronics.ficherodiario.models.service;
 
 
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -312,6 +313,12 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 	@Transactional(readOnly = true)
 	public List<String> bajaPorDefuncionPrivadoNoExiste() {
 		return crucesUrgentesDao.bajaPorDefuncionPrivadoNoExiste();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> titularesMotiboBaja() {
+		return crucesUrgentesDao.titularesMotiboBaja();
 	}
 
 
