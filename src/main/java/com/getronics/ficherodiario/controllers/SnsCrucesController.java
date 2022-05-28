@@ -735,23 +735,43 @@ public class SnsCrucesController {
 			logAplicacion.error(e.getMessage(), e);
 		}
 		
-		return "inicio";
+		return "ejecucionFicheros";
 	}
 	
 	@GetMapping("/ejecutarHojaDos")
-	public String hoja2(RedirectAttributes flash, SessionStatus status, Model model) {		
+	public String hojaDos(RedirectAttributes flash, SessionStatus status, Model model, Locale locale,
+			RedirectAttributes flashAtribute) {
 
-		try{
-			logAplicacion.info("LÓGICA DE NEGOCIO NO IMPLEMENTADA.");	 		 
-		 	
-			flash.addFlashAttribute("success", "Se ha ejecutado el fichero diario correctamente");
-			
-		}catch (Exception e) {
-			logAplicacion.error(e.getMessage(), e);
+		List<String> ejecucionDatosDos;
+
+		try {
+			logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query para el excel Datos Dos-> Baja Titulares Motivo Baja 03");
+			ejecucionDatosDos = crucesService.titularesMotivoBaja03();
+
+			if (ejecucionDatosDos.isEmpty()) {
+				// Pasamos el mensaje a la vista.
+				model.addAttribute("info",
+						"La consulta viene vacía, no se procederá a generar ningun fichero 'xlsx' de salida");
+				
+				logAplicacion.info("La consulta viene vacía, no se procederá a generar ningun fichero 'xlsx' de salida");				
+				return "ejecucionFicheros";
+				
+			} else {
+
+				for (String a : ejecucionDatosDos) {
+					logAplicacion.info(a);
+				}
+				model.addAttribute("crucesUrgentes", ejecucionDatosDos);
+			}
+
+			logAplicacion.info("Existe un total de " + ejecucionDatosDos.size() + " registros.");
+
+		} catch (Exception e) {
+			logAplicacion.info(e.getMessage(), e);
 		}
-		
-		return "inicio";
-		
+
+		return "hojaDos";
 	}
 	
 	@GetMapping("/ejecutarHojaTres")
@@ -774,9 +794,10 @@ public class SnsCrucesController {
 			logAplicacion.info(e.getMessage(), e);
 		}
 
-		return "ejecucionFicheros";
+		return "hojaTres";
 	}
 	
+
 	
 
 }

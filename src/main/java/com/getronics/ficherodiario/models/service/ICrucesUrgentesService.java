@@ -172,4 +172,12 @@ public interface ICrucesUrgentesService {
 	
 	List<String> titularesMotiboBaja();
 	
+	/* ################ 
+	  Excel datos2.xlsx  
+	  ################# */ 
+	
+	/* Baja Titulares Motivo Baja 03 */
+	
+	List<String> titularesMotivoBaja03();
+	
 }

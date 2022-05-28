@@ -398,6 +398,13 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 	List<String> titularesMotiboBaja();
 	
 	
+	/* Baja Titulares Motivo Baja 03 datos2.1 => LO CORRECTO ES QUE VENGA VACIA. Se dan de baja en copia_badas pero no en badas (creo). Habria que informar. */
+	@Query(value="select   U.COD_ESTADO, U.COD_USUARIO_SNS, DP.DNI_NIE, S.IPF from Z_INSS_MOV_SEP_25 s, snsalud.datos_personales dp, snsalud.usuarios u" + 
+			" WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA  = 04 and DP.DNI_NIE = S.DNI_NIE" + 
+			" and U.COD_USUARIO_SNS = DP.COD_USUARIO_SNS", nativeQuery = true)
+	List<String> titularesMotivoBaja03();
+	
+	
 	
 }
 

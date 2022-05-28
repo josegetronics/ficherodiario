@@ -321,6 +321,11 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 		return crucesUrgentesDao.titularesMotiboBaja();
 	}
 
+	@Override
+	public List<String> titularesMotivoBaja03() {
+		return crucesUrgentesDao.titularesMotivoBaja03();
+	}
+
 
 	
 

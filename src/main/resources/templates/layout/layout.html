@@ -6,13 +6,16 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
 <meta charset="UTF-8" />
 <title th:text="'Spring Boot: MVC + Thymeleaf + Data JPA -'"></title>
+
+<!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
 	crossorigin="anonymous" />
-
+    <script type="text/javascript" src="bootstrap/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+
 </head>
 
 <body>
@@ -34,14 +37,42 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					</ul>
 				</div>
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			<!-- Mensajes que se muestran (Guardar, Borrar, etct ...) -->
-		<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
-		<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
-		<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
-		<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>
+				<div class="alert alert-success alert-dismissible"
+					th:if="${success != null}" th:text="${success}">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+				</div>
+				<div class="alert alert-danger" th:if="${error != null}"
+					th:text="${error}"></div>
 				
-				
-				
+				<!-- 
+				<div class="alert alert-warning alert-dismissible fade show">
+					<h1  th:if="${warning != null}"	th:text="${warning}"></h1>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+					</button>
+					</div>
+				 -->
+				  
+				 <!--  Está alerta no se cierra por que le indico lógica del controlador con th:if{} -->
+				<div class="alert alert-info alert-dismissible fade show" th:if="${info != null}">
+					<span th:if="${info != null}" th:text="${info}"></span>
+					<button type="button" class="btn-close" data-bs-dismiss="alert"
+						aria-label="Close"></button>
+				</div>
+
+
+
+
 				<!-- 1.- Implementación del Login / Logout. 
 	   				 2.- Si está autenticado no mostrara el login -> sec:authorize="!isAuthenticatd()"-->
 	   	<!-- 
