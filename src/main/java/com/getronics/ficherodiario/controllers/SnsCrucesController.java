@@ -754,31 +754,27 @@ public class SnsCrucesController {
 		
 	}
 	
-	
 	@GetMapping("/ejecutarHojaTres")
-	public String hojaTres(RedirectAttributes flash, SessionStatus status, Model model, Locale locale) {		
-		
+	public String hojaTres(RedirectAttributes flash, SessionStatus status, Model model, Locale locale) {
+
 		List<String> ejecucionDatosTres;
-		logAplicacion.info("\n");
-		logAplicacion.info("Ejecutando query para el excel Datos Tres-> Baja Titulares Motivo Baja 06 datos");
-		// Realizamos la busqueda de los datos y se lo pasamos a la vista.
+
 		try {
+			logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query para el excel Datos Tres-> Baja Titulares Motivo Baja 06 datos");
 			ejecucionDatosTres = crucesService.titularesMotiboBaja();
-			
-			for(String a: ejecucionDatosTres) {
+
+			for (String a : ejecucionDatosTres) {
 				logAplicacion.info(a);
 			}
-			
 			model.addAttribute("crucesUrgentes", ejecucionDatosTres);
-			
 			logAplicacion.info("Existe un total de " + ejecucionDatosTres.size() + " registros.");
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			logAplicacion.info(e.getMessage(), e);
 		}
 
-
 		return "ejecucionFicheros";
-		
 	}
 	
 	
