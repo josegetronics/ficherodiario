@@ -52,8 +52,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					th:if="${success != null}" th:text="${success}">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 				</div>
-				<div class="alert alert-danger" th:if="${error != null}"
-					th:text="${error}"></div>
+
 				
 				<!-- 
 				<div class="alert alert-warning alert-dismissible fade show">
@@ -63,13 +62,20 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					</div>
 				 -->
 				  
-				 <!--  Está alerta no se cierra por que le indico lógica del controlador con th:if{} -->
+				 <!--  Se informa que el fichero de datos2.xlsx viene vacío. -->
 				<div class="alert alert-info alert-dismissible fade show" th:if="${info != null}">
 					<span th:if="${info != null}" th:text="${info}"></span>
 					<button type="button" class="btn-close" data-bs-dismiss="alert"
 						aria-label="Close"></button>
 				</div>
 
+
+				<!--  Se ALERTA que el fichero de datos2.xlsx viene vacío. -->
+				<div class="alert alert-danger alert-dismissible fade show" th:if="${alertaFicheroDos != null}">
+					<span th:if="${alertaFicheroDos != null}" th:text="${alertaFicheroDos}"></span>
+					<button type="button" class="btn-close" data-bs-dismiss="alert"
+						aria-label="Close"></button>
+				</div>
 
 
 
@@ -117,17 +123,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<div class="container"></div>
 
 
-	<footer th:fragment="footer" class="container">
+	<footer th:fragment="footer"
+		class="container text-center text-lg-start bg-light text-muted">
 		<hr />
-		<br />
-		<p>
-			Getronics <a href="https://www.getronics.com/es/"></a>
-		</p>
-		<p>Proyecto desarrollado en IDE Eclipse + Spring Plugins(STS Spring Tools) Jose Plasencia</p>
-		<p>
-	<img th:src="@{/images/getronics.bmp}" alt="Getronics logo" /> 
-		</p>
-
+		
+		<div style="background-color: rgba(0, 0, 0, 0.05);">
+				<img th:src="@{/images/getronics.bmp}" alt="Getronics logo"
+					style="width: 135px" />
+				 <b style="margin-left: 425px;"> © 2022 Copyright: <a 
+					href="https://www.getronics.com/es/"> Getronics</a> 
+				</b>
+		</div>
 		<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 		<script th:src="@{/js/popper.min.js}"></script>
 		<script th:src="@{/js/bootstrap.min.js}"></script>

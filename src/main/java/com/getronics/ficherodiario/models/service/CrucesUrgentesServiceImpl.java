@@ -317,13 +317,20 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<String> titularesMotivoBaja03() {
+		return crucesUrgentesDao.titularesMotivoBaja03();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
 	public List<String> titularesMotiboBaja() {
 		return crucesUrgentesDao.titularesMotiboBaja();
 	}
 
 	@Override
-	public List<String> titularesMotivoBaja03() {
-		return crucesUrgentesDao.titularesMotivoBaja03();
+	@Transactional(readOnly = true)
+	public List<String> ipfRepetidosDatos() {
+		return crucesUrgentesDao.ipfRepetidosDatos();
 	}
 
 

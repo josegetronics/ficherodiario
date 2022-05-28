@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,6 +24,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -737,10 +739,10 @@ public class SnsCrucesController {
 		
 		return "ejecucionFicheros";
 	}
-	
+
 	@GetMapping("/ejecutarHojaDos")
 	public String hojaDos(RedirectAttributes flash, SessionStatus status, Model model, Locale locale,
-			RedirectAttributes flashAtribute) {
+			 Map<String, Object> mensajeAlerta) {
 
 		List<String> ejecucionDatosDos;
 
@@ -754,15 +756,24 @@ public class SnsCrucesController {
 				model.addAttribute("info",
 						"La consulta viene vacía, no se procederá a generar ningun fichero 'xlsx' de salida");
 				
-				logAplicacion.info("La consulta viene vacía, no se procederá a generar ningun fichero 'xlsx' de salida");				
+				logAplicacion
+						.info("La consulta viene vacía, no se procederá a generar ningun fichero 'xlsx' de salida");
 				return "ejecucionFicheros";
-				
+
 			} else {
 
 				for (String a : ejecucionDatosDos) {
 					logAplicacion.info(a);
 				}
+				
+				logAplicacion.info("La consulta viene con datos, se debe enviar el corre avisando de ello");
 				model.addAttribute("crucesUrgentes", ejecucionDatosDos);
+				
+				/* Mensaje de alerta, consulta lanzada contiene datos.(Otra forma de pasar el mensaje a la vista) 
+				 Ahora mismo cuando se ejecuta el Servlet no salta el mensaje avisando de que hay datos, directamente descarga el xlsx.
+				 */
+				mensajeAlerta.put("alertaFicheroDos",
+						"La consulta viene con datos, se debe enviar el corre avisando de ello");
 			}
 
 			logAplicacion.info("Existe un total de " + ejecucionDatosDos.size() + " registros.");
@@ -770,9 +781,10 @@ public class SnsCrucesController {
 		} catch (Exception e) {
 			logAplicacion.info(e.getMessage(), e);
 		}
-
+		
 		return "hojaDos";
 	}
+	
 	
 	@GetMapping("/ejecutarHojaTres")
 	public String hojaTres(RedirectAttributes flash, SessionStatus status, Model model, Locale locale) {
@@ -798,6 +810,29 @@ public class SnsCrucesController {
 	}
 	
 
+	@GetMapping("/ejecutarHojaCuatro")
+	public String hojaCuatro(Model model) {
+
+		List<String> ejecucionDatosCuatro;
+		try {
+
+			logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query para el excel Datos Tres-> IPF Repetidos datos 4.1");
+			ejecucionDatosCuatro = crucesService.ipfRepetidosDatos();
+			
+			for (String a : ejecucionDatosCuatro) {
+				logAplicacion.info(a);
+			}
+			model.addAttribute("crucesUrgentes", ejecucionDatosCuatro);
+			logAplicacion.info("Existe un total de " + ejecucionDatosCuatro.size() + " registros.");
+			
+		} catch (Exception e) {
+			logAplicacion.info(e.getMessage(), e);
+		}
+
+		return "hojaCuatro";
+	}
+	
 	
 
 }

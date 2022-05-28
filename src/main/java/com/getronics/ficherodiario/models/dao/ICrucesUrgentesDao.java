@@ -397,6 +397,10 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			" and DC.COD_USUARIO_SNS = U.COD_USUARIO_SNS", nativeQuery = true)
 	List<String> titularesMotiboBaja();
 	
+	/* ################ 
+	  Excel datos2.xlsx  
+	  ################# */ 
+	
 	
 	/* Baja Titulares Motivo Baja 03 datos2.1 => LO CORRECTO ES QUE VENGA VACIA. Se dan de baja en copia_badas pero no en badas (creo). Habria que informar. */
 	@Query(value="select   U.COD_ESTADO, U.COD_USUARIO_SNS, DP.DNI_NIE, S.IPF from Z_INSS_MOV_SEP_25 s, snsalud.datos_personales dp, snsalud.usuarios u" + 
@@ -404,6 +408,17 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			" and U.COD_USUARIO_SNS = DP.COD_USUARIO_SNS", nativeQuery = true)
 	List<String> titularesMotivoBaja03();
 	
+	
+	/* ################ 
+	  Excel datos4.xlsx  
+	  ################# */ 		
+	
+	/* IPF Repetidos datos 4.1 */
+	
+	@Query(value="SELECT * FROM Z_INSS_MOV_SEP_25 z WHERE z.COD_TIPO_ASEGURADO = 'T' AND z.TIPO_MOVIMIENTO <> 'C' AND z.IPF IN (SELECT ipf" + 
+			" FROM Z_INSS_MOV_SEP_25 z WHERE z.IPF IS NOT NULL AND z.COD_TIPO_ASEGURADO = 'T' AND z.TIPO_MOVIMIENTO <> 'C' GROUP BY ipf" + 
+			" HAVING COUNT (*) > 1) ORDER BY ipf", nativeQuery = true)
+	List<String> ipfRepetidosDatos();
 	
 	
 }

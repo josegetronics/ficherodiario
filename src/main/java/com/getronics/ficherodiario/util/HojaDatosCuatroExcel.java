@@ -22,36 +22,42 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
-import org.springframework.ui.Model;
+import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
 
-@Component("hojaDos.xlsx")
-public class HojaDatosDosExcel extends AbstractXlsxView {
+@Component("hojaCuatro.xlsx")
+public class HojaDatosCuatroExcel extends AbstractXlsxView {
 
-	private Logger logDatosDos = LoggerFactory.getLogger(this.getClass());
-	
+	private Logger logDatosCuatro = LoggerFactory.getLogger(this.getClass());
+
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		response.setHeader("Content-Disposition", "attachment; filename=\"datos2.xlsx\"");
+		response.setHeader("Content-Disposition", "attachment; filename=\"datos4.xlsx\"");
 
-		logDatosDos.info("Iniciando la clase buildExcelDocument");
-		
-		List<String> datosDos = (List<String>) model.get("crucesUrgentes");
-					
+		logDatosCuatro.info("Iniciando la clase buildExcelDocument");
 
-		final String[] header = { "COD_ESTADO", "COD_USUARIO_SNS", "IPF", "DNI_NIE" };
+		List<String> datosCuatro = (List<String>) model.get("crucesUrgentes");
+
+		final String[] header = { "COD_TIPO_ASEGURADO", "TIPO_MOVIMIENTO", "IPF", "DNI_NIE", "PASAPORTE", "NAF",
+				"NAF_SEC1", "NAF_SEC2", "NAF_SEC3", "NAF_SEC4", "NAF_SEC5", "NAF_SEC6", "NAF_SEC7", "NAF_SEC8",
+				"NAF_SEC9", "INDICATIVO_NOMBRE", "APELLIDOS_NOMBRE", "APELLIDO1", "APELLIDO2", "NOMBRE", "NACIONALIDAD",
+				"FECHA_NACIMIENTO", "SEXO", "INDICATIVO_DOMICILIO", "DOMICILIO", "TIPO_ASEGURAMIENTO",
+				"COD_INDICADOR_DE_FARMACIA", "COD_SUBINDICADOR_DE_FARMACIA", "COD_SITUACION", "FECHA_EFECTO_SITUACION",
+				"COD_TIPO_BENEFICIARIO", "IPF_TITULAR", "NAF_TITULAR", "NUMERO_SECUENCIA", "FECHA_NACIMIENTO_RAW",
+				"IPF_ANTERIOR", "COD_USUARIO_SNS", "CODIGO_BADAS", "MOTIVO_BAJA", "PROTEGIDA",
+				"INDICADOR_DOBLE_COBERTURA", "CIP_MUTUALISTA", "CIP_MUTUALISTA_TITULAR", "INDICADOR_CONVENIO_RURAL",
+				"PRESTADORA_PRIVADA" };
 
 		// SE INDICA EL NOMBRE DE LA PÁGINA DEL EXCEL
 		Sheet sheet = workbook.createSheet("DATOS");
 
 		/*
-		 * ###################################################### 
-		 * INICIO - ESTILO PARA LAS CELDA DE LA CABECERA Y CUERPO
+		 * ###################################################### INICIO - ESTILO PARA
+		 * LAS CELDA DE LA CABECERA Y CUERPO
 		 * #####################################################
 		 */
 
@@ -68,11 +74,11 @@ public class HojaDatosDosExcel extends AbstractXlsxView {
 		font.setColor(IndexedColors.WHITE.getIndex());
 
 		// Se crea el estilo de la celda
-		String colorRgb = "1F4E78";
-		byte[] rgb = Hex.decodeHex(colorRgb);
-
-		XSSFColor colorCabecera = new XSSFColor(rgb, null);
-
+		String colorRgb= "1F4E78";
+		byte[] rgb= Hex.decodeHex(colorRgb);
+		
+		XSSFColor colorCabecera = new XSSFColor(rgb,null);
+		
 		headerStyle = workbook.createCellStyle();
 		headerStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
 		headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -90,8 +96,8 @@ public class HojaDatosDosExcel extends AbstractXlsxView {
 		headerStyle.setFont(font);
 
 		/*
-		 * ###################################################### 
-		 * FIN - ESTILO PARA LAS CELDA DE LA CABECERA Y CUERPO
+		 * ###################################################### FIN - ESTILO PARA LAS
+		 * CELDA DE LA CABECERA Y CUERPO
 		 * #####################################################
 		 */
 
@@ -112,7 +118,7 @@ public class HojaDatosDosExcel extends AbstractXlsxView {
 		int rowNum = 1;
 
 		// rellenamos el body
-		for (String a : datosDos) {
+		for (String a : datosCuatro) {
 
 			String[] separar = a.split(",");
 			row = sheet.createRow(rowNum++);
@@ -140,7 +146,7 @@ public class HojaDatosDosExcel extends AbstractXlsxView {
 			}
 		}
 
-		CellRangeAddress region = new CellRangeAddress(0, datosDos.size(), 0, header.length - 1);
+		CellRangeAddress region = new CellRangeAddress(0, datosCuatro.size(), 0, header.length - 1);
 		RegionUtil.setBorderTop(BorderStyle.MEDIUM, region, sheet);
 		RegionUtil.setBorderBottom(BorderStyle.MEDIUM, region, sheet);
 		RegionUtil.setBorderLeft(BorderStyle.MEDIUM, region, sheet);
@@ -151,8 +157,6 @@ public class HojaDatosDosExcel extends AbstractXlsxView {
 		RegionUtil.setLeftBorderColor(IndexedColors.BLACK.index, region, sheet);
 		RegionUtil.setRightBorderColor(IndexedColors.BLACK.index, region, sheet);
 
-	
-		
 	}
-	
+
 }
