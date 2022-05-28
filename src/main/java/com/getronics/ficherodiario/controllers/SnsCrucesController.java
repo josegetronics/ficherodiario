@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
 import com.getronics.ficherodiario.models.service.ICrucesUrgentesService;
-import com.getronics.ficherodiario.util.HojaTresExcel;
+import com.getronics.ficherodiario.util.HojaDatosTresExcel;
 import com.getronics.ficherodiario.util.HojaUnoExcel;
 
 import java.io.ByteArrayInputStream;

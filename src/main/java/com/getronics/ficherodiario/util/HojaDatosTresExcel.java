@@ -28,7 +28,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 import com.getronics.ficherodiario.models.entity.CrucesUrgentes;
 
 @Component("ejecucionFicheros.xlsx")
-public class HojaTresExcel extends AbstractXlsxView {
+public class HojaDatosTresExcel extends AbstractXlsxView {
 
 	private Logger logDatosTres = LoggerFactory.getLogger(this.getClass());
 
