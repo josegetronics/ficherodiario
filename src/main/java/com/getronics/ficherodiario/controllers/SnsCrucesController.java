@@ -739,6 +739,31 @@ public class SnsCrucesController {
 		
 		return "ejecucionFicheros";
 	}
+ 
+	@GetMapping("/ejecutarHojaDatosUno")
+	public String hojaUno( Model model) {
+
+		try {
+			List<String> datosUno = null;
+
+			logAplicacion.info("\n");
+			logAplicacion.info("Ejecutando query -> DATOS 1");
+			datosUno = crucesService.datosUno();
+
+			for (String dato : datosUno) {
+				logAplicacion.info(dato);
+			}
+			logAplicacion.info("Existe un total de " + datosUno.size() + " registros.");
+
+			model.addAttribute("crucesUrgentes", datosUno);
+			
+		} catch (Exception e) {
+			logAplicacion.error(e.getMessage(), e);
+		}
+
+		return "hojaUno";
+
+	}
 
 	@GetMapping("/ejecutarHojaDos")
 	public String hojaDos(RedirectAttributes flash, SessionStatus status, Model model, Locale locale,

@@ -384,18 +384,16 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 	List<String> bajaPorDefuncionPrivadoNoExiste();
 	
 	
-	/* ################ 
-	  Excel datos3.xlsx  
-	  ################# */ 
-		
-	/* Baja Titulares Motivo Baja 06 datos3.1 */
+	/* ###############################
+	"DATOS 1"
+	################################ */
+
+	@Query(value="SELECT * FROM (SELECT * FROM (select * from Z_INSS_MOV_SEP_25 s2 where S2.DNI_NIE in (select S.DNI_NIE"
+	+ " from Z_INSS_MOV_SEP_25 s WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA = 03))"
+	+ " order by DNI_NIE) UNION ALL select * from Z_INSS_MOV_SEP_25 s WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T'"
+	+ " and S.MOTIVO_BAJA = 03 and S.DNI_NIE is NULL", nativeQuery = true)
+	List<String> datosUno();
 	
-	@Query(value="select U.COD_ESTADO, U.COD_USUARIO_SNS, DP.DNI_NIE, DC.COD_USUARIO_SNS_TITULAR" + 
-			" from Z_INSS_MOV_SEP_25 s, snsalud.datos_personales dp, snsalud.usuarios u,snsalud.datos_cobertura dc" + 
-			" WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA  = 06" + 
-			" and DP.DNI_NIE = S.DNI_NIE and U.COD_USUARIO_SNS = DP.COD_USUARIO_SNS" + 
-			" and DC.COD_USUARIO_SNS = U.COD_USUARIO_SNS", nativeQuery = true)
-	List<String> titularesMotiboBaja();
 	
 	/* ################ 
 	  Excel datos2.xlsx  
@@ -408,6 +406,19 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			" and U.COD_USUARIO_SNS = DP.COD_USUARIO_SNS", nativeQuery = true)
 	List<String> titularesMotivoBaja03();
 	
+	
+	/* ################ 
+	  Excel datos3.xlsx  
+	  ################# */ 
+		
+	/* Baja Titulares Motivo Baja 06 datos3.1 */
+	
+	@Query(value="select U.COD_ESTADO, U.COD_USUARIO_SNS, DP.DNI_NIE, DC.COD_USUARIO_SNS_TITULAR" + 
+			" from Z_INSS_MOV_SEP_25 s, snsalud.datos_personales dp, snsalud.usuarios u,snsalud.datos_cobertura dc" + 
+			" WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA  = 06" + 
+			" and DP.DNI_NIE = S.DNI_NIE and U.COD_USUARIO_SNS = DP.COD_USUARIO_SNS" + 
+			" and DC.COD_USUARIO_SNS = U.COD_USUARIO_SNS", nativeQuery = true)
+	List<String> titularesMotiboBaja();
 	
 	/* ################ 
 	  Excel datos4.xlsx  

@@ -333,6 +333,11 @@ public class CrucesUrgentesServiceImpl implements ICrucesUrgentesService{
 		return crucesUrgentesDao.ipfRepetidosDatos();
 	}
 
+	@Override
+	public List<String> datosUno() {
+		return crucesUrgentesDao.datosUno();
+	}
+
 
 	
 

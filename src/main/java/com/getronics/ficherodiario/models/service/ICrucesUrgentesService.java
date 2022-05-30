@@ -164,6 +164,12 @@ public interface ICrucesUrgentesService {
 	
 	List<String> bajaPorDefuncionPrivadoNoExiste();
 	
+	/* ###############################
+	"DATOS 1"
+	################################ */
+	List<String> datosUno();
+	
+	
 	/* ################ 
 	  Excel datos2.xlsx  
 	  ################# */ 
