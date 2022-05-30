@@ -418,7 +418,7 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			"INDICADOR_DOBLE_COBERTURA, CIP_MUTUALISTA, CIP_MUTUALISTA_TITULAR, INDICADOR_CONVENIO_RURAL,\r\n" + 
 			"PRESTADORA_PRIVADA\r\n" + 
 			"from Z_INSS_MOV_SEP_25 s\r\n" + 
-			"WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA = 03 and S.DNI_NIE is NULL;", nativeQuery = true)
+			"WHERE S.TIPO_MOVIMIENTO = 'B' and S.COD_TIPO_ASEGURADO = 'T' and S.MOTIVO_BAJA = 03 and S.DNI_NIE is NULL", nativeQuery = true)
 	List<String> datosUno();
 	
 	
