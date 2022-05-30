@@ -1322,235 +1322,200 @@ public class HojaUnoExcel {
 		}
 		ultimaCelda = celda;
 		
-		// AQUI		
 		
-		int altaSNaf = 1;		
-		
-		for (String a : altasSinNaf) {
-			String[] separar = a.split(",");
-			
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (altaSNaf <= tipoIdentificador.size() || altaSNaf <= tipoMovimiento.size()
-					|| altaSNaf <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| altaSNaf <= registroIpfNulo.size() || altaSNaf <= informeAltaCruzado.size()
-					|| altaSNaf <= codTipoAsegurado.size() || altaSNaf <= titDobleCobertura.size()
-					|| altaSNaf <= beneDobleCobertura.size()
-					|| altaSNaf <= tipoIdentificadorMutualistas.size()
-					|| altaSNaf <= tipoMovimientoMutualista.size()
-					|| altaSNaf <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| altaSNaf <= registrosIpfNuloMutualistas.size()
-					|| altaSNaf <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| altaSNaf <= codTipoAseguradoMutualistas.size()
-					|| altaSNaf <= regimenGeneral.size() || altaSNaf <= bajaTitulares.size()
-					|| altaSNaf <= totalEnvioInssAv.size() || altaSNaf <= bajasVinculadosSns.size()
-					|| altaSNaf <= mutualistasPrivados.size() || altaSNaf <= bajaPorDefuncion.size()
-					|| altaSNaf <= aseguramiento.size() || altaSNaf <= indicadorFarmacia.size()
-					|| altaSNaf <= codigoBadasRepetido.size())
+		int altaSNaf = 1;
 
-				row = sheet.getRow(altaSNaf++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(altaSNaf++);
-			
-			for (j = ultimaCelda; j > separar.length; j++) {
-				for (i = 0; i < separar.length; i++) {
+		if (altasSinNaf.isEmpty()) {
+			celda= 153;
+		} else {
 
-					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+			for (String a : altasSinNaf) {
+				String[] separar = a.split(",");
 
-					if (separar[i].compareTo("null") == 0) {
-						separar[i] = "";
-					} else {
-						if (isNumeric == true) {
-							if (separar[i].length() <= 10) {
-								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
-							} else {
-								DecimalFormat df = new DecimalFormat("0");
-								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-							}
+				int i = 0;
+
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (altaSNaf <= tipoIdentificador.size() || altaSNaf <= tipoMovimiento.size()
+						|| altaSNaf <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| altaSNaf <= registroIpfNulo.size() || altaSNaf <= informeAltaCruzado.size()
+						|| altaSNaf <= codTipoAsegurado.size() || altaSNaf <= titDobleCobertura.size()
+						|| altaSNaf <= beneDobleCobertura.size() || altaSNaf <= tipoIdentificadorMutualistas.size()
+						|| altaSNaf <= tipoMovimientoMutualista.size()
+						|| altaSNaf <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| altaSNaf <= registrosIpfNuloMutualistas.size()
+						|| altaSNaf <= informeAltCruzadoConSegSocialFinalMutualistas.size()
+						|| altaSNaf <= codTipoAseguradoMutualistas.size() || altaSNaf <= regimenGeneral.size()
+						|| altaSNaf <= bajaTitulares.size() || altaSNaf <= totalEnvioInssAv.size()
+						|| altaSNaf <= bajasVinculadosSns.size() || altaSNaf <= mutualistasPrivados.size()
+						|| altaSNaf <= bajaPorDefuncion.size() || altaSNaf <= aseguramiento.size()
+						|| altaSNaf <= indicadorFarmacia.size() || altaSNaf <= codigoBadasRepetido.size())
+
+					row = sheet.getRow(altaSNaf++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(altaSNaf++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
 						} else {
-							row.createCell(j).setCellValue(separar[i]);
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
 						}
+						j++;
 					}
-					j++;
+					j = 0;
 				}
-				j = 0;
+				celda = ultimaCelda + separar.length;
 			}
-			celda = ultimaCelda+separar.length;
 		}
 		ultimaCelda = celda;	
-		
+
 		int cambioIpf = 1;		
-		
-		for (String a : cambiosIpf) {
-			String[] separar = a.split(",");
 
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (cambioIpf <= tipoIdentificador.size() || cambioIpf <= tipoMovimiento.size()
-					|| cambioIpf <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| cambioIpf <= registroIpfNulo.size() || cambioIpf <= informeAltaCruzado.size()
-					|| cambioIpf <= codTipoAsegurado.size() || cambioIpf <= titDobleCobertura.size()
-					|| cambioIpf <= beneDobleCobertura.size()
-					|| cambioIpf <= tipoIdentificadorMutualistas.size()
-					|| cambioIpf <= tipoMovimientoMutualista.size()
-					|| cambioIpf <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| cambioIpf <= registrosIpfNuloMutualistas.size()
-					|| cambioIpf <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| cambioIpf <= codTipoAseguradoMutualistas.size()
-					|| cambioIpf <= regimenGeneral.size() || cambioIpf <= bajaTitulares.size()
-					|| cambioIpf <= totalEnvioInssAv.size() || cambioIpf <= bajasVinculadosSns.size()
-					|| cambioIpf <= mutualistasPrivados.size() || cambioIpf <= bajaPorDefuncion.size()
-					|| cambioIpf <= aseguramiento.size() || cambioIpf <= indicadorFarmacia.size()
-					|| cambioIpf <= codigoBadasRepetido.size() || cambioIpf <= altasSinNaf.size())
-				
-				row = sheet.getRow(cambioIpf++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(cambioIpf++);
-			
-			for (j = ultimaCelda; j > separar.length; j++) {
-				for (i = 0; i < separar.length; i++) {
+		if (cambiosIpf.isEmpty()) {
+			celda = 198;
+		} else {
 
-					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+			for (String a : cambiosIpf) {
+				String[] separar = a.split(",");
 
-					if (separar[i].compareTo("null") == 0) {
-						separar[i] = "";
-					} else {
-						if (isNumeric == true) {
-							if (separar[i].length() <= 10) {
-								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
-							} else {
-								DecimalFormat df = new DecimalFormat("0");
-								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-							}
+				int i = 0;
+
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (cambioIpf <= tipoIdentificador.size() || cambioIpf <= tipoMovimiento.size()
+						|| cambioIpf <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| cambioIpf <= registroIpfNulo.size() || cambioIpf <= informeAltaCruzado.size()
+						|| cambioIpf <= codTipoAsegurado.size() || cambioIpf <= titDobleCobertura.size()
+						|| cambioIpf <= beneDobleCobertura.size() || cambioIpf <= tipoIdentificadorMutualistas.size()
+						|| cambioIpf <= tipoMovimientoMutualista.size()
+						|| cambioIpf <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| cambioIpf <= registrosIpfNuloMutualistas.size()
+						|| cambioIpf <= informeAltCruzadoConSegSocialFinalMutualistas.size()
+						|| cambioIpf <= codTipoAseguradoMutualistas.size() || cambioIpf <= regimenGeneral.size()
+						|| cambioIpf <= bajaTitulares.size() || cambioIpf <= totalEnvioInssAv.size()
+						|| cambioIpf <= bajasVinculadosSns.size() || cambioIpf <= mutualistasPrivados.size()
+						|| cambioIpf <= bajaPorDefuncion.size() || cambioIpf <= aseguramiento.size()
+						|| cambioIpf <= indicadorFarmacia.size() || cambioIpf <= codigoBadasRepetido.size()
+						|| cambioIpf <= altasSinNaf.size())
+
+					row = sheet.getRow(cambioIpf++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(cambioIpf++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
 						} else {
-							row.createCell(j).setCellValue(separar[i]);
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
 						}
+						j++;
 					}
-					j++;
+					j = 0;
 				}
-				j = 0;
+				celda = ultimaCelda + separar.length;
 			}
-			celda = ultimaCelda+separar.length;
 		}
 		ultimaCelda = celda;
-						
+
 		int indexIpfNu = 1;		
 		
-		for (String a : ipfNuevoExisteInssTit) {
-			String[] separar = a.split(",");
+		if (ipfNuevoExisteInssTit.isEmpty()) {
+			celda = 243;
+		} else {
 
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (indexIpfNu <= tipoIdentificador.size() || indexIpfNu <= tipoMovimiento.size()
-					|| indexIpfNu <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| indexIpfNu <= registroIpfNulo.size() || indexIpfNu <= informeAltaCruzado.size()
-					|| indexIpfNu <= codTipoAsegurado.size() || indexIpfNu <= titDobleCobertura.size()
-					|| indexIpfNu <= beneDobleCobertura.size()
-					|| indexIpfNu <= tipoIdentificadorMutualistas.size()
-					|| indexIpfNu <= tipoMovimientoMutualista.size()
-					|| indexIpfNu <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| indexIpfNu <= registrosIpfNuloMutualistas.size()
-					|| indexIpfNu <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| indexIpfNu <= codTipoAseguradoMutualistas.size()
-					|| indexIpfNu <= regimenGeneral.size() || indexIpfNu <= bajaTitulares.size()
-					|| indexIpfNu <= totalEnvioInssAv.size() || indexIpfNu <= bajasVinculadosSns.size()
-					|| indexIpfNu <= mutualistasPrivados.size() || indexIpfNu <= bajaPorDefuncion.size()
-					|| indexIpfNu <= aseguramiento.size() || indexIpfNu <= indicadorFarmacia.size()
-					|| indexIpfNu <= codigoBadasRepetido.size() || indexIpfNu <= altasSinNaf.size()
-					|| indexIpfNu <= cambiosIpf.size())
-				
-				row = sheet.getRow(indexIpfNu++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(indexIpfNu++);
-			
-			for (j = ultimaCelda; j > separar.length; j++) {
-				for (i = 0; i < separar.length; i++) {
+			for (String a : ipfNuevoExisteInssTit) {
+				String[] separar = a.split(",");
 
-					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+				int i = 0;
 
-					if (separar[i].compareTo("null") == 0) {
-						separar[i] = "";
-					} else {
-						if (isNumeric == true) {
-							if (separar[i].length() <= 10) {
-								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
-							} else {
-								DecimalFormat df = new DecimalFormat("0");
-								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-							}
+				// Si es menor o igual se hace obtiene las filas ya creadas
+				if (indexIpfNu <= tipoIdentificador.size() || indexIpfNu <= tipoMovimiento.size()
+						|| indexIpfNu <= protegidoTipAseguramientoAndTipMovimiento.size()
+						|| indexIpfNu <= registroIpfNulo.size() || indexIpfNu <= informeAltaCruzado.size()
+						|| indexIpfNu <= codTipoAsegurado.size() || indexIpfNu <= titDobleCobertura.size()
+						|| indexIpfNu <= beneDobleCobertura.size() || indexIpfNu <= tipoIdentificadorMutualistas.size()
+						|| indexIpfNu <= tipoMovimientoMutualista.size()
+						|| indexIpfNu <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
+						|| indexIpfNu <= registrosIpfNuloMutualistas.size()
+						|| indexIpfNu <= informeAltCruzadoConSegSocialFinalMutualistas.size()
+						|| indexIpfNu <= codTipoAseguradoMutualistas.size() || indexIpfNu <= regimenGeneral.size()
+						|| indexIpfNu <= bajaTitulares.size() || indexIpfNu <= totalEnvioInssAv.size()
+						|| indexIpfNu <= bajasVinculadosSns.size() || indexIpfNu <= mutualistasPrivados.size()
+						|| indexIpfNu <= bajaPorDefuncion.size() || indexIpfNu <= aseguramiento.size()
+						|| indexIpfNu <= indicadorFarmacia.size() || indexIpfNu <= codigoBadasRepetido.size()
+						|| indexIpfNu <= altasSinNaf.size() || indexIpfNu <= cambiosIpf.size())
+
+					row = sheet.getRow(indexIpfNu++);
+				else
+					// En caso de que no exista la fila se crea.
+					row = sheet.createRow(indexIpfNu++);
+
+				for (j = ultimaCelda; j > separar.length; j++) {
+					for (i = 0; i < separar.length; i++) {
+
+						boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+
+						if (separar[i].compareTo("null") == 0) {
+							separar[i] = "";
 						} else {
-							row.createCell(j).setCellValue(separar[i]);
+							if (isNumeric == true) {
+								if (separar[i].length() <= 10) {
+									Integer n = Integer.parseInt(separar[i]);
+									row.createCell(j).setCellValue(n);
+								} else {
+									DecimalFormat df = new DecimalFormat("0");
+									Long n;
+									row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								}
+							} else {
+								row.createCell(j).setCellValue(separar[i]);
+							}
 						}
+						j++;
 					}
-					j++;
+					j = 0;
 				}
-				j = 0;
+				celda = ultimaCelda + separar.length;
 			}
-			celda = ultimaCelda+separar.length;
 		}
 		ultimaCelda = celda;
+		
 		
 		int indexipfAnteInssMut = 1;		
 
 		if (ipfAnteriorNoExisteInssMut.isEmpty()) {
-			row.createCell(243).setCellValue("");
-			row.createCell(244).setCellValue("");	
-			row.createCell(245).setCellValue("");
-			row.createCell(246).setCellValue("");
-			row.createCell(247).setCellValue("");
-			row.createCell(248).setCellValue("");
-			row.createCell(249).setCellValue("");
-			row.createCell(250).setCellValue("");
-			row.createCell(251).setCellValue("");
-			row.createCell(252).setCellValue("");
-			row.createCell(253).setCellValue("");
-			row.createCell(254).setCellValue("");
-			row.createCell(255).setCellValue("");
-			row.createCell(256).setCellValue("");
-			row.createCell(257).setCellValue("");
-			row.createCell(258).setCellValue("");
-			row.createCell(259).setCellValue("");
-			row.createCell(260).setCellValue("");
-			row.createCell(261).setCellValue("");
-			row.createCell(262).setCellValue("");
-			row.createCell(263).setCellValue("");
-			row.createCell(264).setCellValue("");
-			row.createCell(265).setCellValue("");
-			row.createCell(266).setCellValue("");
-			row.createCell(267).setCellValue("");
-			row.createCell(268).setCellValue("");
-			row.createCell(269).setCellValue("");
-			row.createCell(270).setCellValue("");
-			row.createCell(271).setCellValue("");
-			row.createCell(272).setCellValue("");
-			row.createCell(273).setCellValue("");
-			row.createCell(274).setCellValue("");
-			row.createCell(275).setCellValue("");
-			row.createCell(276).setCellValue("");
-			row.createCell(277).setCellValue("");
-			row.createCell(278).setCellValue("");
-			row.createCell(279).setCellValue("");
-			row.createCell(280).setCellValue("");
-			row.createCell(281).setCellValue("");
-			row.createCell(282).setCellValue("");
-			row.createCell(283).setCellValue("");
-			row.createCell(284).setCellValue("");
-			row.createCell(285).setCellValue("");
-			row.createCell(286).setCellValue("");
-			row.createCell(287).setCellValue("");		
-			celda = 287;
+			celda = 288;
 		} else {
 			for (String a : ipfAnteriorNoExisteInssMut) {
 
@@ -1616,56 +1581,12 @@ public class HojaUnoExcel {
 			}
 		}
 		ultimaCelda = celda;
-				
+		
+		
+		
 		int indexIpfNuevoExiteInssMut = 1;
 
 		if (ipfNuevoExiteInssMut.isEmpty()) {
-			row.createCell(288).setCellValue("");
-			row.createCell(289).setCellValue("");
-			row.createCell(290).setCellValue("");
-			row.createCell(291).setCellValue("");
-			row.createCell(292).setCellValue("");
-			row.createCell(293).setCellValue("");
-			row.createCell(294).setCellValue("");
-			row.createCell(295).setCellValue("");
-			row.createCell(296).setCellValue("");
-			row.createCell(297).setCellValue("");
-			row.createCell(298).setCellValue("");
-			row.createCell(299).setCellValue("");
-			row.createCell(300).setCellValue("");
-			row.createCell(301).setCellValue("");
-			row.createCell(302).setCellValue("");
-			row.createCell(303).setCellValue("");
-			row.createCell(304).setCellValue("");
-			row.createCell(305).setCellValue("");
-			row.createCell(306).setCellValue("");
-			row.createCell(307).setCellValue("");
-			row.createCell(308).setCellValue("");
-			row.createCell(309).setCellValue("");
-			row.createCell(310).setCellValue("");
-			row.createCell(311).setCellValue("");
-			row.createCell(312).setCellValue("");
-			row.createCell(313).setCellValue("");
-			row.createCell(314).setCellValue("");
-			row.createCell(315).setCellValue("");
-			row.createCell(316).setCellValue("");
-			row.createCell(317).setCellValue("");
-			row.createCell(318).setCellValue("");
-			row.createCell(319).setCellValue("");
-			row.createCell(320).setCellValue("");
-			row.createCell(321).setCellValue("");
-			row.createCell(322).setCellValue("");
-			row.createCell(323).setCellValue("");
-			row.createCell(324).setCellValue("");
-			row.createCell(325).setCellValue("");
-			row.createCell(326).setCellValue("");
-			row.createCell(327).setCellValue("");
-			row.createCell(328).setCellValue("");
-			row.createCell(329).setCellValue("");
-			row.createCell(330).setCellValue("");
-			row.createCell(331).setCellValue("");
-			row.createCell(332).setCellValue("");				
-			// Query 8.2.2 celda KC a LU
 			celda = 333;
 		} else {
 		for (String a : ipfNuevoExiteInssMut) {
@@ -1738,14 +1659,13 @@ public class HojaUnoExcel {
 		}
 		ultimaCelda = celda;	
 		
+		
+		
 		int indexTitDobleCobertura = 1;		
 		
 		
-		if (titularesDobleCobertura.isEmpty()) {
-
-			row.createCell(334).setCellValue("");
-			
-			celda = 334;
+		if (titularesDobleCobertura.isEmpty()) {			
+			celda = 335;
 		} else {
 			for (String a : titularesDobleCobertura) {
 
@@ -1821,11 +1741,9 @@ public class HojaUnoExcel {
 		
 	int indexBeneDob = 1;		
 		
-	
+
 	if (beneficiarioDobleCoberturaMutualistas.isEmpty()) {
-		row.createCell(335).setCellValue("");
-		row.createCell(336).setCellValue("");
-		celda = 336;
+		celda = 337;
 	} else {
 		for (String a : beneficiarioDobleCoberturaMutualistas) {
 
@@ -1890,11 +1808,9 @@ public class HojaUnoExcel {
 
 	
 	int indexTituIndCoRu = 1;
+	
 	if (titularesIndicadorConvenioRural.isEmpty()) {
-		row.createCell(337).setCellValue("");
-		row.createCell(338).setCellValue("");
-
-		celda = 338;
+		celda = 339;
 	} else {
 		for (String a : titularesIndicadorConvenioRural) {
 
@@ -1959,14 +1875,13 @@ public class HojaUnoExcel {
 		}
 	}
 		ultimaCelda = celda;
+	
+			
 		
 	int indexBenIndCoRural = 1;		
 		
 	if (beneficiadioIndicadorConvenioRural.isEmpty()) {	
-		row.createCell(339).setCellValue("");
-		row.createCell(340).setCellValue("");
-		
-		celda = 340;
+		celda = 341;
 	} else {
 
 		for (String a : beneficiadioIndicadorConvenioRural) {
@@ -2036,9 +1951,10 @@ public class HojaUnoExcel {
 		
 	int indexPrivadoRegularPublico = 1;		
 
+	
+	
 	if (privadoRegularPublico.isEmpty()) {
-		row.createCell(341).setCellValue("");
-		celda = 341;
+		celda = 342;
 	}else {
 		for (String a : privadoRegularPublico) {
 			
@@ -2104,12 +2020,11 @@ public class HojaUnoExcel {
 	}
 		ultimaCelda = celda;
 		
-				
+			
 	int indexPrivadoIrregularPublico = 1;		
 		
 	if (privadoIrregularPublico.isEmpty()) {
-		row.createCell(342).setCellValue("");
-		celda = 342;
+		celda = 343;
 	}else {
 		for (String a : privadoIrregularPublico) {
 			
@@ -2175,13 +2090,12 @@ public class HojaUnoExcel {
 		}
 	}
 		ultimaCelda = celda;
-		
+				
 		
 	int indexPrivadoNoExiste = 1;		
 		
 	if(privadoNoExiste.isEmpty()) {
-		row.createCell(343).setCellValue("");
-		celda = 343;
+		celda = 344;
 	}else {
 		for (String a : privadoNoExiste) {
 			
@@ -2252,8 +2166,7 @@ public class HojaUnoExcel {
 	int indexAltaModifTitDoCo = 1;		
 		
 	if (altaModificacionTitularesDobleCobertura.isEmpty()) {
-		row.createCell(344).setCellValue("");
-		celda = 344;
+		celda = 345;
 	}else {
 		for (String a : altaModificacionTitularesDobleCobertura) {
 			
@@ -2324,8 +2237,7 @@ public class HojaUnoExcel {
 	int  indexIrrPrivRePublico= 1;		
 		
 	if (irregularPrivadoRegularPublico.isEmpty()) {
-		row.createCell(345).setCellValue("");
-		celda = 345;
+		celda = 346;
 	}else {
 		for (String a : irregularPrivadoRegularPublico) {
 			
@@ -2397,8 +2309,7 @@ public class HojaUnoExcel {
 	int  indexIrrPrivIrPublico= 1;		
 
 	if(irregularPrivadoIrregularPublico.isEmpty()) {
-		row.createCell(346).setCellValue("");
-		celda = 346;
+		celda = 347;
 	}else {
 		for (String a : irregularPrivadoIrregularPublico) {
 			
@@ -2466,86 +2377,10 @@ public class HojaUnoExcel {
 		}
 	}
 		ultimaCelda = celda;
-		
-		
-	int  indexIrrPriIrrPublico= 1;		
-
-	if(irregularPrivadoIrregularPublico.isEmpty()) {
-		row.createCell(347).setCellValue("");
-		celda = 347;
-	}else {
-		for (String a : irregularPrivadoIrregularPublico) {
-			
-
-			String[] separar = a.split(",");
-
-			int i = 0;
-			
-			// Si es menor o igual se hace obtiene las filas ya creadas
-			if (indexIrrPriIrrPublico <= tipoIdentificador.size() || indexIrrPriIrrPublico <= tipoMovimiento.size()
-					|| indexIrrPriIrrPublico <= protegidoTipAseguramientoAndTipMovimiento.size()
-					|| indexIrrPriIrrPublico <= registroIpfNulo.size() || indexIrrPriIrrPublico <= informeAltaCruzado.size()
-					|| indexIrrPriIrrPublico <= codTipoAsegurado.size() || indexIrrPriIrrPublico <= titDobleCobertura.size()
-					|| indexIrrPriIrrPublico <= beneDobleCobertura.size()
-					|| indexIrrPriIrrPublico <= tipoIdentificadorMutualistas.size()
-					|| indexIrrPriIrrPublico <= tipoMovimientoMutualista.size()
-					|| indexIrrPriIrrPublico <= protegidoTipAseguramientoAndTipMovimientoMutualistas.size()
-					|| indexIrrPriIrrPublico <= registrosIpfNuloMutualistas.size()
-					|| indexIrrPriIrrPublico <= informeAltCruzadoConSegSocialFinalMutualistas.size()
-					|| indexIrrPriIrrPublico <= codTipoAseguradoMutualistas.size()
-					|| indexIrrPriIrrPublico <= regimenGeneral.size() || indexIrrPriIrrPublico <= bajaTitulares.size()
-					|| indexIrrPriIrrPublico <= totalEnvioInssAv.size() || indexIrrPriIrrPublico <= bajasVinculadosSns.size()
-					|| indexIrrPriIrrPublico <= mutualistasPrivados.size() || indexIrrPriIrrPublico <= bajaPorDefuncion.size()
-					|| indexIrrPriIrrPublico <= aseguramiento.size() || indexIrrPriIrrPublico <= indicadorFarmacia.size()
-					|| indexIrrPriIrrPublico <= codigoBadasRepetido.size() || indexIrrPriIrrPublico <= altasSinNaf.size()
-					|| indexIrrPriIrrPublico <= cambiosIpf.size() || indexIrrPriIrrPublico <= ipfNuevoExisteInssTit.size() 
-					|| indexIrrPriIrrPublico <= ipfAnteriorNoExisteInssMut.size() || indexIrrPriIrrPublico <= ipfNuevoExiteInssMut.size()
-					|| indexIrrPriIrrPublico <= titularesDobleCobertura.size() || indexIrrPriIrrPublico <= beneficiarioDobleCoberturaMutualistas.size()
-					|| indexIrrPriIrrPublico <= titularesIndicadorConvenioRural.size() || indexIrrPriIrrPublico <= beneficiadioIndicadorConvenioRural.size()
-					|| indexIrrPriIrrPublico <= privadoRegularPublico.size() || indexIrrPriIrrPublico <= privadoIrregularPublico.size()
-					|| indexIrrPriIrrPublico <= privadoNoExiste.size() || indexIrrPriIrrPublico <= altaModificacionTitularesDobleCobertura.size()
-					|| indexIrrPriIrrPublico <= irregularPrivadoRegularPublico.size() || indexIrrPriIrrPublico <= irregularPrivadoIrregularPublico.size())
-				
-				row = sheet.getRow(indexIrrPriIrrPublico++);
-			else
-				// En caso de que no exista la fila se crea.
-				row = sheet.createRow(indexIrrPriIrrPublico++);
-			
-			for (j = ultimaCelda; j > separar.length; j++) {
-				for (i = 0; i < separar.length; i++) {
-
-					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-					if (separar[i].compareTo("null") == 0) {
-						separar[i] = "";
-					} else {
-						if (isNumeric == true) {
-							if (separar[i].length() <= 10) {
-								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
-							} else {
-								DecimalFormat df = new DecimalFormat("0");
-								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-							}
-						} else {
-							row.createCell(j).setCellValue(separar[i]);
-						}
-					}
-					j++;
-				}
-				j = 0;
-			}
-			celda = ultimaCelda+separar.length;
-		}
-	}
-		ultimaCelda = celda;
-
-		
+					
 	int  indexIrregularPrivadoNoExiste= 1;		
 
 	if(irregularPrivadoNoExiste.isEmpty()) {
-		row.createCell(348).setCellValue("");
 		celda = 348;
 	}else {
 		for (String a : irregularPrivadoNoExiste) {
@@ -2617,17 +2452,14 @@ public class HojaUnoExcel {
 	}
 		ultimaCelda = celda;
 				
-		
+				
 	int  indexAltModTitsDobCoberturaDos= 1;		
-
+		
 	if(altaModificaTitualresDobleCoberturaDos.isEmpty()) {
-		row.createCell(349).setCellValue("");
 		celda = 349;
 	}else {
 		for (String a : altaModificaTitualresDobleCoberturaDos) {
-			
-
-			
+				
 			String[] separar = a.split(",");
 
 			int i = 0;
@@ -2693,60 +2525,15 @@ public class HojaUnoExcel {
 	}
 		ultimaCelda = celda;
 		
+			
+	// ######### QUERY PROBLEMÁTICAS -> listadoRegistroNoExiste y indexlistadoRegistroNoExisteDos
 		
 	int  indexListadoRegistroNoExiste= 1;		
 		
 		for (String a : listadoRegistroNoExiste) {
 			
-			if(listadoRegistroNoExiste.isEmpty()) {
-				
-				row.createCell(349).setCellValue("");
-				row.createCell(350).setCellValue("");
-				row.createCell(351).setCellValue("");
-				row.createCell(352).setCellValue("");
-				row.createCell(353).setCellValue("");
-				row.createCell(354).setCellValue("");
-				row.createCell(355).setCellValue("");
-				row.createCell(356).setCellValue("");
-				row.createCell(357).setCellValue("");
-				row.createCell(358).setCellValue("");
-				row.createCell(359).setCellValue("");
-				row.createCell(360).setCellValue("");
-				row.createCell(361).setCellValue("");
-				row.createCell(362).setCellValue("");
-				row.createCell(363).setCellValue("");
-				row.createCell(364).setCellValue("");
-				row.createCell(365).setCellValue("");
-				row.createCell(366).setCellValue("");
-				row.createCell(367).setCellValue("");
-				row.createCell(368).setCellValue("");
-				row.createCell(369).setCellValue("");
-				row.createCell(370).setCellValue("");
-				row.createCell(371).setCellValue("");
-				row.createCell(372).setCellValue("");
-				row.createCell(373).setCellValue("");
-				row.createCell(374).setCellValue("");
-				row.createCell(375).setCellValue("");
-				row.createCell(376).setCellValue("");
-				row.createCell(377).setCellValue("");
-				row.createCell(378).setCellValue("");
-				row.createCell(379).setCellValue("");
-				row.createCell(380).setCellValue("");
-				row.createCell(381).setCellValue("");
-				row.createCell(382).setCellValue("");
-				row.createCell(383).setCellValue("");
-				row.createCell(384).setCellValue("");
-				row.createCell(385).setCellValue("");
-				row.createCell(386).setCellValue("");
-				row.createCell(387).setCellValue("");
-				row.createCell(388).setCellValue("");
-				row.createCell(389).setCellValue("");
-				row.createCell(390).setCellValue("");
-				row.createCell(391).setCellValue("");
-				row.createCell(392).setCellValue("");
-				row.createCell(393).setCellValue("");
-
-				celda = 393;
+			if(listadoRegistroNoExiste.isEmpty()) {				
+				celda = 394;
 			}else {
 				
 			String[] separar = a.split(",");
@@ -2785,7 +2572,7 @@ public class HojaUnoExcel {
 				// En caso de que no exista la fila se crea.
 				row = sheet.createRow(indexListadoRegistroNoExiste++);
 			
-			for (j = ultimaCelda; j > separar.length; j++) {
+			for (j = ultimaCelda; j >= separar.length; j++) {
 				for (i = 0; i < separar.length; i++) {
 
 					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
@@ -2815,56 +2602,12 @@ public class HojaUnoExcel {
 		}
 		ultimaCelda = celda;		
 		
+			
+	/*	
 	int  indexlistadoRegistroNoExisteDos= 1;		
 		
 	if (listadoRegistroNoExisteDos.isEmpty()) {
-		row.createCell(394).setCellValue("");
-		row.createCell(395).setCellValue("");
-		row.createCell(396).setCellValue("");
-		row.createCell(397).setCellValue("");
-		row.createCell(398).setCellValue("");
-		row.createCell(399).setCellValue("");
-		row.createCell(400).setCellValue("");
-		row.createCell(401).setCellValue("");
-		row.createCell(402).setCellValue("");
-		row.createCell(403).setCellValue("");
-		row.createCell(404).setCellValue("");
-		row.createCell(405).setCellValue("");
-		row.createCell(406).setCellValue("");
-		row.createCell(407).setCellValue("");
-		row.createCell(408).setCellValue("");
-		row.createCell(409).setCellValue("");
-		row.createCell(410).setCellValue("");
-		row.createCell(411).setCellValue("");
-		row.createCell(412).setCellValue("");
-		row.createCell(413).setCellValue("");
-		row.createCell(414).setCellValue("");
-		row.createCell(415).setCellValue("");
-		row.createCell(416).setCellValue("");
-		row.createCell(417).setCellValue("");
-		row.createCell(418).setCellValue("");
-		row.createCell(419).setCellValue("");
-		row.createCell(420).setCellValue("");
-		row.createCell(421).setCellValue("");
-		row.createCell(422).setCellValue("");
-		row.createCell(423).setCellValue("");
-		row.createCell(424).setCellValue("");
-		row.createCell(425).setCellValue("");
-		row.createCell(426).setCellValue("");
-		row.createCell(427).setCellValue("");
-		row.createCell(428).setCellValue("");
-		row.createCell(429).setCellValue("");
-		row.createCell(430).setCellValue("");
-		row.createCell(431).setCellValue("");
-		row.createCell(432).setCellValue("");
-		row.createCell(433).setCellValue("");
-		row.createCell(434).setCellValue("");
-		row.createCell(435).setCellValue("");
-		row.createCell(436).setCellValue("");
-		row.createCell(437).setCellValue("");
-		row.createCell(438).setCellValue("");
-
-		celda = 439;
+		celda = 394;
 	} else {
 		for (String a : listadoRegistroNoExisteDos) {
 
@@ -2949,13 +2692,14 @@ public class HojaUnoExcel {
 			celda = ultimaCelda + separar.length;
 		}
 	}
-		ultimaCelda = celda;				
+		ultimaCelda = 394;				
+*/
+
 		
 	int  indexBajaPorDefuncionPrivadoPublico= 1;		
 		
 	if(bajaPorDefuncionPrivadoPublico.isEmpty()) {
-		row.createCell(440).setCellValue("");
-		celda = 440;
+		celda = 394;
 	}else {
 		for (String a : bajaPorDefuncionPrivadoPublico) {
 			
@@ -3012,10 +2756,10 @@ public class HojaUnoExcel {
 							} else {
 								DecimalFormat df = new DecimalFormat("0");
 								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								row.createCell(394).setCellValue(df.format(n = Long.parseLong(separar[i])));
 							}
 						} else {
-							row.createCell(j).setCellValue(separar[i]);
+							row.createCell(394).setCellValue(separar[i]);
 						}
 					}
 					j++;
@@ -3030,8 +2774,7 @@ public class HojaUnoExcel {
 	int  indexBajaPorDefuncionPrivadoNoExiste= 1;		
 		
 	if(bajaPorDefuncionPrivadoNoExiste.isEmpty()) {
-		row.createCell(441).setCellValue("");
-		celda = 441;
+		celda = 395;
 	}else {
 	
 		for (String a : bajaPorDefuncionPrivadoNoExiste) {
@@ -3086,10 +2829,10 @@ public class HojaUnoExcel {
 							} else {
 								DecimalFormat df = new DecimalFormat("0");
 								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
+								row.createCell(395).setCellValue(df.format(n = Long.parseLong(separar[i])));
 							}
 						} else {
-							row.createCell(j).setCellValue(separar[i]);
+							row.createCell(395).setCellValue(separar[i]);
 						}
 					}
 					j++;
@@ -3098,9 +2841,7 @@ public class HojaUnoExcel {
 			}
 			celda = ultimaCelda+separar.length;
 		}
-	}
-		ultimaCelda = celda;
-						
+	}						
 		
 		FileOutputStream outputStream = null;
 

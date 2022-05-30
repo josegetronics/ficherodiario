@@ -338,6 +338,7 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 	
 	
 	/* 9.3.3 Listado de registros del tipo "No existe" DE ML A OD */
+	
 	@Query(value="Select M.* from ( Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO in ('0611','0612','0613')" + 
 			" and INDICADOR_DOBLE_COBERTURA in ('1','2') and COD_TIPO_ASEGURADO = 'T' and TIPO_MOVIMIENTO in ('M','A')) M" + 
 			" left join ( Select * from Z_INSS_MOV_SEP_25 where TIPO_ASEGURAMIENTO NOT IN ('0611','0612','0613')" + 
@@ -363,6 +364,8 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 			"where B.ipf is null",
 			nativeQuery = true)
 	List<String> listadoRegistroNoExisteDos();
+	
+	
 	
 	
 	/* 9.4 Baja por defunción con doble cobertura */
