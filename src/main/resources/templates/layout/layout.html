@@ -5,7 +5,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="head">
 <meta charset="UTF-8" />
-<title th:text="'Spring Boot: MVC + Thymeleaf + Data JPA -'"></title>
+<title th:text="'Aplicación Interna - Getronics.'"></title>
 
 <!-- Bootstrap CSS -->
 <link
@@ -21,18 +21,22 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-lg bg-secondary navbar-dark">
+	<div style="background-color: rgba(0, 0, 0, 0.05);">
+		<nav class="navbar navbar-expand-lg navbar-light bg-ligth">
+		
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">Getronics</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false"
 					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon">pruebas</span>
+					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
-						<li class="nav-item"><a class="nav-link" th:href="@{/ejecucionFicheros}">Ejecuci&oacute;n ficheros diarios</a>
+						<li class="nav-item">
+							<a class="nav-link border border-success border-1 rounded-pill"
+								 th:href="@{/ejecucionFicheros}">Ejecuci&oacute;n ficheros diarios</a>
 						</li>
 					</ul>
 				</div>							
@@ -108,6 +112,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 			</div>
 		</nav>
+		</div>
 	</header>
 
 	<div class="container"></div>
