@@ -13,8 +13,8 @@
 
 	<div class="container">
 		<!-- Volver a la página inicial -->
-		<a class="btn btn-primary btn-sm " th:href="@{/inicio}"
-			style="margin-top: 10px;"> &laquo Volver atr&aacute;s</a>
+		<a  class="btn btn-outline-success btn-sm" style="margin-top: 10px;" 
+			th:href="@{/inicio}"> &laquo Volver atr&aacute;s</a>
 	</div>
 	<!-- Py-4 : Nos da un margen de ancchura en el "listado de clientes". -->
 	<div class="container py-4">
@@ -26,11 +26,16 @@
 
 				<h4 class="card-title">
 
-					<a class="btn btn-primary btn-sm" th:href="@{/ejecutarHojaUno}">Ejecuci&oacute;n Fichero Largo </a> 
-					<a class="btn btn-primary btn-sm" th:href="@{/ejecutarHojaDatosUno(format=xlsx)}">Datos 1 </a>
-					<a class="btn btn-primary btn-sm" th:href="@{/ejecutarHojaDos(format=xlsx)}">Datos 2 </a>  
-					<a class="btn btn-primary btn-sm" th:href="@{/ejecutarHojaTres(format=xlsx)}"> Datos 3 </a> 
-					<a class="btn btn-primary btn-sm" th:href="@{/ejecutarHojaCuatro(format=xlsx)}"> Datos 4 </a>
+					<a  class="btn btn-outline-success btn-sm"
+						th:href="@{/ejecutarHojaUno}">Ejecuci&oacute;n Fichero Largo </a> 
+					<a  class="btn btn-outline-success btn-sm"
+						 th:href="@{/ejecutarHojaDatosUno(format=xlsx)}">Datos 1 </a>
+					<a  class="btn btn-outline-success btn-sm"
+						 th:href="@{/ejecutarHojaDos(format=xlsx)}">Datos 2 </a>  
+					<a  class="btn btn-outline-success btn-sm"
+						 th:href="@{/ejecutarHojaTres(format=xlsx)}"> Datos 3 </a> 
+					<a  class="btn btn-outline-success btn-sm"
+						 th:href="@{/ejecutarHojaCuatro(format=xlsx)}"> Datos 4 </a>
 				</h4>
 										
 				<!--  Anadimos el fragmento del paginador. -->
