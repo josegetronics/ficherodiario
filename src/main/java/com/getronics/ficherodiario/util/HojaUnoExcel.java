@@ -272,6 +272,9 @@ public class HojaUnoExcel {
 
 			int indexRegiIpfNulo = 1;
 
+			
+			// Automatización.
+			
 			if (registroIpfNulo.isEmpty()) {
 				celda = 14;
 			} else {
@@ -290,31 +293,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexRegiIpfNulo++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -341,32 +321,9 @@ public class HojaUnoExcel {
 					else
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexInforAltCruzado++);
-
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -393,32 +350,9 @@ public class HojaUnoExcel {
 					else
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexCodTipAseg++);
-
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -445,26 +379,9 @@ public class HojaUnoExcel {
 					else
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexTitDoCob++);
-
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									Integer n = Integer.parseInt(separar[i]);
-									row.createCell(j).setCellValue(n);
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -493,31 +410,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBeneDobCob++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -548,31 +442,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexTiIdMut++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -601,32 +472,9 @@ public class HojaUnoExcel {
 					else
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexTipMoviMut++);
-
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -660,31 +508,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexProtegidoTipAseg++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -716,31 +541,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexRegIpfNu++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -773,31 +575,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexInfFin++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -830,31 +609,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexCod++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -891,31 +647,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexRegGen++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -952,32 +685,9 @@ public class HojaUnoExcel {
 					else
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexbajaTitulares++);
-
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1015,31 +725,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexTotEnvInssAv++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1079,31 +766,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBajasVinculadosSns++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1144,31 +808,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexMutualistasPrivados++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1210,31 +851,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBajaPorDefuncion++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1275,31 +893,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexAseguramiento++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1343,31 +938,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexIndicadorFarmacia++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1404,31 +976,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(codigoBadas++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1466,31 +1015,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(altaSNaf++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1530,31 +1056,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(cambioIpf++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1594,31 +1097,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexIpfNu++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1666,31 +1146,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexipfAnteInssMut++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1741,31 +1198,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexIpfNuevoExiteInssMut++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1817,31 +1251,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexTitDobleCobertura++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1885,31 +1296,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBeneDob++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -1958,31 +1346,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexTituIndCoRu++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2035,31 +1400,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBenIndCoRural++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2115,31 +1457,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexPrivadoRegularPublico++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2197,31 +1516,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexPrivadoIrregularPublico++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2278,31 +1574,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexPrivadoNoExiste++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2360,31 +1633,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexAltaModifTitDoCo++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2443,31 +1693,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexIrrPrivRePublico++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2527,31 +1754,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexIrrPrivIrPublico++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2615,31 +1819,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexIrregularPrivadoNoExiste++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -2704,38 +1885,12 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexAltModTitsDobCoberturaDos++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
 			ultimaCelda = celda;
-
-			// ######### QUERY PROBLEMÁTICAS -> listadoRegistroNoExiste y
-			// indexlistadoRegistroNoExisteDos
 
 			int indexListadoRegistroNoExiste = 1;
 
@@ -2798,113 +1953,12 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexListadoRegistroNoExiste++);
 
-					for (j = ultimaCelda; j >= separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(j).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(j).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
 			ultimaCelda = celda;
-
-			/*
-			 * int indexlistadoRegistroNoExisteDos= 1;
-			 * 
-			 * if (listadoRegistroNoExisteDos.isEmpty()) { celda = 394; } else { for (String
-			 * a : listadoRegistroNoExisteDos) {
-			 * 
-			 * String[] separar = a.split(",");
-			 * 
-			 * int i = 0;
-			 * 
-			 * // Si es menor o igual se hace obtiene las filas ya creadas if
-			 * (indexlistadoRegistroNoExisteDos <= tipoIdentificador.size() ||
-			 * indexlistadoRegistroNoExisteDos <= tipoMovimiento.size() ||
-			 * indexlistadoRegistroNoExisteDos <=
-			 * protegidoTipAseguramientoAndTipMovimiento.size() ||
-			 * indexlistadoRegistroNoExisteDos <= registroIpfNulo.size() ||
-			 * indexlistadoRegistroNoExisteDos <= informeAltaCruzado.size() ||
-			 * indexlistadoRegistroNoExisteDos <= codTipoAsegurado.size() ||
-			 * indexlistadoRegistroNoExisteDos <= titDobleCobertura.size() ||
-			 * indexlistadoRegistroNoExisteDos <= beneDobleCobertura.size() ||
-			 * indexlistadoRegistroNoExisteDos <= tipoIdentificadorMutualistas.size() ||
-			 * indexlistadoRegistroNoExisteDos <= tipoMovimientoMutualista.size() ||
-			 * indexlistadoRegistroNoExisteDos <=
-			 * protegidoTipAseguramientoAndTipMovimientoMutualistas.size() ||
-			 * indexlistadoRegistroNoExisteDos <= registrosIpfNuloMutualistas.size() ||
-			 * indexlistadoRegistroNoExisteDos <=
-			 * informeAltCruzadoConSegSocialFinalMutualistas.size() ||
-			 * indexlistadoRegistroNoExisteDos <= codTipoAseguradoMutualistas.size() ||
-			 * indexlistadoRegistroNoExisteDos <= regimenGeneral.size() ||
-			 * indexlistadoRegistroNoExisteDos <= bajaTitulares.size() ||
-			 * indexlistadoRegistroNoExisteDos <= totalEnvioInssAv.size() ||
-			 * indexlistadoRegistroNoExisteDos <= bajasVinculadosSns.size() ||
-			 * indexlistadoRegistroNoExisteDos <= mutualistasPrivados.size() ||
-			 * indexlistadoRegistroNoExisteDos <= bajaPorDefuncion.size() ||
-			 * indexlistadoRegistroNoExisteDos <= aseguramiento.size() ||
-			 * indexlistadoRegistroNoExisteDos <= indicadorFarmacia.size() ||
-			 * indexlistadoRegistroNoExisteDos <= codigoBadasRepetido.size() ||
-			 * indexlistadoRegistroNoExisteDos <= altasSinNaf.size() ||
-			 * indexlistadoRegistroNoExisteDos <= cambiosIpf.size() ||
-			 * indexlistadoRegistroNoExisteDos <= ipfNuevoExisteInssTit.size() ||
-			 * indexlistadoRegistroNoExisteDos <= ipfAnteriorNoExisteInssMut.size() ||
-			 * indexlistadoRegistroNoExisteDos <= ipfNuevoExiteInssMut.size() ||
-			 * indexlistadoRegistroNoExisteDos <= titularesDobleCobertura.size() ||
-			 * indexlistadoRegistroNoExisteDos <=
-			 * beneficiarioDobleCoberturaMutualistas.size() ||
-			 * indexlistadoRegistroNoExisteDos <= titularesIndicadorConvenioRural.size() ||
-			 * indexlistadoRegistroNoExisteDos <= beneficiadioIndicadorConvenioRural.size()
-			 * || indexlistadoRegistroNoExisteDos <= privadoRegularPublico.size() ||
-			 * indexlistadoRegistroNoExisteDos <= privadoIrregularPublico.size() ||
-			 * indexlistadoRegistroNoExisteDos <= privadoNoExiste.size() ||
-			 * indexlistadoRegistroNoExisteDos <=
-			 * altaModificacionTitularesDobleCobertura.size() ||
-			 * indexlistadoRegistroNoExisteDos <= irregularPrivadoRegularPublico.size() ||
-			 * indexlistadoRegistroNoExisteDos <= irregularPrivadoIrregularPublico.size() ||
-			 * indexlistadoRegistroNoExisteDos <= irregularPrivadoIrregularPublico.size() ||
-			 * indexlistadoRegistroNoExisteDos <= irregularPrivadoNoExiste.size() ||
-			 * indexlistadoRegistroNoExisteDos <=
-			 * altaModificaTitualresDobleCoberturaDos.size() ||
-			 * indexlistadoRegistroNoExisteDos <= listadoRegistroNoExiste.size())
-			 * 
-			 * row = sheet.getRow(indexlistadoRegistroNoExisteDos++); else // En caso de que
-			 * no exista la fila se crea. row =
-			 * sheet.createRow(indexlistadoRegistroNoExisteDos++);
-			 * 
-			 * for (j = ultimaCelda; j > separar.length; j++) { for (i = 0; i <
-			 * separar.length; i++) {
-			 * 
-			 * boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-			 * 
-			 * if (separar[i].compareTo("null") == 0) { separar[i] = ""; } else { if
-			 * (isNumeric == true) { if (separar[i].length() <= 10) { Integer n =
-			 * Integer.parseInt(separar[i]); row.createCell(j).setCellValue(n); } else {
-			 * DecimalFormat df = new DecimalFormat("0"); Long n;
-			 * row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i]))); }
-			 * } else { row.createCell(j).setCellValue(separar[i]); } } j++; } j = 0; }
-			 * celda = ultimaCelda + separar.length; } } ultimaCelda = 394;
-			 */
 
 			int indexBajaPorDefuncionPrivadoPublico = 1;
 
@@ -2970,31 +2024,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBajaPorDefuncionPrivadoPublico++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(394).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(394).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(394).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -3063,31 +2094,8 @@ public class HojaUnoExcel {
 						// En caso de que no exista la fila se crea.
 						row = sheet.createRow(indexBajaPorDefuncionPrivadoNoExiste++);
 
-					for (j = ultimaCelda; j > separar.length; j++) {
-						for (i = 0; i < separar.length; i++) {
-
-							boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
-
-							if (separar[i].compareTo("null") == 0) {
-								separar[i] = "";
-							} else {
-								if (isNumeric == true) {
-									if (separar[i].length() <= 10) {
-										Integer n = Integer.parseInt(separar[i]);
-										row.createCell(395).setCellValue(n);
-									} else {
-										DecimalFormat df = new DecimalFormat("0");
-										Long n;
-										row.createCell(395).setCellValue(df.format(n = Long.parseLong(separar[i])));
-									}
-								} else {
-									row.createCell(395).setCellValue(separar[i]);
-								}
-							}
-							j++;
-						}
-						j = 0;
-					}
+					funcionCelda(ultimaCelda, separar, row);
+					
 					celda = ultimaCelda + separar.length;
 				}
 			}
@@ -3112,43 +2120,35 @@ public class HojaUnoExcel {
 		}
 	}
 
-	/*
-	 * Posible función para automatizar aún más el recorrido de las celdas para
-	 * crear el fichero excel - No desarrollado aún. 30/05/2022
-	 */
+	/* Función que calcula la celda en la que debe escribir el dato. */
 
-	public void funcionCelda(int ultimaCelda, List<String> datosQuery, Row row) {
-		String[] separar = null;
+	public static void funcionCelda(int ultimaCelda, String[] separar, Row row) {
 
-		for (String a : datosQuery) {
-			separar = a.split(",");
-			for (int j = ultimaCelda; j > separar.length; j++) {
-				for (int i = 0; i < separar.length; i++) {
+		for (int j = ultimaCelda; j > separar.length; j++) {
+			for (int i = 0; i < separar.length; i++) {
 
-					boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
+				boolean isNumeric = separar[i].chars().allMatch(Character::isDigit);
 
-					if (separar[i].compareTo("null") == 0) {
-						separar[i] = "";
-					} else {
-						if (isNumeric == true) {
-							if (separar[i].length() <= 10) {
-								Integer n = Integer.parseInt(separar[i]);
-								row.createCell(j).setCellValue(n);
-							} else {
-								DecimalFormat df = new DecimalFormat("0");
-								Long n;
-								row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
-							}
+				if (separar[i].compareTo("null") == 0) {
+					separar[i] = "";
+				} else {
+					if (isNumeric == true) {
+						if (separar[i].length() <= 10) {
+							Integer n = Integer.parseInt(separar[i]);
+							row.createCell(j).setCellValue(n);
 						} else {
-							row.createCell(j).setCellValue(separar[i]);
+							DecimalFormat df = new DecimalFormat("0");
+							Long n;
+							row.createCell(j).setCellValue(df.format(n = Long.parseLong(separar[i])));
 						}
+					} else {
+						row.createCell(j).setCellValue(separar[i]);
 					}
-					j++;
 				}
-				j = 0;
+				j++;
 			}
+			j = 0;
 		}
-
 	}
 
 }
