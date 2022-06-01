@@ -15,6 +15,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ficherodiario</name>
 	<description>Generación de ficheros XML diarios</description>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>11</java.version>
@@ -41,19 +42,29 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-
+		
+		<!-- Cambiamos el scope de tomcat a provided ya que lo vamos alojar en un servidor donde ya hay un tomcat externo. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--  Al ser un servidor externo no lo vamos a necesitar por tanto comentamos la dependencia. -->
+		<!-- 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
+		 -->
 
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
