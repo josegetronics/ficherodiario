@@ -200,7 +200,7 @@ public interface ICrucesUrgentesDao extends JpaRepository<CrucesUrgentes, String
 	  Hoja 7 - "Altas sin NAF"  
 	  ######################## */ 
 	
-	@Query(value="select a.NAF , s.COD_TIPO_ASEGURADO, s.TIPO_MOVIMIENTO, s.IPF, s.DNI_NIE, s.PASAPORTE, s.NAF," + 
+	@Query(value="select a.NAF NAFseg, s.COD_TIPO_ASEGURADO, s.TIPO_MOVIMIENTO, s.IPF, s.DNI_NIE, s.PASAPORTE, s.NAF NAFins," + 
 			" s.NAF_SEC1, s.NAF_SEC2, s.NAF_SEC3, s.NAF_SEC4, s.NAF_SEC5, s.NAF_SEC6, s.NAF_SEC7, s.NAF_SEC8," + 
 			" s.NAF_SEC9, INDICATIVO_NOMBRE, s.APELLIDOS_NOMBRE,s. APELLIDO1, s.APELLIDO2, s.NOMBRE, s.NACIONALIDAD," + 
 			" s.FECHA_NACIMIENTO,s.SEXO, s.INDICATIVO_DOMICILIO, REPLACE(s.DOMICILIO,',',' '), s.TIPO_ASEGURAMIENTO," + 
